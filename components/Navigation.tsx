@@ -35,13 +35,20 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [lang, setLang] = useState<"EN" | "বাং">("EN");
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <header
@@ -77,7 +84,7 @@ export default function Navigation() {
             </a>
             {/* Bilingual Toggle */}
             <button
-              onClick={() => setLang(lang === "EN" ? "বাং" : "EN")}
+              onClick={() => setShowToast(true)}
               style={{
                 background: "rgba(255,255,255,0.2)",
                 border: "1px solid rgba(255,255,255,0.4)",
@@ -91,7 +98,7 @@ export default function Navigation() {
                 minHeight: "unset",
               }}
             >
-              {lang === "EN" ? "বাংলা" : "English"}
+              English
             </button>
           </span>
         </div>
@@ -312,10 +319,40 @@ export default function Navigation() {
         </div>
       )}
 
+      {/* Toast Notification */}
+      {showToast && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "rgba(0, 0, 0, 0.85)",
+            color: "white",
+            padding: "1rem 1.5rem",
+            borderRadius: "var(--radius-lg)",
+            fontSize: "0.95rem",
+            fontWeight: 600,
+            zIndex: 2000,
+            backdropFilter: "blur(4px)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+            maxWidth: "90vw",
+            animation: "slideUp 300ms cubic-bezier(0.4,0,0.2,1)",
+            textAlign: "center",
+          }}
+        >
+          বাংলা সংস্করণ শীঘ্রই আসছে — Bangla version coming in Phase 2 🚀
+        </div>
+      )}
+
       <style>{`
         @keyframes fadeInDown {
           from { opacity: 0; transform: translateY(-8px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+          to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
         @media (max-width: 1024px) {
           .desktop-nav { display: none !important; }
