@@ -231,7 +231,7 @@ export default function Navigation() {
 
         {/* Right Actions */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <a href="tel:+8801898806050" className="btn-emergency" style={{ fontSize: "0.85rem", padding: "0.6rem 1rem" }}>
+          <a href="tel:+8801898806050" className="btn-emergency hidden md:flex" style={{ fontSize: "0.85rem", padding: "0.6rem 1rem" }}>
             <Phone size={15} />
             Emergency
           </a>
@@ -359,6 +359,10 @@ export default function Navigation() {
           .mobile-menu-btn { display: flex !important; }
         }
       `}</style>
+    </header>
+  );
+}
+tyle>
     </header>
   );
 }
