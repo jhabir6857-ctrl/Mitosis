@@ -362,14 +362,3 @@ export default function Navigation() {
     </header>
   );
 }
-tyle>
-    </header>
-  );
-}
-/header>
-  );
-}
-tyle>
-    </header>
-  );
-}
