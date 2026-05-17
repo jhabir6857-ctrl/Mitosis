@@ -72,10 +72,10 @@ export default function Navigation() {
         }}
       >
         <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ display: "flex", alignItems: "center" }}>
+          <span className="hidden md:flex" style={{ alignItems: "center" }}>
             📍 Mirpur-1, Dhaka &nbsp;|&nbsp; Open Everyday: 7:30 AM – 11:00 PM &nbsp;|&nbsp; 
             <span style={{ background: "var(--color-danger)", color: "white", padding: "0.15rem 0.5rem", borderRadius: "var(--radius-sm)", fontWeight: 700, marginLeft: "0.5rem", display: "inline-flex", alignItems: "center", gap: "0.25rem", textTransform: "uppercase", fontSize: "0.7rem", letterSpacing: "0.05em" }}>
-              🚨 24/7 Emergency & Ambulance
+              🚨 <span>24/7 Emergency & Ambulance</span>
             </span>
           </span>
           <span style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
