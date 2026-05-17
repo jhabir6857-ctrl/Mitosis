@@ -473,3 +473,13 @@ button, a, [role="button"] {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+@media (max-width: 640px) {
+  .emergency-badge-text { display: none; }
+}
+@media (max-width: 768px) {
+  .emergency-nav-btn { display: none !important; }
+}
