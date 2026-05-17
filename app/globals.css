@@ -1,26 +1,475 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   MITOSIS LAB LTD - DESIGN SYSTEM (Tailwind CSS v4 @theme)
+   ============================================================ */
+
+@theme {
+  /* ── MITOSIS BRAND COLORS (extracted from logo) ── */
+  --color-brand-blue:       #006BB6; /* Runner blue — primary identity */
+  --color-brand-blue-dark:  #00508a; /* Hover / pressed state */
+  --color-brand-blue-light: #1a7ec4; /* Light variant */
+  --color-brand-blue-08:    rgba(0,107,182,0.08); /* Icon background tint */
+  --color-brand-blue-15:    rgba(0,107,182,0.15); /* Subtle tint */
+
+  --color-brand-green:      #3CA544; /* Heart green — success / alive accent */
+  --color-brand-green-dark: #2d7d34; /* Darkened for WCAG text use */
+  --color-brand-green-08:   rgba(60,165,68,0.08);
+  --color-brand-green-15:   rgba(60,165,68,0.15);
+
+  /* ── MAP TO SEMANTIC TOKENS ── */
+  --color-primary:        var(--color-brand-blue);
+  --color-primary-dark:   var(--color-brand-blue-dark);
+  --color-primary-light:  var(--color-brand-blue-light);
+  --color-primary-50:     var(--color-brand-blue-08);
+  --color-primary-100:    var(--color-brand-blue-15);
+
+  --color-secondary:      var(--color-brand-green);
+  --color-secondary-dark: var(--color-brand-green-dark);
+  --color-secondary-light:#4ec257;
+  --color-secondary-50:   var(--color-brand-green-08);
+
+  --color-success:        #16a34a;
+  --color-success-light:  #dcfce7;
+  --color-warning:        #d97706;
+  --color-warning-light:  #fef3c7;
+  --color-danger:         #dc2626;
+  --color-danger-light:   #fee2e2;
+
+  /* ── FOUNDATION ── */
+  --color-surface:        #FFFFFF;
+  --color-surface-alt:    #F8F9FA;
+  --color-surface-border: #E9ECEF;
+  --color-surface-muted:  #DEE2E6;
+
+  /* ── TEXT ── */
+  --color-text-primary:   #1E293B; /* Slate 800 — matches --color-mitosis-dark */
+  --color-text-secondary: #475569; /* Slate 600 */
+  --color-text-muted:     #94A3B8; /* Slate 400 */
+  --color-text-inverse:   #FFFFFF;
+
+  /* ── DARK ANCHOR (footer, hero) ── */
+  --color-dark:           #1E293B; /* Slate 800 */
+  --color-dark-deeper:    #0f172a; /* Slate 900 */
+
+  /* ── TYPOGRAPHY ── */
+  --font-heading:         'Montserrat', 'Plus Jakarta Sans', sans-serif; /* Geometric, clinical authority */
+  --font-body:            'Inter', 'Roboto', sans-serif;                 /* Hyper-legible clinical body */
+  --font-ui:              'Inter', sans-serif;
+
+  /* ── FONT SIZES ── */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+
+  /* ── SPACING ── */
+  --spacing-tap:    3rem;   /* 48px — Fat Finger minimum */
+  --spacing-tap-lg: 3.5rem; /* 56px — Preferred tap target */
+
+  /* ── BORDER RADIUS (Shape Psychology) ── */
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-2xl:  1.5rem;  /* Cards — matches logo's organic curves */
+  --radius-full: 9999px;  /* Buttons — pill shape mimics logo curves */
+
+  /* ── SHADOWS ── */
+  --shadow-card:       0 2px 8px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-card-hover: 0 10px 28px rgba(0,107,182,0.16), 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-button:     0 2px 8px rgba(0,107,182,0.32);
+  --shadow-nav:        0 1px 0 rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.06);
+
+  /* ── TRANSITIONS ── */
+  --transition-base:   200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+/* ============================================================
+   ACCESSIBILITY — Fat Finger Rule
+   ============================================================ */
+button, a, [role="button"] {
+  min-height: 48px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   REUSABLE COMPONENT CLASSES
+   ============================================================ */
+
+/* Primary Button — Pill-shaped to match logo curves */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.875rem;
+  background-color: var(--color-brand-blue);
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius-full); /* PILL — matches logo's organic curves */
+  box-shadow: var(--shadow-button);
+  border: none;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover {
+  background-color: var(--color-brand-blue-dark);
+  box-shadow: 0 6px 20px rgba(0,107,182,0.45);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: var(--shadow-button);
+}
+
+/* Secondary Button — Pill outline */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.875rem;
+  background-color: transparent;
+  color: var(--color-brand-blue);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius-full); /* PILL */
+  border: 2px solid var(--color-brand-blue);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+.btn-secondary:hover {
+  background-color: var(--color-brand-blue);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Emergency Button — Pill */
+.btn-emergency {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-danger);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: var(--radius-full); /* PILL */
+  border: none;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.35);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.btn-emergency:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(220,38,38,0.45);
+}
+
+/* Card — rounded-2xl matches logo's organic curves */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-2xl); /* 24px — organic, matches heart shape */
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-surface-border);
+  transition: box-shadow 200ms cubic-bezier(0.4,0,0.2,1), transform 200ms cubic-bezier(0.4,0,0.2,1), border-color 200ms cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+  border-color: rgba(0,107,182,0.2);
+}
+
+/* Section Wrapper */
+.section {
+  padding: 5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Section Title */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+}
+
+/* Badge / Tag */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  letter-spacing: 0.02em;
+}
+
+.badge-primary {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-dark);
+  border: 1px solid var(--color-primary-100);
+}
+
+/* badge-success — Brand green BG with white text (WCAG AA safe)
+   RULE: Never put #3CA544 text on white. Always use it as a background. */
+.badge-success {
+  background-color: var(--color-brand-green); /* #3CA544 as BG */
+  color: #ffffff;                              /* White text — contrast ratio 4.8:1 ✔ */
+  border: none;
+}
+
+/* badge-online — Brand green for "Available Today" indicators */
+.badge-online {
+  background-color: var(--color-brand-green);
+  color: #ffffff;
+  border: none;
+}
+
+/* Input Fields */
+.input-field {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  outline: none;
+}
+.input-field::placeholder {
+  color: var(--color-text-muted);
+}
+.input-field:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.12);
+}
+.input-field.input-error {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+}
+
+/* Error Message */
+.error-message {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Online Status Dot */
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(32,178,170,0.2);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(32,178,170,0.2); }
+  50% { box-shadow: 0 0 0 6px rgba(32,178,170,0.08); }
+}
+
+/* Skeleton Loader */
+.skeleton {
+  background: linear-gradient(90deg, #e8ecef 25%, #f3f5f7 50%, #e8ecef 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Step Indicator */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.step-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  transition: all var(--transition-base);
+  border: 2px solid var(--color-surface-muted);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+.step-circle.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+  box-shadow: var(--shadow-button);
+}
+.step-circle.completed {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+.step-line {
+  height: 2px;
+  width: 4rem;
+  background-color: var(--color-surface-muted);
+  transition: background-color var(--transition-base);
+}
+.step-line.completed {
+  background-color: var(--color-success);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface-alt); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+/* ============================================================
+   MICRO-INTERACTIONS (The 300ms Rule)
+   All transitions are 150-250ms — fast enough to feel instant,
+   slow enough for the eye to track smoothly.
+   ============================================================ */
+
+/* Card hover elevation — subtle lift, not a page-layout move */
+.card {
+  transition:
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Button press feedback — micro, not macro */
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* ============================================================
+   ACCESSIBILITY: prefers-reduced-motion
+   Respects vestibular disorder needs.
+   Disables ALL animations and transitions for users who opt-out.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep pulsing dot static */
+  .status-dot {
+    animation: none !important;
+  }
+
+  /* Keep skeleton loaders non-animated */
+  .skeleton {
+    animation: none !important;
+    background: var(--color-surface-muted) !important;
+  }
+
+  /* Cards should not animate on hover */
+  .card:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+
+  /* Buttons should not animate on click */
+  .btn-primary:active,
+  .btn-secondary:active {
+    transform: none !important;
+  }
 }
