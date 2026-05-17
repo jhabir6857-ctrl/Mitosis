@@ -1,16 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { ArrowRight, Heart, Target, Users } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Navigation />
-
-      <main style={{ flex: 1 }}>
+    <main>
         {/* Hero Section */}
         <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "6rem 1.5rem", textAlign: "center" }}>
           <div className="container">
@@ -93,9 +88,6 @@ export default function AboutPage() {
             </Link>
           </div>
         </div>
-      </main>
-
-      <Footer />
-    </div>
+    </main>
   );
 }

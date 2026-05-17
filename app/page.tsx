@@ -79,9 +79,9 @@ export default function HomePage() {
                 Open Now · 7:30 AM – 11:00 PM
               </div>
               <h1
+                className="text-3xl md:text-4xl lg:text-5xl"
                 style={{
                   fontFamily: "var(--font-heading)",
-                  fontSize: "3.5rem",
                   fontWeight: 900,
                   color: "white",
                   lineHeight: 1.1,

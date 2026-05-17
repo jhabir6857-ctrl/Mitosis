@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   {
     label: "About",
-    href: "#",
+    href: "/about",
     children: [
       { label: "Our Mission & Vision", href: "/about" },
       { label: "MD's Message", href: "/about/md-message" },
