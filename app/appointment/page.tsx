@@ -7,6 +7,8 @@ import { useBookingStore } from "@/store/bookingStore";
 import { mockDepartments, mockDoctors, mockSlots } from "@/app/api/mock/doctors/route";
 import { getDeptMeta } from "@/lib/departmentIcons";
 
+export const dynamic = 'force-dynamic';
+
 const STEPS = [
   { num: 1, label: "Department" },
   { num: 2, label: "Doctor" },
