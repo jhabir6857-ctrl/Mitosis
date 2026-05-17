@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Search, Calendar, Download, ArrowRight, Star, CheckCircle, Clock, Users, Award, Shield } from "lucide-react";
-import { mockDepartments, mockDoctors } from "./api/mock/doctors/route";
+import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
 import { getDeptMeta } from "@/lib/departmentIcons";
 
@@ -71,7 +71,7 @@ export default function HomePage() {
         </div>
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Headline */}
             <div>
               <div className="badge badge-online" style={{ marginBottom: "1.25rem", background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)" }}>
@@ -106,8 +106,8 @@ export default function HomePage() {
               </div>
 
               {/* Stats */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.25rem", marginTop: "2.5rem" }}>
-                {stats.map(({ icon: Icon, value, label }) => (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
+                {stats.map(({ value, label }) => (
                   <div key={label} style={{ textAlign: "center" }}>
                     <div style={{ color: "var(--color-secondary)", fontFamily: "var(--font-heading)", fontSize: "1.5rem", fontWeight: 800 }}>{value}</div>
                     <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.78rem", marginTop: "0.2rem" }}>{label}</div>
@@ -186,7 +186,7 @@ export default function HomePage() {
               We use plain language so you can find exactly what you need — fast.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "1.25rem" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
             {mockDepartments.map((dept) => {
               const { Icon, color, bg } = getDeptMeta(dept.id);
               return (
@@ -237,7 +237,7 @@ export default function HomePage() {
               Everything bundled. No hidden costs. Book online and get tested at home or at our center.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {healthPackages.map((pkg) => (
               <div key={pkg.name} className="card" style={{ padding: "1.75rem" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
@@ -281,12 +281,12 @@ export default function HomePage() {
       {/* ======= TRUST & TECHNOLOGY ======= */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="badge badge-primary" style={{ marginBottom: "1rem" }}>Why Choose Us</div>
               <h2 className="section-title">Technology You Can Trust</h2>
               <p style={{ color: "var(--color-text-secondary)", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "2rem" }}>
-                We use the world's latest diagnostic equipment to deliver accuracy you can rely on.
+                We use the world&apos;s latest diagnostic equipment to deliver accuracy you can rely on.
               </p>
               {[
                 { icon: "🔬", title: "Digital Pathology Analyzers", desc: "Automated CBC, blood chemistry, and urine analysis with ±2% accuracy." },
@@ -303,7 +303,7 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div className="grid grid-cols-2 gap-4">
               {[
                 { label: "ISO 15189", sub: "Medical Laboratories", color: "var(--color-primary)" },
                 { label: "DGDA", sub: "Bangladesh Approved", color: "var(--color-secondary)" },
@@ -330,7 +330,7 @@ export default function HomePage() {
               Real experiences from real patients in Dhaka.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1.5rem" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t) => (
               <div key={t.name} className="card" style={{ padding: "2rem" }}>
                 <div style={{ display: "flex", gap: "0.2rem", marginBottom: "1rem" }}>

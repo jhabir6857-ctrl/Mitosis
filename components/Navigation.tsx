@@ -112,25 +112,25 @@ export default function Navigation() {
           {/* Structural Divider */}
           <div style={{ width: "1px", height: "2.25rem", background: "var(--color-surface-border)", flexShrink: 0 }} />
           {/* Corporate Modifier — legal entity + tagline only */}
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.1rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.15rem" }}>
             <span style={{
               fontFamily: "var(--font-heading)",
               fontWeight: 900,
-              fontSize: "1.05rem",
+              fontSize: "1.2rem",
               color: "var(--color-dark)",
-              letterSpacing: "0.06em",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
               lineHeight: 1,
-            }}>Lab Ltd.</span>
+            }}>LAB LTD.</span>
+            <div style={{ height: "2px", width: "100%", background: "linear-gradient(90deg, var(--color-brand-blue), var(--color-brand-green))", borderRadius: "2px", margin: "0.25rem 0" }} />
             <span style={{
               fontFamily: "var(--font-ui)",
               fontWeight: 600,
               fontSize: "0.6rem",
-              color: "var(--color-brand-blue)",
-              letterSpacing: "0.18em",
+              color: "var(--color-text-muted)",
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
               lineHeight: 1,
-              marginTop: "0.2rem",
             }}>Precision Diagnostics</span>
           </div>
         </Link>
