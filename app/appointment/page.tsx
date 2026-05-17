@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, ChevronRight, Calendar, Clock, User, Phone, FileText, ArrowLeft } from "lucide-react";
 import { useBookingStore } from "@/store/bookingStore";
@@ -394,12 +394,11 @@ function ConfirmationScreen() {
 }
 
 // ─── MAIN PAGE ─────────────────────────────────────────────────────────────
-export default function AppointmentPage() {
+function BookingWizard() {
   const { currentStep, setStep } = useBookingStore();
   const [confirmed, setConfirmed] = useState(false);
   const searchParams = useSearchParams();
 
-  // Pre-select doctor from URL param if coming from Doctor Directory
   const doctorParam = searchParams.get("doctor");
   useEffect(() => {
     if (doctorParam) {
@@ -452,5 +451,20 @@ export default function AppointmentPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AppointmentPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", background: "var(--color-surface-alt)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <div className="skeleton" style={{ height: "2rem", width: "280px", margin: "0 auto 1rem" }} />
+          <div className="skeleton" style={{ height: "1rem", width: "180px", margin: "0 auto" }} />
+        </div>
+      </div>
+    }>
+      <BookingWizard />
+    </Suspense>
   );
 }
