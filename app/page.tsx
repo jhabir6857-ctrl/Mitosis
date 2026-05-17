@@ -71,9 +71,9 @@ export default function HomePage() {
         </div>
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
             {/* Left: Headline */}
-            <div>
+            <div className="w-full md:w-1/2">
               <div className="badge badge-online" style={{ marginBottom: "1.25rem", background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)" }}>
                 <span className="status-dot" style={{ marginRight: "0.5rem" }} />
                 Open Now · 7:30 AM – 11:00 PM
@@ -117,9 +117,9 @@ export default function HomePage() {
             </div>
 
             {/* Right: Action Card */}
-            <div className="w-full lg:w-1/2">
+            <div className="w-full md:w-1/2 flex justify-center md:justify-end">
               <div
-                className="card"
+                className="card w-full max-w-md"
                 style={{
                   padding: "2rem",
                   background: "rgba(255,255,255,0.97)",
@@ -281,7 +281,7 @@ export default function HomePage() {
       {/* ======= TRUST & TECHNOLOGY ======= */}
       <section className="section">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
             <div>
               <div className="badge badge-primary" style={{ marginBottom: "1rem" }}>Why Choose Us</div>
               <h2 className="section-title">Technology You Can Trust</h2>
