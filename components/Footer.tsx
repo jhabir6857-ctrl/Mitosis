@@ -72,9 +72,26 @@ export default function Footer() {
                 />
               </div>
               <div style={{ width: "1px", height: "2rem", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
-              <div>
-                <div style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: "1rem", color: "white", letterSpacing: "0.06em", textTransform: "uppercase", lineHeight: 1 }}>Lab Ltd.</div>
-                <div style={{ fontSize: "0.6rem", color: "var(--color-brand-blue)", letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1, marginTop: "0.3rem", fontWeight: 600 }}>Precision Diagnostics</div>
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.15rem" }}>
+                <span style={{
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 900,
+                  fontSize: "1.2rem",
+                  color: "white",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}>LAB LTD.</span>
+                <div style={{ height: "2px", width: "100%", background: "linear-gradient(90deg, var(--color-brand-blue), var(--color-brand-green))", borderRadius: "2px", margin: "0.25rem 0" }} />
+                <span style={{
+                  fontFamily: "var(--font-ui)",
+                  fontWeight: 600,
+                  fontSize: "0.6rem",
+                  color: "rgba(255,255,255,0.5)",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                }}>Precision Diagnostics</span>
               </div>
             </div>
             <p style={{ fontSize: "0.875rem", lineHeight: 1.75, color: "#8da0b3", marginBottom: "1.5rem" }}>

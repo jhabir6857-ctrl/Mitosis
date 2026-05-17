@@ -123,7 +123,7 @@ export default function DoctorSlider() {
             paddingBottom: "1rem",
           }}
         >
-          {DOCTORS.map((doc, idx) => (
+          {mockDoctors.slice(0, 6).map((doc, idx) => (
             <div
               key={`${doc.id}-${idx}`}
               className="card"
