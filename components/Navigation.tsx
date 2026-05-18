@@ -83,8 +83,8 @@ export default function Navigation() {
         style={{
           background: "linear-gradient(90deg, #0a1e3d 0%, var(--color-primary) 100%)",
           color: "white",
-          fontSize: "0.78rem",
-          padding: "0.45rem 0",
+          fontSize: "0.72rem",
+          padding: "0.25rem 0",
           borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
@@ -110,7 +110,7 @@ export default function Navigation() {
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.9)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
-              className="hidden xs:flex sm:flex"
+              className="hidden md:flex"
               title="View Mitosis Lab Ltd on Google Maps"
             >
               <MapPin size={11} style={{ flexShrink: 0 }} />
@@ -118,7 +118,7 @@ export default function Navigation() {
             </a>
 
             {/* Divider — desktop only */}
-            <span className="hidden sm:block" style={{ color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
+            <span className="hidden md:block" style={{ color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
 
             {/* Phone — always visible */}
             <a
@@ -416,13 +416,14 @@ export default function Navigation() {
             left: 0,
             right: 0,
             zIndex: 999,
-            background: "rgba(255,255,255,0.25)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            background: "rgba(15, 23, 42, 0.88)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
             borderTop: "2px solid var(--color-primary)",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
             maxHeight: "calc(100vh - 7rem)",
             overflowY: "auto",
-            boxShadow: "0 16px 40px rgba(0,0,0,0.15)",
+            boxShadow: "0 16px 48px rgba(0,0,0,0.45)",
           }}
         >
 
@@ -465,7 +466,7 @@ export default function Navigation() {
                       />
                     </button>
                     {mobileExpanded === link.label && (
-                      <div style={{ background: "transparent" }}>
+                      <div style={{ background: "rgba(0,0,0,0.15)" }}>
                         {link.children.map((child) => (
                           <Link
                             key={child.label}
@@ -516,6 +517,33 @@ export default function Navigation() {
                 )}
               </div>
             ))}
+          </div>
+
+          {/* Patient Login CTA inside drawer */}
+          <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+            <Link
+              href="/portal/login"
+              onClick={() => setIsOpen(false)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.5rem",
+                width: "100%",
+                padding: "0.85rem 1rem",
+                background: "var(--color-primary)",
+                color: "white",
+                borderRadius: "var(--radius-lg)",
+                fontFamily: "var(--font-ui)",
+                fontWeight: 700,
+                fontSize: "0.95rem",
+                textDecoration: "none",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.25)",
+              }}
+            >
+              <User size={16} />
+              Patient Login
+            </Link>
           </div>
 
           {/* Emergency CTA at bottom */}
@@ -573,7 +601,6 @@ export default function Navigation() {
           .mobile-menu-btn    { display: flex !important; }
           .emergency-nav-btn  { display: none !important; }
           .desktop-login-btn  { display: none !important; }
-          .mobile-login-btn   { display: flex !important; }
         }
       `}</style>
     </header>
