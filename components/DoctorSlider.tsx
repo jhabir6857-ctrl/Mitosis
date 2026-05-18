@@ -35,6 +35,8 @@ export default function DoctorSlider() {
         style={{
           overflow: "hidden",
           width: "100%",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
         }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -43,7 +45,7 @@ export default function DoctorSlider() {
           style={{
             display: "flex",
             gap: "1.5rem",
-            animation: "scroll 30s linear infinite",
+            animation: "scroll 45s linear infinite",
             animationPlayState: paused ? "paused" : "running",
             width: "max-content",
           }}

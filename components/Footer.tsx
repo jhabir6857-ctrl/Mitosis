@@ -36,15 +36,15 @@ export default function Footer() {
             gap: "1.5rem",
           }}
         >
-          <div>
-            <h3 style={{ color: "white", fontFamily: "var(--font-heading)", fontSize: "1.5rem", fontWeight: 800, marginBottom: "0.25rem" }}>
+          <div style={{ flex: "1 1 280px" }}>
+            <h3 style={{ color: "white", fontFamily: "var(--font-heading)", fontSize: "clamp(1.1rem, 4vw, 1.5rem)", fontWeight: 800, marginBottom: "0.25rem" }}>
               Need urgent medical assistance?
             </h3>
             <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem" }}>
               Our team is available 24/7 — including ambulance service.
             </p>
           </div>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", flex: "1 1 auto", justifyContent: "flex-start" }}>
             <a href="tel:+8801898806050" className="btn-emergency">
               <Phone size={16} /> Call Now: +880 1898-806050
             </a>
@@ -56,8 +56,8 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container" style={{ padding: "4rem 1.5rem 2rem" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1.2fr", gap: "3rem", marginBottom: "3rem", alignItems: "flex-start" }}>
+      <div className="container" style={{ padding: "4rem 1rem 2rem" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: "2rem", marginBottom: "3rem", alignItems: "flex-start" }}>
           {/* Brand — Logo + tagline */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", marginBottom: "1.5rem" }}>
@@ -170,10 +170,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "1.5rem", display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ color: "#5a7a99", fontSize: "0.85rem" }}>
+          <p style={{ color: "#5a7a99", fontSize: "0.85rem", flex: "1 1 auto" }}>
             © 2026 Mitosis Lab Ltd. All rights reserved. | Registered in Bangladesh
           </p>
-          <div style={{ display: "flex", gap: "1.5rem" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem 1.5rem" }}>
             {["Privacy Policy", "Terms of Service", "Accessibility"].map((t) => (
               <Link key={t} href="#" style={{ color: "#5a7a99", fontSize: "0.85rem", textDecoration: "none" }}>{t}</Link>
             ))}

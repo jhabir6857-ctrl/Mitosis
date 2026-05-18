@@ -7,19 +7,19 @@ export default function ContactPage() {
   return (
     <main>
         {/* Hero Section */}
-        <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "6rem 1.5rem", textAlign: "center" }}>
+        <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "clamp(3rem, 10vw, 6rem) 1.5rem", textAlign: "center" }}>
           <div className="container">
-            <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "3rem", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
+            <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 7vw, 3rem)", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
               Get In Touch
             </h1>
-            <p style={{ fontSize: "1.25rem", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
-              We're here to help. Reach out to Mitosis Lab Ltd anytime.
+            <p style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
+              We&apos;re here to help. Reach out to Mitosis Lab Ltd anytime.
             </p>
           </div>
         </div>
 
         {/* Contact Info */}
-        <div className="container" style={{ padding: "4rem 1.5rem" }}>
+        <div className="container" style={{ padding: "3rem 1rem" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", marginBottom: "4rem" }}>
             {[
               {
@@ -95,7 +95,7 @@ export default function ContactPage() {
                 height="100%"
                 style={{ border: "none" }}
                 loading="lazy"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.4563894649637!2d90.35267!3d23.8143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7a8c8e8e8e9%3A0x1234567890123456!2sMirpur-1%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.0!2d90.3519292!3d23.7987161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c100172e4cfd%3A0x6af678895c53a755!2sMitosis%20Lab%20Ltd!5e0!3m2!1sen!2sbd!4v1716000000000"
               />
             </div>
           </div>

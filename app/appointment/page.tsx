@@ -18,7 +18,7 @@ const STEPS = [
 
 function StepIndicator({ current }: { current: number }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "2.5rem" }}>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "2rem", overflowX: "auto", paddingBottom: "0.25rem" }}>
       {STEPS.map((step, i) => (
         <div key={step.num} style={{ display: "flex", alignItems: "center" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.4rem" }}>
@@ -27,12 +27,12 @@ function StepIndicator({ current }: { current: number }) {
             >
               {current > step.num ? <CheckCircle size={16} /> : step.num}
             </div>
-            <span style={{ fontSize: "0.72rem", fontWeight: 600, fontFamily: "var(--font-ui)", color: current >= step.num ? "var(--color-primary)" : "var(--color-text-muted)", whiteSpace: "nowrap" }}>
+            <span style={{ fontSize: "0.65rem", fontWeight: 600, fontFamily: "var(--font-ui)", color: current >= step.num ? "var(--color-primary)" : "var(--color-text-muted)", whiteSpace: "nowrap" }}>
               {step.label}
             </span>
           </div>
           {i < STEPS.length - 1 && (
-            <div className={`step-line ${current > step.num ? "completed" : ""}`} style={{ margin: "0 0.5rem", marginBottom: "1.2rem" }} />
+            <div className={`step-line ${current > step.num ? "completed" : ""}`} style={{ margin: "0 0.25rem", marginBottom: "1.2rem", width: "2.5rem" }} />
           )}
         </div>
       ))}
@@ -51,7 +51,7 @@ function Step1Department() {
       <p style={{ color: "var(--color-text-secondary)", marginBottom: "2rem" }}>
         Select a department and we will show you the right specialists.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "1rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "0.875rem" }}>
         {mockDepartments.map((dept) => {
           const { Icon, color, bg } = getDeptMeta(dept.id);
           return (
@@ -416,9 +416,9 @@ function BookingWizard() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--color-surface-alt)" }}>
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", padding: "3rem 0 2rem" }}>
+      <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", padding: "2.5rem 0 1.75rem" }}>
         <div className="container">
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "2.5rem", fontWeight: 900, color: "white", marginBottom: "0.5rem" }}>
+          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.5rem)", fontWeight: 900, color: "white", marginBottom: "0.5rem" }}>
             Book an Appointment
           </h1>
           <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem" }}>
@@ -427,10 +427,10 @@ function BookingWizard() {
         </div>
       </div>
 
-      <div className="container" style={{ padding: "2.5rem 1.5rem" }}>
+      <div className="container" style={{ padding: "2rem 1rem" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>
           {!confirmed && <StepIndicator current={currentStep} />}
-          <div className="card" style={{ padding: "2.5rem" }}>
+          <div className="card" style={{ padding: "clamp(1.25rem, 5vw, 2.5rem)" }}>
             {confirmed ? (
               <ConfirmationScreen />
             ) : (

@@ -103,6 +103,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* overflow-x: clip — clips without creating a scroll container,
+     so position:sticky on the navbar still works correctly. */
+  overflow-x: clip;
 }
 
 body {
@@ -112,6 +115,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip; /* do NOT use overflow-x:hidden — it breaks position:sticky */
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -246,14 +251,14 @@ button, a, [role="button"] {
 /* Section Title */
 .section-title {
   font-family: var(--font-heading);
-  font-size: 2.25rem;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
   font-weight: 800;
   color: var(--color-text-primary);
   margin-bottom: 0.75rem;
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 3vw, 1.125rem);
   color: var(--color-text-secondary);
   max-width: 600px;
 }
@@ -479,7 +484,19 @@ button, a, [role="button"] {
    ============================================================ */
 @media (max-width: 640px) {
   .emergency-badge-text { display: none; }
+
+  .section {
+    padding: 3rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
 }
 @media (max-width: 768px) {
   .emergency-nav-btn { display: none !important; }
+
+  .section {
+    padding: 3.5rem 0;
+  }
 }

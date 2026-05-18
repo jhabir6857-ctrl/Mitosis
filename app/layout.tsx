@@ -61,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">
+      <body style={{ overflowX: "clip" }}>
         <Navigation />
         <main>{children}</main>
         <Footer />

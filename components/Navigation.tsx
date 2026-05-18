@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Phone, User, ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -32,10 +33,19 @@ const navLinks = [
 ];
 
 export default function Navigation() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(false);
+    router.push("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -50,6 +60,13 @@ export default function Navigation() {
     }
   }, [showToast]);
 
+  // Close drawer when ESC is pressed
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
+
   return (
     <header
       style={{
@@ -58,92 +75,177 @@ export default function Navigation() {
         zIndex: 1000,
         backgroundColor: "var(--color-surface)",
         boxShadow: scrolled ? "var(--shadow-nav)" : "none",
-        borderBottom: "1px solid var(--color-surface-border)",
         transition: "box-shadow 200ms ease",
       }}
     >
-      {/* Top bar */}
+      {/* ── TOP BAR ─────────────────────────────────────────────── */}
       <div
         style={{
-          backgroundColor: "var(--color-primary)",
+          background: "linear-gradient(90deg, #0a1e3d 0%, var(--color-primary) 100%)",
           color: "white",
-          fontSize: "0.8rem",
-          padding: "0.4rem 0",
+          fontSize: "0.78rem",
+          padding: "0.45rem 0",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="hidden md:flex" style={{ alignItems: "center" }}>
-            📍 Mirpur-1, Dhaka &nbsp;|&nbsp; Open Everyday: 7:30 AM – 11:00 PM &nbsp;|&nbsp; 
-            <span style={{ background: "var(--color-danger)", color: "white", padding: "0.15rem 0.5rem", borderRadius: "var(--radius-sm)", fontWeight: 700, marginLeft: "0.5rem", display: "inline-flex", alignItems: "center", gap: "0.25rem", textTransform: "uppercase", fontSize: "0.7rem", letterSpacing: "0.05em" }}>
-              🚨 <span>24/7 Emergency & Ambulance</span>
-            </span>
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <a href="tel:+8801898806050" style={{ color: "white", textDecoration: "none", fontWeight: 600 }}>
-              📞 +880 1898-806050
-            </a>
-            {/* Bilingual Toggle */}
-            <button
-              onClick={() => setShowToast(true)}
+        <div
+          className="container"
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem" }}
+        >
+          {/* Left — Address + Phone */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap", flex: 1, minWidth: 0 }}>
+            {/* Address — clickable, opens exact Mitosis Lab Ltd location on Google Maps */}
+            <a
+              href="https://www.google.com/maps/place/Mitosis+Lab+Ltd/@23.7987161,90.3519292,17z/data=!3m1!4b1!4m6!3m5!1s0x3755c100172e4cfd:0x6af678895c53a755!8m2!3d23.7987161!4d90.3519292!16s%2Fg%2F11wwgj972y"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                background: "rgba(255,255,255,0.2)",
-                border: "1px solid rgba(255,255,255,0.4)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                color: "rgba(255,255,255,0.9)",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                transition: "color 150ms",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.9)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
+              className="hidden xs:flex sm:flex"
+              title="View Mitosis Lab Ltd on Google Maps"
+            >
+              <MapPin size={11} style={{ flexShrink: 0 }} />
+              Mirpur-1, Dhaka
+            </a>
+
+            {/* Divider — desktop only */}
+            <span className="hidden sm:block" style={{ color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
+
+            {/* Phone — always visible */}
+            <a
+              href="tel:+8801898806050"
+              style={{
                 color: "white",
-                borderRadius: "var(--radius-full)",
-                padding: "0.2rem 0.75rem",
+                textDecoration: "none",
                 fontWeight: 700,
-                fontSize: "0.8rem",
-                cursor: "pointer",
-                transition: "background 200ms",
-                minHeight: "unset",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                whiteSpace: "nowrap",
+                letterSpacing: "0.01em",
               }}
             >
-              English
-            </button>
-          </span>
+              <Phone size={11} style={{ flexShrink: 0 }} />
+              +880 1898-806050
+            </a>
+
+            {/* Hours — desktop only */}
+            <span className="hidden lg:flex" style={{ alignItems: "center", gap: "0.3rem", color: "rgba(255,255,255,0.7)" }}>
+              <span style={{ color: "rgba(255,255,255,0.25)" }}>|</span>
+              Open Everyday: 7:30 AM – 11:00 PM
+            </span>
+
+            {/* Emergency badge — desktop only */}
+            <span
+              className="hidden md:inline-flex"
+              style={{
+                background: "var(--color-danger)",
+                color: "white",
+                padding: "0.15rem 0.5rem",
+                borderRadius: "var(--radius-sm)",
+                fontWeight: 700,
+                alignItems: "center",
+                gap: "0.25rem",
+                textTransform: "uppercase",
+                fontSize: "0.68rem",
+                letterSpacing: "0.05em",
+              }}
+            >
+              🚨 24/7 Emergency
+            </span>
+          </div>
+
+          {/* Right — Language button */}
+          <button
+            onClick={() => setShowToast(true)}
+            style={{
+              background: "rgba(255,255,255,0.15)",
+              border: "1px solid rgba(255,255,255,0.35)",
+              color: "white",
+              borderRadius: "var(--radius-full)",
+              padding: "0.2rem 0.8rem",
+              fontWeight: 700,
+              fontSize: "0.75rem",
+              cursor: "pointer",
+              transition: "background 200ms",
+              minHeight: "unset",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              letterSpacing: "0.02em",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.25)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; }}
+          >
+            🌐 English
+          </button>
         </div>
       </div>
 
-      {/* Main Nav */}
-      <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "4.5rem" }}>
-        {/* Logo — Brand Identity Block */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.875rem" }}>
-          {/* Logo — plain img for reliable rendering */}
+      {/* ── MAIN NAV BAR ────────────────────────────────────────── */}
+      <div
+        className="container"
+        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "4.25rem" }}
+      >
+        {/* Logo — click always goes to home + scrolls to top */}
+        <a href="/" onClick={handleLogoClick} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0, cursor: "pointer" }}>
           <img
             src="/mitosis-logo.png"
             alt="Mitosis Lab Ltd — Precision Diagnostics"
-            width={68}
-            height={68}
+            width={60}
+            height={60}
             style={{ display: "block", objectFit: "contain", flexShrink: 0 }}
           />
-          {/* Structural Divider */}
-          <div style={{ width: "1px", height: "2.25rem", background: "var(--color-surface-border)", flexShrink: 0 }} />
-          {/* Corporate Modifier — legal entity + tagline only */}
+          <div style={{ width: "1px", height: "2rem", background: "var(--color-surface-border)", flexShrink: 0 }} />
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.15rem" }}>
-            <span style={{
-              fontFamily: "var(--font-heading)",
-              fontWeight: 900,
-              fontSize: "1.2rem",
-              color: "var(--color-dark)",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              lineHeight: 1,
-            }}>LAB LTD.</span>
-            <div style={{ height: "2px", width: "100%", background: "linear-gradient(90deg, var(--color-brand-blue), var(--color-brand-green))", borderRadius: "2px", margin: "0.25rem 0" }} />
-            <span style={{
-              fontFamily: "var(--font-ui)",
-              fontWeight: 600,
-              fontSize: "0.6rem",
-              color: "var(--color-text-muted)",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              lineHeight: 1,
-            }}>Precision Diagnostics</span>
+            <span
+              style={{
+                fontFamily: "var(--font-heading)",
+                fontWeight: 900,
+                fontSize: "clamp(0.9rem, 2.5vw, 1.15rem)",
+                color: "var(--color-dark)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}
+            >
+              LAB LTD.
+            </span>
+            <div
+              style={{
+                height: "2px",
+                width: "100%",
+                background: "linear-gradient(90deg, var(--color-brand-blue), var(--color-brand-green))",
+                borderRadius: "2px",
+                margin: "0.2rem 0",
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-ui)",
+                fontWeight: 600,
+                fontSize: "0.58rem",
+                color: "var(--color-text-muted)",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                lineHeight: 1,
+              }}
+            >
+              Precision Diagnostics
+            </span>
           </div>
-        </Link>
+        </a>
 
         {/* Desktop Nav Links */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} className="desktop-nav">
+        <nav style={{ display: "flex", alignItems: "center", gap: "0.15rem" }} className="desktop-nav">
           {navLinks.map((link) => (
             <div
               key={link.label}
@@ -156,16 +258,16 @@ export default function Navigation() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.25rem",
-                  padding: "0.5rem 0.75rem",
+                  gap: "0.2rem",
+                  padding: "0.45rem 0.65rem",
                   borderRadius: "var(--radius-md)",
                   color: "var(--color-text-primary)",
                   fontFamily: "var(--font-ui)",
                   fontWeight: 500,
-                  fontSize: "0.9rem",
+                  fontSize: "0.875rem",
                   textDecoration: "none",
                   transition: "all 200ms",
-                  minHeight: "48px",
+                  minHeight: "44px",
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
@@ -177,9 +279,10 @@ export default function Navigation() {
                 }}
               >
                 {link.label}
-                {link.children && <ChevronDown size={14} />}
+                {link.children && <ChevronDown size={13} />}
               </Link>
-              {/* Dropdown */}
+
+              {/* Desktop Dropdown */}
               {link.children && openDropdown === link.label && (
                 <div
                   style={{
@@ -229,97 +332,207 @@ export default function Navigation() {
           ))}
         </nav>
 
-        {/* Right Actions */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <a href="tel:+8801898806050" className="btn-emergency emergency-nav-btn" style={{ fontSize: "0.85rem", padding: "0.6rem 1rem" }}>
-            <Phone size={15} />
+        {/* Right side actions */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          {/* Emergency call — desktop only */}
+          <a
+            href="tel:+8801898806050"
+            className="btn-emergency emergency-nav-btn"
+            style={{ fontSize: "0.82rem", padding: "0.55rem 0.9rem" }}
+          >
+            <Phone size={14} />
             Emergency
           </a>
-          <Link href="/portal/login" className="btn-primary" style={{ fontSize: "0.9rem" }}>
-            <User size={15} />
+
+          {/* Patient Login — mobile: icon+text button; desktop: full btn-primary */}
+          <Link
+            href="/portal/login"
+            className="btn-primary desktop-login-btn"
+            style={{ fontSize: "0.875rem", padding: "0.6rem 1.1rem" }}
+          >
+            <User size={14} />
             Patient Login
           </Link>
-          {/* Mobile Hamburger */}
+
+          {/* Patient Login — mobile compact button (always visible on mobile) */}
+          <Link
+            href="/portal/login"
+            className="mobile-login-btn"
+            style={{
+              display: "none",
+              alignItems: "center",
+              gap: "0.35rem",
+              background: "var(--color-primary)",
+              color: "white",
+              border: "none",
+              borderRadius: "var(--radius-lg)",
+              padding: "0.45rem 0.75rem",
+              fontFamily: "var(--font-ui)",
+              fontWeight: 700,
+              fontSize: "0.78rem",
+              textDecoration: "none",
+              minHeight: "44px",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+            }}
+          >
+            <User size={14} />
+            Login
+          </Link>
+
+          {/* Hamburger — mobile only */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             style={{
               display: "none",
-              background: "none",
-              border: "none",
-              color: "var(--color-text-primary)",
-              padding: "0.5rem",
+              background: isOpen ? "var(--color-primary-50)" : "none",
+              border: "1.5px solid",
+              borderColor: isOpen ? "var(--color-primary)" : "var(--color-surface-border)",
+              color: isOpen ? "var(--color-primary)" : "var(--color-text-primary)",
+              padding: "0.45rem",
               borderRadius: "var(--radius-md)",
-              minHeight: "48px",
+              minHeight: "44px",
+              minWidth: "44px",
+              cursor: "pointer",
+              transition: "all 200ms",
+              alignItems: "center",
+              justifyContent: "center",
             }}
             className="mobile-menu-btn"
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav Drawer */}
+      {/* ── MOBILE DRAWER ───────────────────────────────────────── */}
       {isOpen && (
         <div
           style={{
-            background: "var(--color-surface)",
-            borderTop: "1px solid var(--color-surface-border)",
-            padding: "1rem 1.5rem 1.5rem",
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            zIndex: 999,
+            background: "rgba(255,255,255,0.25)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            borderTop: "2px solid var(--color-primary)",
+            maxHeight: "calc(100vh - 7rem)",
+            overflowY: "auto",
+            boxShadow: "0 16px 40px rgba(0,0,0,0.15)",
           }}
         >
-          {navLinks.map((link) => (
-            <div key={link.label}>
-              <Link
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0.875rem 0",
-                  color: "var(--color-text-primary)",
-                  fontFamily: "var(--font-ui)",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  textDecoration: "none",
-                  borderBottom: "1px solid var(--color-surface-border)",
-                }}
-              >
-                {link.label}
-              </Link>
-              {link.children &&
-                link.children.map((child) => (
+
+          {/* Nav Links */}
+          <div style={{ padding: "0.5rem 0" }}>
+            {navLinks.map((link) => (
+              <div key={link.label}>
+                {link.children ? (
+                  <>
+                    <button
+                      onClick={() => setMobileExpanded(mobileExpanded === link.label ? null : link.label)}
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "0.875rem 1.25rem",
+                        background: "none",
+                        border: "none",
+                        borderBottom: "1px solid rgba(255,255,255,0.15)",
+                        color: "white",
+                        fontFamily: "var(--font-ui)",
+                        fontWeight: 600,
+                        fontSize: "0.95rem",
+                        cursor: "pointer",
+                        textAlign: "left",
+                        minHeight: "unset",
+                        transition: "background 150ms",
+                      }}
+                    >
+                      {link.label}
+                      <ChevronDown
+                        size={16}
+                        color="rgba(255,255,255,0.7)"
+                        style={{
+                          transform: mobileExpanded === link.label ? "rotate(180deg)" : "rotate(0deg)",
+                          transition: "transform 200ms ease",
+                          flexShrink: 0,
+                        }}
+                      />
+                    </button>
+                    {mobileExpanded === link.label && (
+                      <div style={{ background: "transparent" }}>
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            onClick={() => setIsOpen(false)}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.5rem",
+                              padding: "0.75rem 1.25rem 0.75rem 2rem",
+                              color: "rgba(255,255,255,0.85)",
+                              fontFamily: "var(--font-ui)",
+                              fontSize: "0.875rem",
+                              fontWeight: 500,
+                              textDecoration: "none",
+                              borderBottom: "1px solid rgba(255,255,255,0.15)",
+                              transition: "color 150ms",
+                            }}
+                          >
+                            <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
                   <Link
-                    key={child.label}
-                    href={child.href}
+                    href={link.href}
                     onClick={() => setIsOpen(false)}
                     style={{
-                      display: "block",
-                      padding: "0.65rem 1rem",
-                      color: "var(--color-text-secondary)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "0.875rem 1.25rem",
+                      color: "white",
                       fontFamily: "var(--font-ui)",
-                      fontSize: "0.9rem",
+                      fontWeight: 600,
+                      fontSize: "0.95rem",
                       textDecoration: "none",
-                      borderBottom: "1px solid var(--color-surface-alt)",
+                      borderBottom: "1px solid rgba(255,255,255,0.15)",
+                      transition: "color 150ms",
                     }}
                   >
-                    → {child.label}
+                    {link.label}
+                    <ChevronRight size={16} color="rgba(255,255,255,0.7)" style={{ flexShrink: 0 }} />
                   </Link>
-                ))}
-            </div>
-          ))}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
-            <a href="tel:+8801898806050" className="btn-emergency" style={{ justifyContent: "center" }}>
-              <Phone size={16} /> Call Emergency: +880 1898-806050
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Emergency CTA at bottom */}
+          <div style={{ padding: "1rem 1.25rem 1.5rem" }}>
+            <a
+              href="tel:+8801898806050"
+              className="btn-emergency"
+              style={{ width: "100%", justifyContent: "center", fontSize: "0.95rem" }}
+            >
+              <Phone size={16} />
+              Call Emergency: +880 1898-806050
             </a>
-            <Link href="/portal/login" className="btn-primary" style={{ justifyContent: "center" }}>
-              <User size={16} /> Patient Login
-            </Link>
           </div>
         </div>
       )}
 
-      {/* Toast Notification */}
+      {/* ── TOAST NOTIFICATION ──────────────────────────────────── */}
       {showToast && (
         <div
           style={{
@@ -327,18 +540,19 @@ export default function Navigation() {
             bottom: "2rem",
             left: "50%",
             transform: "translateX(-50%)",
-            background: "rgba(0, 0, 0, 0.85)",
+            background: "rgba(10, 30, 61, 0.95)",
             color: "white",
             padding: "1rem 1.5rem",
             borderRadius: "var(--radius-lg)",
             fontSize: "0.95rem",
             fontWeight: 600,
             zIndex: 2000,
-            backdropFilter: "blur(4px)",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
             maxWidth: "90vw",
             animation: "slideUp 300ms cubic-bezier(0.4,0,0.2,1)",
             textAlign: "center",
+            border: "1px solid rgba(255,255,255,0.15)",
           }}
         >
           বাংলা সংস্করণ শীঘ্রই আসছে — Bangla version coming in Phase 2 🚀
@@ -348,15 +562,18 @@ export default function Navigation() {
       <style>{`
         @keyframes fadeInDown {
           from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideUp {
           from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-          to { opacity: 1; transform: translateX(-50%) translateY(0); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
         @media (max-width: 1024px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
+          .desktop-nav        { display: none !important; }
+          .mobile-menu-btn    { display: flex !important; }
+          .emergency-nav-btn  { display: none !important; }
+          .desktop-login-btn  { display: none !important; }
+          .mobile-login-btn   { display: flex !important; }
         }
       `}</style>
     </header>

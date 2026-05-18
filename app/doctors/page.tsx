@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, Star, Filter, ChevronDown, Calendar, Users } from "lucide-react";
+import { Search, Star, Filter, ChevronDown, Calendar, Users, SlidersHorizontal, X } from "lucide-react";
 import { mockDoctors, mockDepartments } from "@/app/api/mock/doctors/route";
 
 export default function DoctorsPage() {
@@ -33,10 +33,10 @@ export default function DoctorsPage() {
           <div className="badge badge-online" style={{ background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)", marginBottom: "1rem" }}>
             Our Specialists
           </div>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "2.75rem", fontWeight: 900, color: "white", marginBottom: "0.75rem" }}>
+          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.75rem)", fontWeight: 900, color: "white", marginBottom: "0.75rem" }}>
             Find a Doctor
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1.1rem", maxWidth: "520px" }}>
+          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "clamp(0.95rem, 3vw, 1.1rem)", maxWidth: "520px" }}>
             Search by name, specialty, or department to find the right specialist for you.
           </p>
 
@@ -46,7 +46,7 @@ export default function DoctorsPage() {
             <input
               className="input-field"
               type="text"
-              placeholder='Search by doctor name or specialty (e.g., "Cardiology")'
+              placeholder='Search by doctor name or specialty'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ paddingLeft: "3rem", fontSize: "1rem", borderColor: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.95)" }}
@@ -55,11 +55,22 @@ export default function DoctorsPage() {
         </div>
       </div>
 
-      <div className="container" style={{ padding: "2rem 1.5rem" }}>
-        <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+      <div className="container" style={{ padding: "2rem 1rem" }}>
+        {/* Mobile Filter Toggle */}
+        <div className="md:hidden" style={{ marginBottom: "1rem" }}>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "var(--color-surface)", border: "2px solid var(--color-surface-border)", borderRadius: "var(--radius-lg)", padding: "0.75rem 1.25rem", fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.9rem", color: "var(--color-text-primary)", cursor: "pointer", width: "100%", justifyContent: "center" }}
+          >
+            {showFilters ? <X size={16} /> : <SlidersHorizontal size={16} />}
+            {showFilters ? "Close Filters" : "Show Filters"}
+          </button>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
 
           {/* LEFT: Filters Sidebar */}
-          <aside style={{ width: "260px", flexShrink: 0, position: "sticky", top: "5.5rem" }}>
+          <aside className={`${showFilters ? "block" : "hidden"} md:block w-full md:w-64 shrink-0`} style={{ position: "sticky", top: "5.5rem" }}>
             <div className="card" style={{ padding: "1.5rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem" }}>
                 <Filter size={16} color="var(--color-primary)" />
@@ -134,9 +145,9 @@ export default function DoctorsPage() {
           </aside>
 
           {/* RIGHT: Doctor Cards */}
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             {/* Results header */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "0.75rem" }}>
               <div>
                 <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "1.1rem", color: "var(--color-text-primary)" }}>
                   {filtered.length} Doctor{filtered.length !== 1 ? "s" : ""} Found
@@ -162,9 +173,9 @@ export default function DoctorsPage() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
                 {filtered.map((doc) => (
-                  <div key={doc.id} className="card" style={{ padding: "1.75rem", display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
+                  <div key={doc.id} className="card flex flex-col sm:flex-row gap-4 sm:gap-6" style={{ padding: "1.25rem", alignItems: "flex-start" }}>
                     {/* Avatar */}
-                    <div style={{ width: "88px", height: "88px", borderRadius: "var(--radius-xl)", background: "linear-gradient(135deg, var(--color-primary-100), var(--color-primary-50))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.5rem", flexShrink: 0 }}>
+                    <div style={{ width: "72px", height: "72px", borderRadius: "var(--radius-xl)", background: "linear-gradient(135deg, var(--color-primary-100), var(--color-primary-50))", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem", flexShrink: 0 }}>
                       👨‍⚕️
                     </div>
 
@@ -218,11 +229,11 @@ export default function DoctorsPage() {
                     </div>
 
                     {/* Action */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "flex-end", flexShrink: 0 }}>
-                      <Link href={`/appointment?doctor=${doc.id}`} className="btn-primary" style={{ whiteSpace: "nowrap", fontSize: "0.9rem" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "stretch", flexShrink: 0 }} className="w-full md:w-auto">
+                      <Link href={`/appointment?doctor=${doc.id}`} className="btn-primary" style={{ whiteSpace: "nowrap", fontSize: "0.9rem", justifyContent: "center" }}>
                         <Calendar size={15} /> Book Appointment
                       </Link>
-                      <Link href={`/doctors/${doc.id}`} className="btn-secondary" style={{ whiteSpace: "nowrap", fontSize: "0.875rem" }}>
+                      <Link href={`/doctors/${doc.id}`} className="btn-secondary" style={{ whiteSpace: "nowrap", fontSize: "0.875rem", justifyContent: "center" }}>
                         View Profile
                       </Link>
                     </div>

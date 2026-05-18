@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Search, Calendar, Download, ArrowRight, Star, CheckCircle, Clock, Users, Award, Shield } from "lucide-react";
+import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Shield } from "lucide-react";
 import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
+import TestimonialSlider from "@/components/TestimonialSlider";
 import { getDeptMeta } from "@/lib/departmentIcons";
 
 const healthPackages = [
@@ -39,11 +40,6 @@ const healthPackages = [
   },
 ];
 
-const testimonials = [
-  { name: "Kausar Ali", location: "Mohammadpur", rating: 5, text: "My experience at Mitosis Lab was excellent. The staff were very professional and caring. I received my report on time, and they answered all my questions. I am truly satisfied!" },
-  { name: "Mamun Elahi", location: "Dhaka", rating: 5, text: "I visited Mitosis Lab for my health check-up. I was impressed by their test accuracy and service. They gave me ample time and were ready to listen to my concerns." },
-  { name: "Rashida Begum", location: "Mirpur", rating: 5, text: "As an elderly patient, I was nervous about using an online portal. The staff helped me step by step. Now I download my reports myself. Very easy and secure." },
-];
 
 const stats = [
   { icon: Users, value: "50,000+", label: "Patients Served" },
@@ -71,7 +67,7 @@ export default function HomePage() {
         </div>
 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-10">
             {/* Left: Headline */}
             <div className="w-full md:w-1/2">
               <div className="badge badge-online" style={{ marginBottom: "1.25rem", background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)" }}>
@@ -93,7 +89,7 @@ export default function HomePage() {
                   Compassionate Care.
                 </span>
               </h1>
-              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "1.2rem", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(1rem, 3vw, 1.2rem)", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
                 From a simple blood test to a full-body MRI — we deliver world-class diagnostic accuracy with results you can access instantly, from anywhere.
               </p>
               <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -281,7 +277,7 @@ export default function HomePage() {
       {/* ======= TRUST & TECHNOLOGY ======= */}
       <section className="section">
         <div className="container">
-          <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10">
             <div>
               <div className="badge badge-primary" style={{ marginBottom: "1rem" }}>Why Choose Us</div>
               <h2 className="section-title">Technology You Can Trust</h2>
@@ -303,7 +299,7 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
               {[
                 { label: "ISO 15189", sub: "Medical Laboratories", color: "var(--color-primary)" },
                 { label: "DGDA", sub: "Bangladesh Approved", color: "var(--color-secondary)" },
@@ -330,36 +326,14 @@ export default function HomePage() {
               Real experiences from real patients in Dhaka.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div key={t.name} className="card" style={{ padding: "2rem" }}>
-                <div style={{ display: "flex", gap: "0.2rem", marginBottom: "1rem" }}>
-                  {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star key={i} size={18} color="#f59e0b" fill="#f59e0b" />
-                  ))}
-                </div>
-                <p style={{ color: "var(--color-text-secondary)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.25rem", fontStyle: "italic" }}>
-                  &ldquo;{t.text}&rdquo;
-                </p>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <div style={{ width: "2.5rem", height: "2.5rem", borderRadius: "50%", background: "linear-gradient(135deg, var(--color-primary), var(--color-secondary))", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 700, fontSize: "1rem", flexShrink: 0 }}>
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 700, fontFamily: "var(--font-ui)", fontSize: "0.95rem" }}>{t.name}</div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>{t.location}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TestimonialSlider />
         </div>
       </section>
 
       {/* ======= BOOKING CTA ======= */}
       <section style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, #003d82 100%)", padding: "5rem 0" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "2.5rem", fontWeight: 900, color: "white", marginBottom: "1rem" }}>
+          <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.5rem)", fontWeight: 900, color: "white", marginBottom: "1rem" }}>
             Ready to take control of your health?
           </h2>
           <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "1.1rem", marginBottom: "2.5rem", maxWidth: "500px", margin: "0 auto 2.5rem" }}>

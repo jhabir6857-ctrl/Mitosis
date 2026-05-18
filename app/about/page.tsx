@@ -7,19 +7,19 @@ export default function AboutPage() {
   return (
     <main>
         {/* Hero Section */}
-        <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "6rem 1.5rem", textAlign: "center" }}>
+        <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "clamp(3rem, 10vw, 6rem) 1.5rem", textAlign: "center" }}>
           <div className="container">
-            <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "3rem", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
+            <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 7vw, 3rem)", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
               About Mitosis Lab Ltd
             </h1>
-            <p style={{ fontSize: "1.25rem", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
+            <p style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
               World-class diagnostics with compassionate care, serving Mirpur and Dhaka 24/7
             </p>
           </div>
         </div>
 
         {/* Mission & History */}
-        <div className="container" style={{ padding: "4rem 1.5rem" }}>
+        <div className="container" style={{ padding: "3rem 1rem" }}>
           <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
             <p style={{ fontSize: "1.1rem", lineHeight: 1.8, color: "var(--color-text-secondary)", marginBottom: "2rem" }}>
               Mitosis Lab Ltd is a premier diagnostic center in Mirpur, Dhaka, dedicated to providing accurate, reliable medical diagnostics with world-class standards. Founded on the principle of precision and compassion, we serve our community with state-of-the-art technology and expert specialists available round the clock.
@@ -54,7 +54,7 @@ export default function AboutPage() {
         {/* CTA Section */}
         <div style={{ background: "var(--color-primary)", color: "white", padding: "3rem 1.5rem", textAlign: "center" }}>
           <div className="container">
-            <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", fontWeight: 800, marginBottom: "1rem" }}>
+            <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.5rem, 5vw, 2rem)", fontWeight: 800, marginBottom: "1rem" }}>
               Ready to Book Your Appointment?
             </h2>
             <p style={{ fontSize: "1.05rem", marginBottom: "2rem", color: "rgba(255,255,255,0.9)" }}>
