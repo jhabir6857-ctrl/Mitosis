@@ -6,6 +6,7 @@ import { CheckCircle, ChevronRight, Calendar, Clock, User, Phone, FileText, Arro
 import { useBookingStore } from "@/store/bookingStore";
 import { mockDepartments, mockDoctors, mockSlots } from "@/app/api/mock/doctors/route";
 import { getDeptMeta } from "@/lib/departmentIcons";
+import ParallaxBanner from "@/components/ParallaxBanner";
 
 export const dynamic = 'force-dynamic';
 
@@ -416,16 +417,20 @@ function BookingWizard() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--color-surface-alt)" }}>
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", padding: "2.5rem 0 1.75rem" }}>
-        <div className="container">
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.5rem)", fontWeight: 900, color: "white", marginBottom: "0.5rem" }}>
+      <ParallaxBanner
+        imageSrc="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2000&auto=format&fit=crop"
+        heightClass="h-[35vh]"
+        overlayClass="bg-blue-950/70"
+      >
+        <div className="container text-center">
+          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.5rem)", fontWeight: 900, color: "white", marginBottom: "0.5rem" }} className="drop-shadow-lg">
             Book an Appointment
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem" }}>
+          <p style={{ color: "rgba(255,255,255,0.9)", fontSize: "1.1rem" }} className="drop-shadow-md">
             It only takes 2 minutes. No account needed.
           </p>
         </div>
-      </div>
+      </ParallaxBanner>
 
       <div className="container" style={{ padding: "2rem 1rem" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>

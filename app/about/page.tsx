@@ -2,21 +2,17 @@
 
 import Link from "next/link";
 import { ArrowRight, Heart, Target, Users } from "lucide-react";
+import ParallaxBanner from "@/components/ParallaxBanner";
 
 export default function AboutPage() {
   return (
     <main>
         {/* Hero Section */}
-        <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "clamp(3rem, 10vw, 6rem) 1.5rem", textAlign: "center" }}>
-          <div className="container">
-            <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 7vw, 3rem)", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
-              About Mitosis Lab Ltd
-            </h1>
-            <p style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
-              World-class diagnostics with compassionate care, serving Mirpur and Dhaka 24/7
-            </p>
-          </div>
-        </div>
+        <ParallaxBanner
+          title="About Mitosis Lab Ltd"
+          subtitle="World-class diagnostics with compassionate care, serving Mirpur and Dhaka 24/7"
+          imageSrc="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"
+        />
 
         {/* Mission & History */}
         <div className="container" style={{ padding: "3rem 1rem" }}>
@@ -28,9 +24,25 @@ export default function AboutPage() {
               Our mission is simple: make quality healthcare accessible to everyone through transparent pricing, rapid turnaround times, and a commitment to patient-centered care.
             </p>
           </div>
+        </div>
 
+        {/* Facility & Tech Tour Parallax */}
+        <ParallaxBanner
+          imageSrc="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=2000&auto=format&fit=crop"
+          heightClass="h-[50vh]"
+          overlayClass="bg-blue-950/60"
+        >
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">State-of-the-Art Facilities</h2>
+            <p className="text-lg md:text-xl text-white/90 drop-shadow-md">
+              Experience our ultra-modern, brightly lit laboratory and active testing rooms. We use cutting-edge, sterile equipment to ensure the highest accuracy in every diagnosis.
+            </p>
+          </div>
+        </ParallaxBanner>
+
+        <div className="container" style={{ padding: "3rem 1rem" }}>
           {/* Values Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2rem", marginTop: "3rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "2rem" }}>
             {[
               { Icon: Target, title: "Precision", desc: "Accurate diagnostics using cutting-edge technology" },
               { Icon: Heart, title: "Compassion", desc: "Patient-centered care with empathy and respect" },

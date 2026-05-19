@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ParallaxBanner from "@/components/ParallaxBanner";
 
 export const metadata: Metadata = {
   title: { absolute: "Careers | Mitosis Lab Ltd" },
@@ -8,16 +9,11 @@ export default function CareerPage() {
   return (
     <main>
       {/* Hero Section */}
-      <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", color: "white", padding: "clamp(3rem, 10vw, 6rem) 1.5rem", textAlign: "center" }}>
-        <div className="container">
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 7vw, 3rem)", fontWeight: 900, marginBottom: "1rem", lineHeight: 1.2 }}>
-            Join Our Team
-          </h1>
-          <p style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "rgba(255,255,255,0.85)", maxWidth: "600px", margin: "0 auto" }}>
-            We are always looking for passionate healthcare professionals
-          </p>
-        </div>
-      </div>
+      <ParallaxBanner
+        title="Join Our Team"
+        subtitle="We are always looking for passionate healthcare professionals"
+        imageSrc="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2000&auto=format&fit=crop"
+      />
 
       {/* Content Section */}
       <div className="container" style={{ padding: "4rem 1rem", minHeight: "40vh", display: "flex", alignItems: "center", justifyContent: "center" }}>

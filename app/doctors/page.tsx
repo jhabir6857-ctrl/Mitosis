@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, Star, Filter, ChevronDown, Calendar, Users, SlidersHorizontal, X } from "lucide-react";
 import { mockDoctors, mockDepartments } from "@/app/api/mock/doctors/route";
+import ParallaxBanner from "@/components/ParallaxBanner";
 
 export default function DoctorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,20 +29,23 @@ export default function DoctorsPage() {
   return (
     <div style={{ minHeight: "100vh", background: "var(--color-surface-alt)" }}>
       {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #0d1b2e, #0a2a5e)", padding: "3rem 0 2rem" }}>
-        <div className="container">
+      <ParallaxBanner
+        imageSrc="https://images.unsplash.com/photo-1638202993928-7267aad84c31?q=80&w=2000&auto=format&fit=crop"
+        heightClass="min-h-[45vh]"
+      >
+        <div className="container flex flex-col items-center">
           <div className="badge badge-online" style={{ background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)", marginBottom: "1rem" }}>
             Our Specialists
           </div>
           <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.75rem, 6vw, 2.75rem)", fontWeight: 900, color: "white", marginBottom: "0.75rem" }}>
             Find a Doctor
           </h1>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "clamp(0.95rem, 3vw, 1.1rem)", maxWidth: "520px" }}>
+          <p style={{ color: "rgba(255,255,255,0.9)", fontSize: "clamp(0.95rem, 3vw, 1.1rem)", maxWidth: "520px", textAlign: "center" }}>
             Search by name, specialty, or department to find the right specialist for you.
           </p>
 
           {/* Search Bar */}
-          <div style={{ marginTop: "1.75rem", position: "relative", maxWidth: "600px" }}>
+          <div style={{ marginTop: "1.75rem", position: "relative", width: "100%", maxWidth: "600px" }}>
             <Search size={20} style={{ position: "absolute", left: "1rem", top: "50%", transform: "translateY(-50%)", color: "var(--color-text-muted)" }} />
             <input
               className="input-field"
@@ -49,11 +53,11 @@ export default function DoctorsPage() {
               placeholder='Search by doctor name or specialty'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ paddingLeft: "3rem", fontSize: "1rem", borderColor: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.95)" }}
+              style={{ paddingLeft: "3rem", fontSize: "1rem", borderColor: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.95)", color: "black", width: "100%" }}
             />
           </div>
         </div>
-      </div>
+      </ParallaxBanner>
 
       <div className="container" style={{ padding: "2rem 1rem" }}>
         {/* Mobile Filter Toggle */}

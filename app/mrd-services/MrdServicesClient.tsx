@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, AlertCircle, Upload } from "lucide-react";
+import ParallaxBanner from "@/components/ParallaxBanner";
 
 export default function MrdServicesClient() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -37,100 +38,11 @@ export default function MrdServicesClient() {
   return (
     <div>
       {/* ── HERO SECTION ──────────────────────────────────── */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #0a1e3d 0%, var(--color-primary) 100%)",
-          color: "white",
-          padding: "4rem 1rem 5rem",
-          textAlign: "center",
-        }}
-      >
-        <div className="container">
-          <div
-            style={{
-              display: "inline-block",
-              background: "rgba(255,255,255,0.15)",
-              border: "1px solid rgba(255,255,255,0.3)",
-              borderRadius: "var(--radius-lg)",
-              padding: "0.5rem 1rem",
-              marginBottom: "1.5rem",
-              fontSize: "0.875rem",
-              fontWeight: 600,
-            }}
-          >
-            🏥 Medical Records Department
-          </div>
-          <h1
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontSize: "clamp(1.75rem, 5vw, 3rem)",
-              fontWeight: 900,
-              marginBottom: "1rem",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Official Medical Records Services
-          </h1>
-          <p
-            style={{
-              fontSize: "1.125rem",
-              color: "rgba(255,255,255,0.9)",
-              maxWidth: "600px",
-              margin: "0 auto 2.5rem",
-              lineHeight: 1.6,
-            }}
-          >
-            Request certified copies of your complete medical history for visa applications, insurance claims, and hospital transfers.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link
-              href="#request-form"
-              style={{
-                background: "white",
-                color: "var(--color-primary)",
-                padding: "0.875rem 2rem",
-                borderRadius: "var(--radius-lg)",
-                fontWeight: 700,
-                textDecoration: "none",
-                fontSize: "1rem",
-                border: "none",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              Request Online →
-            </Link>
-            <a
-              href="tel:+8801898806050"
-              style={{
-                background: "transparent",
-                color: "white",
-                padding: "0.875rem 2rem",
-                borderRadius: "var(--radius-lg)",
-                fontWeight: 700,
-                textDecoration: "none",
-                fontSize: "1rem",
-                border: "2px solid white",
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                transition: "all 200ms",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-              }}
-            >
-              📞 Call Us
-            </a>
-          </div>
-        </div>
-      </section>
+      <ParallaxBanner
+        title="Official Medical Records Services"
+        subtitle="Request certified copies of your complete medical history for visa applications, insurance claims, and hospital transfers."
+        imageSrc="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=2000&auto=format&fit=crop"
+      />
 
       {/* ── WHO NEEDS THIS ──────────────────────────────────── */}
       <section style={{ background: "var(--color-surface)", padding: "4rem 1rem" }}>
