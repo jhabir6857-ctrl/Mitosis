@@ -96,7 +96,7 @@ export default function Footer() {
               </div>
             </div>
             <p style={{ fontSize: "0.875rem", lineHeight: 1.75, color: "#8da0b3", marginBottom: "1.5rem" }}>
-              A private diagnostic center in Mirpur, Dhaka, serving the community with world-class medical diagnostics and compassionate care — 24 hours a day.
+              A private diagnostic center in Uttar Badda, Dhaka, serving the community with world-class medical diagnostics and compassionate care — 24 hours a day.
             </p>
             <div style={{ display: "flex", gap: "0.75rem" }}>
             {[
@@ -149,7 +149,7 @@ export default function Footer() {
             <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Contact Us</h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[
-                { Icon: MapPin, text: "Mirpur-1, Dhaka City, Bangladesh", isAddress: true },
+                { Icon: MapPin, text: "Uttar Badda, Dhaka, Bangladesh", isAddress: true },
                 { Icon: Phone, text: "+880 1898-806050", href: "tel:+8801898806050" },
                 { Icon: Mail, text: "mitosislabltd@gmail.com", href: "mailto:mitosislabltd@gmail.com" },
                 { Icon: Clock, text: "Everyday: 7:30 AM – 11:00 PM" },

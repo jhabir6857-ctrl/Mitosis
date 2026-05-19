@@ -25,7 +25,7 @@ export default function ContactPage() {
               {
                 Icon: MapPin,
                 title: "Location",
-                details: "Mirpur-1, Dhaka City, Bangladesh",
+                details: "Uttar Badda, Dhaka, Bangladesh",
                 link: "https://maps.google.com/?q=Mirpur+1+Dhaka",
               },
               {

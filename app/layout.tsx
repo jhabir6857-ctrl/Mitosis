@@ -10,10 +10,10 @@ export const metadata: Metadata = {
     template: "%s | Mitosis Lab Ltd",
   },
   description:
-    "Mitosis Lab Ltd is a leading private diagnostic center in Mirpur, Dhaka, offering 24/7 pathology, imaging, and diagnostic services. Book appointments and download reports online.",
+    "Mitosis Lab Ltd is a leading private diagnostic center in Uttar Badda, Dhaka, offering 24/7 pathology, imaging, and diagnostic services. Book appointments and download reports online.",
   keywords: [
     "diagnostic center dhaka",
-    "lab test mirpur",
+    "lab test uttar badda",
     "blood test dhaka",
     "mitosis lab",
     "CBC test",

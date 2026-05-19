@@ -830,7 +830,7 @@ export default function MrdServicesClient() {
             }}
           >
             {[
-              { icon: "📍", text: "Mirpur-1, Dhaka" },
+              { icon: "📍", text: "Uttar Badda, Dhaka" },
               { icon: "🕐", text: "Sat–Thu: 8:00 AM – 5:00 PM" },
               { icon: "📞", text: "+880 1898-806050" },
             ].map((item, i) => (

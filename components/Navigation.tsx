@@ -158,7 +158,7 @@ export default function Navigation() {
               title="View Mitosis Lab Ltd on Google Maps"
             >
               <MapPin size={11} style={{ flexShrink: 0 }} />
-              Mirpur-1, Dhaka
+              Uttar Badda, Dhaka
             </a>
 
             {/* Divider — desktop only */}
