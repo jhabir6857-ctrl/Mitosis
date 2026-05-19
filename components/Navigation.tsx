@@ -39,6 +39,7 @@ const navLinks = [
       { label: "Facilities", href: "/facilities", section: "item" },
       { label: "Health Check Up", href: "/health-checkup", section: "item" },
       { label: "Packages", href: "/packages", section: "item" },
+      { label: "MRD Services", href: "/mrd-services", section: "item" },
       { label: "Room Rent", href: "/room-rent", section: "item" },
       { label: "Equipments", href: "/equipments", section: "item" },
       { label: "Health Tips", href: "/health-tips", section: "item" },

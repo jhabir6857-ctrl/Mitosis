@@ -17,13 +17,14 @@ const quickLinks = [
   { label: "Book Appointment", href: "/appointment" },
   { label: "Patient Portal", href: "/portal/login" },
   { label: "Download Lab Reports", href: "/portal/login" },
+  { label: "MRD Services", href: "/mrd-services" },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "/contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "var(--color-dark)", color: "#c8d6e5" }}>
+    <footer style={{ backgroundColor: "var(--color-dark)", color: "#c8d6e5", borderTop: "3px solid var(--color-primary)" }}>
       {/* CTA Strip */}
       <div style={{ backgroundColor: "var(--color-primary)", padding: "2.5rem 0" }}>
         <div
@@ -56,11 +57,11 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container" style={{ padding: "4rem 1rem 2rem" }}>
+      <div className="container" style={{ padding: "2rem 0" }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: "2rem", marginBottom: "3rem", alignItems: "flex-start" }}>
           {/* Brand — Logo + tagline */}
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", marginBottom: "1.5rem" }}>
+          <div style={{ paddingRight: "2rem", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1.5rem" }}>
               {/* Transparent logo with monochrome white filter for enterprise look */}
               <div style={{ display: "inline-flex", flexShrink: 0 }}>
                 <img
@@ -102,9 +103,9 @@ export default function Footer() {
               { Icon: Camera, href: "https://www.instagram.com/mitosislabltd/" },
               { Icon: Share2, href: "#" }
             ].map(({ Icon, href }, i) => (
-                <a key={i} href={href} target={href !== "#" ? "_blank" : undefined} rel={href !== "#" ? "noopener noreferrer" : undefined} style={{ width: "2.25rem", height: "2.25rem", borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", color: "#8da0b3", transition: "all 200ms", textDecoration: "none", minHeight: "unset" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "var(--color-primary)"; (e.currentTarget as HTMLElement).style.color = "white"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "#8da0b3"; }}>
+                <a key={i} href={href} target={href !== "#" ? "_blank" : undefined} rel={href !== "#" ? "noopener noreferrer" : undefined} style={{ width: "2.25rem", height: "2.25rem", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", display: "flex", alignItems: "center", justifyContent: "center", color: "#8da0b3", transition: "all 250ms ease", textDecoration: "none", minHeight: "unset", cursor: "pointer" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.12)"; (e.currentTarget as HTMLElement).style.border = "1px solid var(--color-brand-green)"; (e.currentTarget as HTMLElement).style.transform = "scale(1.1)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.border = "1px solid rgba(255,255,255,0.10)"; (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}>
                   <Icon size={16} />
                 </a>
               ))}
@@ -113,14 +114,14 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "1.5rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>Our Services</h4>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Our Services</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {services.map((s) => (
                 <li key={s.label}>
-                  <Link href={s.href} style={{ color: "#8da0b3", textDecoration: "none", fontSize: "0.875rem", lineHeight: 1.5, transition: "color 150ms", display: "block" }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "var(--color-secondary)"}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#8da0b3"}>
-                    → {s.label}
+                  <Link href={s.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(6px)"; (e.currentTarget as HTMLElement).style.color = "var(--color-brand-green)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(0)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}>
+                    {s.label}
                   </Link>
                 </li>
               ))}
@@ -129,14 +130,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "1.5rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>Quick Links</h4>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Quick Links</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {quickLinks.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} style={{ color: "#8da0b3", textDecoration: "none", fontSize: "0.875rem", lineHeight: 1.5, transition: "color 150ms", display: "block" }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = "var(--color-secondary)"}
-                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = "#8da0b3"}>
-                    → {l.label}
+                  <Link href={l.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(6px)"; (e.currentTarget as HTMLElement).style.color = "var(--color-brand-green)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(0)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}>
+                    {l.label}
                   </Link>
                 </li>
               ))}
@@ -145,26 +146,108 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "1.5rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>Contact Us</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Contact Us</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[
-                { Icon: MapPin, text: "Mirpur-1, Dhaka City, Bangladesh" },
+                { Icon: MapPin, text: "Mirpur-1, Dhaka City, Bangladesh", isAddress: true },
                 { Icon: Phone, text: "+880 1898-806050", href: "tel:+8801898806050" },
                 { Icon: Mail, text: "mitosislabltd@gmail.com", href: "mailto:mitosislabltd@gmail.com" },
                 { Icon: Clock, text: "Everyday: 7:30 AM – 11:00 PM" },
-              ].map(({ Icon, text, href }, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                  <div style={{ width: "1.875rem", height: "1.875rem", borderRadius: "var(--radius-md)", background: "rgba(0,86,179,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "0.1rem", minHeight: "unset" }}>
-                    <Icon size={13} color="var(--color-secondary)" />
+              ].map(({ Icon, text, href, isAddress }, i) => (
+                <div key={i}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                    <div style={{ width: "1.875rem", height: "1.875rem", borderRadius: "var(--radius-md)", background: "rgba(0,86,179,0.25)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "0.1rem", minHeight: "unset" }}>
+                      <Icon size={13} color="var(--color-secondary)" />
+                    </div>
+                    {href === "tel:+8801898806050" ? (
+                      <a href={href} style={{ color: "white", fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.3rem 0.6rem", background: "rgba(255,255,255,0.08)", borderRadius: "var(--radius-md)", transition: "background 200ms", fontSize: "0.85rem", lineHeight: 1.6, cursor: "pointer" }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; }}>
+                        {text}
+                      </a>
+                    ) : href === "mailto:mitosislabltd@gmail.com" ? (
+                      <a href={href} style={{ color: "rgba(255,255,255,0.75)", fontSize: "0.85rem", textDecoration: "none", lineHeight: 1.6, transition: "text-decoration 200ms" }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}>
+                        {text}
+                      </a>
+                    ) : (
+                      <span style={{ color: "#8da0b3", fontSize: "0.85rem", lineHeight: 1.6 }}>{text}</span>
+                    )}
                   </div>
-                  {href ? (
-                    <a href={href} style={{ color: "#8da0b3", fontSize: "0.875rem", textDecoration: "none", lineHeight: 1.6 }}>{text}</a>
-                  ) : (
-                    <span style={{ color: "#8da0b3", fontSize: "0.875rem", lineHeight: 1.6 }}>{text}</span>
+                  {isAddress && (
+                    <a href="https://www.google.com/maps/place/Mitosis+Lab+Ltd/@23.7987161,90.3519292,17z/data=!3m1!4b1!4m6!3m5!1s0x3755c100172e4cfd:0x6af678895c53a755!8m2!3d23.7987161!4d90.3519292!16s%2Fg%2F11wwgj972y"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "var(--color-brand-green)",
+                        fontSize: "0.78rem",
+                        fontWeight: 600,
+                        textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.25rem",
+                        marginTop: "0.25rem",
+                        transition: "opacity 200ms",
+                        marginLeft: "2.625rem",
+                      }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.8"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}>
+                      Get Directions →
+                    </a>
                   )}
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Trust Badges Bar */}
+        <div style={{
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "0.75rem 0",
+          marginTop: "0",
+        }}>
+          <div className="container" style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            flexWrap: "wrap",
+          }}>
+            <span style={{
+              fontSize: "0.7rem",
+              fontWeight: 700,
+              color: "rgba(255,255,255,0.35)",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              whiteSpace: "nowrap",
+            }}>
+              Accreditations & Partners
+            </span>
+            {["ISO 15189", "DGDA Approved", "WHO Standards", "CAP Certified"].map((badge) => (
+              <div key={badge} style={{
+                padding: "0.35rem 0.9rem",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: "var(--radius-sm)",
+                fontSize: "0.72rem",
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.4)",
+                letterSpacing: "0.05em",
+                whiteSpace: "nowrap",
+                transition: "all 200ms",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.12)";
+              }}>
+                {badge}
+              </div>
+            ))}
           </div>
         </div>
 
