@@ -3,6 +3,7 @@ import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Awar
 import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
+import ParallaxStats from "@/components/ParallaxStats";
 import { getDeptMeta } from "@/lib/departmentIcons";
 
 const healthPackages = [
@@ -266,6 +267,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ======= PARALLAX STATS ======= */}
+      <ParallaxStats />
 
       {/* ======= FEATURED DOCTORS SLIDER ======= */}
       <section className="section" style={{ background: "var(--color-surface-alt)", overflow: "hidden" }}>
