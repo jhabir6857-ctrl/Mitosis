@@ -6,31 +6,74 @@ import { useRouter } from "next/navigation";
 import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight } from "lucide-react";
 
 const navLinks = [
-  { label: "Home", href: "/" },
   {
     label: "About",
     href: "/about",
     children: [
-      { label: "Our Mission & Vision", href: "/about" },
-      { label: "MD's Message", href: "/about/md-message" },
-      { label: "Management Team", href: "/about/management" },
+      { label: "About Mitosis Lab", href: "/about", section: "cta" },
+      { label: "Our Mission & Vision", href: "/about", section: "item" },
+      { label: "MD's Message", href: "/about/md-message", section: "item" },
+      { label: "Management Team", href: "/about/management", section: "item" },
     ],
   },
-  { label: "Health Packages", href: "/packages" },
-  { label: "Find a Doctor", href: "/doctors" },
   {
-    label: "Services",
+    label: "Medical Care",
     href: "#",
     children: [
-      { label: "Blood Tests (Pathology)", href: "/services/pathology" },
-      { label: "Imaging & MRI", href: "/services/imaging" },
-      { label: "Microbiology", href: "/services/microbiology" },
-      { label: "Hormone & Thyroid (Biochemistry)", href: "/services/biochemistry" },
+      { label: "Find a Doctor", href: "/doctors", section: "cta" },
+      { label: "Imaging & MRI", href: "/doctors?department=dept-001", section: "dept" },
+      { label: "Pathology", href: "/doctors?department=dept-002", section: "dept" },
+      { label: "Microbiology", href: "/doctors?department=dept-003", section: "dept" },
+      { label: "Clinical Pathology", href: "/doctors?department=dept-004", section: "dept" },
+      { label: "Child Health (Pediatrics)", href: "/doctors?department=dept-005", section: "dept" },
+      { label: "Gastroenterology", href: "/doctors?department=dept-006", section: "dept" },
+      { label: "Skin & Dermatology", href: "/doctors?department=dept-007", section: "dept" },
+      { label: "Hormone & Thyroid", href: "/doctors?department=dept-008", section: "dept" },
     ],
   },
-  { label: "News & Blog", href: "/blog" },
+  {
+    label: "Visitors & Patients",
+    href: "#",
+    children: [
+      { label: "All Services", href: "/services", section: "cta" },
+      { label: "Facilities", href: "/facilities", section: "item" },
+      { label: "Health Check Up", href: "/health-checkup", section: "item" },
+      { label: "Packages", href: "/packages", section: "item" },
+      { label: "Room Rent", href: "/room-rent", section: "item" },
+      { label: "Equipments", href: "/equipments", section: "item" },
+      { label: "Health Tips", href: "/health-tips", section: "item" },
+      { label: "Visitors Policy", href: "/visitors-policy", section: "item" },
+      { label: "Feedback", href: "/feedback", section: "item" },
+    ],
+  },
+  {
+    label: "News & Media",
+    href: "#",
+    children: [
+      { label: "All News & Media", href: "/news", section: "cta" },
+      { label: "Mitosis News", href: "/news", section: "item" },
+      { label: "Mitosis Gallery", href: "/gallery", section: "item" },
+      { label: "Mitosis Publications", href: "/publications", section: "item" },
+    ],
+  },
+  { label: "Career", href: "/career" },
   { label: "Contact", href: "/contact" },
 ];
+
+function dropdownSectionLabel(parentLabel: string): string {
+  switch (parentLabel) {
+    case "About":
+      return "ABOUT US";
+    case "Visitors & Patients":
+      return "QUICK LINKS";
+    case "News & Media":
+      return "MEDIA";
+    case "Medical Care":
+      return "OUR DEPARTMENTS";
+    default:
+      return "";
+  }
+}
 
 export default function Navigation() {
   const router = useRouter();
@@ -245,7 +288,7 @@ export default function Navigation() {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "0.15rem" }} className="desktop-nav">
+        <nav style={{ display: "flex", alignItems: "center", gap: "0" }} className="desktop-nav">
           {navLinks.map((link) => (
             <div
               key={link.label}
@@ -259,12 +302,13 @@ export default function Navigation() {
                   display: "flex",
                   alignItems: "center",
                   gap: "0.2rem",
-                  padding: "0.45rem 0.65rem",
+                  padding: "0.45rem 0.45rem",
                   borderRadius: "var(--radius-md)",
                   color: "var(--color-text-primary)",
                   fontFamily: "var(--font-ui)",
                   fontWeight: 500,
-                  fontSize: "0.875rem",
+                  fontSize: "0.82rem",
+                  whiteSpace: "nowrap",
                   textDecoration: "none",
                   transition: "all 200ms",
                   minHeight: "44px",
@@ -299,33 +343,78 @@ export default function Navigation() {
                     animation: "fadeInDown 150ms ease",
                   }}
                 >
-                  {link.children.map((child) => (
-                    <Link
-                      key={child.label}
-                      href={child.href}
-                      style={{
-                        display: "block",
-                        padding: "0.65rem 1rem",
-                        color: "var(--color-text-primary)",
-                        fontFamily: "var(--font-ui)",
-                        fontWeight: 500,
-                        fontSize: "0.875rem",
-                        textDecoration: "none",
-                        borderRadius: "var(--radius-md)",
-                        transition: "all 150ms",
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.background = "var(--color-primary-50)";
-                        (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.background = "transparent";
-                        (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
-                      }}
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
+                  {link.children
+                    .filter((child) => child.section === "cta")
+                    .map((child) => (
+                      <Link
+                        key={`${child.label}-${child.href}`}
+                        href={child.href}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          padding: "0.65rem 1rem",
+                          background: "var(--color-primary-50)",
+                          color: "var(--color-primary)",
+                          fontFamily: "var(--font-ui)",
+                          fontWeight: 700,
+                          fontSize: "0.875rem",
+                          textDecoration: "none",
+                          borderRadius: "var(--radius-md)",
+                          transition: "all 150ms",
+                        }}
+                      >
+                        {child.label}
+                        <span>→</span>
+                      </Link>
+                    ))}
+                  <div style={{ margin: "0.35rem 0", height: "1px", background: "var(--color-surface-border)" }} />
+                  <span
+                    style={{
+                      padding: "0.4rem 1rem",
+                      fontSize: "0.7rem",
+                      fontWeight: 700,
+                      color: "var(--color-text-muted)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      display: "block",
+                    }}
+                  >
+                    {dropdownSectionLabel(link.label)}
+                  </span>
+                  {link.children
+                    .filter((child) => child.section === "item" || child.section === "dept")
+                    .map((child) => (
+                      <Link
+                        key={`${child.label}-${child.href}`}
+                        href={child.href}
+                        style={{
+                          display: "block",
+                          padding: "0.65rem 1rem",
+                          paddingLeft: "0.85rem",
+                          borderLeft: "2px solid transparent",
+                          color: "var(--color-text-primary)",
+                          fontFamily: "var(--font-ui)",
+                          fontWeight: 500,
+                          fontSize: "0.875rem",
+                          textDecoration: "none",
+                          borderRadius: "var(--radius-md)",
+                          transition: "all 150ms",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = "var(--color-primary-50)";
+                          (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
+                          (e.currentTarget as HTMLElement).style.borderLeft = "2px solid var(--color-primary)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = "transparent";
+                          (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
+                          (e.currentTarget as HTMLElement).style.borderLeft = "2px solid transparent";
+                        }}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
                 </div>
               )}
             </div>
@@ -352,32 +441,6 @@ export default function Navigation() {
           >
             <User size={14} />
             Patient Login
-          </Link>
-
-          {/* Patient Login — mobile compact button (always visible on mobile) */}
-          <Link
-            href="/portal/login"
-            className="mobile-login-btn"
-            style={{
-              display: "none",
-              alignItems: "center",
-              gap: "0.35rem",
-              background: "var(--color-primary)",
-              color: "white",
-              border: "none",
-              borderRadius: "var(--radius-lg)",
-              padding: "0.45rem 0.75rem",
-              fontFamily: "var(--font-ui)",
-              fontWeight: 700,
-              fontSize: "0.78rem",
-              textDecoration: "none",
-              minHeight: "44px",
-              whiteSpace: "nowrap",
-              cursor: "pointer",
-            }}
-          >
-            <User size={14} />
-            Login
           </Link>
 
           {/* Hamburger — mobile only */}
@@ -467,29 +530,69 @@ export default function Navigation() {
                     </button>
                     {mobileExpanded === link.label && (
                       <div style={{ background: "rgba(0,0,0,0.15)" }}>
-                        {link.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.href}
-                            onClick={() => setIsOpen(false)}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "0.5rem",
-                              padding: "0.75rem 1.25rem 0.75rem 2rem",
-                              color: "rgba(255,255,255,0.85)",
-                              fontFamily: "var(--font-ui)",
-                              fontSize: "0.875rem",
-                              fontWeight: 500,
-                              textDecoration: "none",
-                              borderBottom: "1px solid rgba(255,255,255,0.15)",
-                              transition: "color 150ms",
-                            }}
-                          >
-                            <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
-                            {child.label}
-                          </Link>
-                        ))}
+                        {link.children
+                          .filter((child) => child.section === "cta")
+                          .map((child) => (
+                            <Link
+                              key={`${child.label}-${child.href}`}
+                              href={child.href}
+                              onClick={() => setIsOpen(false)}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "0.75rem 1.25rem 0.75rem 2rem",
+                                color: "var(--color-primary)",
+                                fontFamily: "var(--font-ui)",
+                                fontSize: "0.875rem",
+                                fontWeight: 700,
+                                textDecoration: "none",
+                                borderBottom: "1px solid rgba(255,255,255,0.15)",
+                                transition: "color 150ms",
+                              }}
+                            >
+                              <ChevronRight size={13} color="var(--color-primary)" style={{ flexShrink: 0 }} />
+                              {child.label}
+                            </Link>
+                          ))}
+                        <span
+                          style={{
+                            padding: "0.5rem 1.25rem 0.25rem 2rem",
+                            fontSize: "0.68rem",
+                            fontWeight: 700,
+                            color: "rgba(255,255,255,0.45)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.08em",
+                            display: "block",
+                          }}
+                        >
+                          {dropdownSectionLabel(link.label)}
+                        </span>
+                        {link.children
+                          .filter((child) => child.section === "item" || child.section === "dept")
+                          .map((child) => (
+                            <Link
+                              key={`${child.label}-${child.href}`}
+                              href={child.href}
+                              onClick={() => setIsOpen(false)}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                padding: "0.75rem 1.25rem 0.75rem 2rem",
+                                color: "rgba(255,255,255,0.85)",
+                                fontFamily: "var(--font-ui)",
+                                fontSize: "0.875rem",
+                                fontWeight: 500,
+                                textDecoration: "none",
+                                borderBottom: "1px solid rgba(255,255,255,0.15)",
+                                transition: "color 150ms",
+                              }}
+                            >
+                              <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
+                              {child.label}
+                            </Link>
+                          ))}
                       </div>
                     )}
                   </>
