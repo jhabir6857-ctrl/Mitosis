@@ -407,7 +407,7 @@ export default function HomePage() {
               Everything bundled. No hidden costs. Book online and get tested at home or at our center.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="packages-grid">
             {healthPackages.map((pkg) => (
               <div key={pkg.name} className="card" style={{ padding: "1.75rem" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1rem" }}>
@@ -438,6 +438,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          {/* Swipe hint — only shown on mobile */}
+          <p className="packages-swipe-hint">
+            <span style={{ opacity: 0.5 }}>←</span>
+            Swipe to see all packages
+            <span style={{ opacity: 0.5 }}>→</span>
+          </p>
         </div>
       </section>
 

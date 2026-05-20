@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ scrollBehavior: "smooth" }} data-scroll-behavior="smooth">
       <body style={{ overflowX: "clip" }}>
         <Navigation />
         <main>{children}</main>

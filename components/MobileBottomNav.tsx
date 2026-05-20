@@ -128,42 +128,56 @@ export default function MobileBottomNav() {
           const content = (
             <div
               style={{
+                position: "relative",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 gap: "0.25rem",
-                padding: "0.25rem 0.5rem",
+                padding: "0.35rem 0.5rem 0.2rem",
                 color: isActive ? item.color : "var(--color-text-secondary)",
                 transition: "color 200ms ease",
               }}
             >
-              <div 
-                style={{ 
+              {/* Active top pill indicator — animates from 0 to full width */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  width: isActive ? "1.75rem" : "0",
+                  height: "3px",
+                  borderRadius: "0 0 4px 4px",
+                  background: item.color,
+                  transition: "width 350ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                }}
+              />
+              <div
+                style={{
                   width: "2.4rem",
                   height: "2.4rem",
                   borderRadius: "0.75rem",
-                  background: item.color + "22",
-                  border: `1.5px solid ${item.color}45`,
+                  background: isActive ? item.color + "28" : item.color + "16",
+                  border: `1.5px solid ${item.color}${isActive ? "55" : "35"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   color: item.color,
-                  transform: isActive ? "scale(1.1)" : "scale(1)",
-                  transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)"
+                  transform: isActive ? "scale(1.08)" : "scale(1)",
+                  transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                 }}
               >
                 {item.icon}
               </div>
-              <span 
-                style={{ 
+              <span
+                style={{
                   fontSize: "0.62rem",
                   fontWeight: 700,
-                  color: "#334155",
+                  color: isActive ? item.color : "#64748b",
                   textAlign: "center",
                   lineHeight: 1.2,
                   letterSpacing: "0.02em",
                   maxWidth: "3.5rem",
-                  whiteSpace: "nowrap"
+                  whiteSpace: "nowrap",
+                  transition: "color 200ms ease",
                 }}
               >
                 {item.label}

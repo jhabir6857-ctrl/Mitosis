@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, Share2, Camera } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Share2 } from "lucide-react";
 
 const services = [
   { label: "Blood Tests (Pathology)", href: "/services/pathology" },
@@ -26,7 +26,7 @@ export default function Footer() {
   return (
     <footer style={{ backgroundColor: "var(--color-dark)", color: "#c8d6e5", borderTop: "3px solid var(--color-primary)" }}>
       {/* CTA Strip */}
-      <div style={{ backgroundColor: "var(--color-primary)", padding: "2.5rem 0" }}>
+      <div className="footer-cta-strip" style={{ backgroundColor: "var(--color-primary)", padding: "2.5rem 0" }}>
         <div
           className="container"
           style={{
@@ -46,10 +46,10 @@ export default function Footer() {
             </p>
           </div>
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", flex: "1 1 auto", justifyContent: "flex-start" }}>
-            <a href="tel:+8801898806050" className="btn-emergency">
+            <a href="tel:+8801898806050" className="btn-emergency footer-cta-call-btn">
               <Phone size={16} /> Call Now: +880 1898-806050
             </a>
-            <Link prefetch={false} href="/appointment" style={{ background: "white", color: "var(--color-primary)", borderRadius: "var(--radius-lg)", padding: "0.75rem 1.75rem", fontWeight: 700, textDecoration: "none", minHeight: "3rem", display: "inline-flex", alignItems: "center" }}>
+            <Link prefetch={false} href="/appointment" className="footer-cta-book-btn" style={{ background: "white", color: "var(--color-primary)", borderRadius: "var(--radius-lg)", padding: "0.75rem 1.75rem", fontWeight: 700, textDecoration: "none", minHeight: "3rem", display: "inline-flex", alignItems: "center" }}>
               Book Appointment
             </Link>
           </div>
@@ -58,57 +58,67 @@ export default function Footer() {
 
       {/* Main Footer */}
       <div className="container" style={{ padding: "2rem 0" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: "2rem", marginBottom: "3rem", alignItems: "flex-start" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 footer-main-grid" style={{ gap: "2rem", marginBottom: "3rem", alignItems: "flex-start" }}>
           {/* Brand — Logo + tagline */}
-          <div style={{ paddingRight: "2rem", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1.5rem" }}>
+          <div className="footer-brand-col" style={{ paddingRight: "2rem", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
               {/* Transparent logo with monochrome white filter for enterprise look */}
               <div style={{ display: "inline-flex", flexShrink: 0 }}>
                 <img
                   src="/mitosis-logo-transparent.png"
                   alt="Mitosis Lab Ltd"
-                  width={60}
-                  height={60}
+                  width={65}
+                  height={65}
                   style={{ display: "block", objectFit: "contain", filter: "brightness(0) invert(1)" }}
                 />
               </div>
-              <div style={{ width: "1px", height: "2rem", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
-              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.15rem" }}>
+              <div style={{ width: "1px", height: "3rem", background: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
+              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.2rem" }}>
                 <span style={{
                   fontFamily: "var(--font-heading)",
                   fontWeight: 900,
-                  fontSize: "1.2rem",
+                  fontSize: "1.5rem",
                   color: "white",
-                  letterSpacing: "0.1em",
+                  letterSpacing: "0.02em",
                   textTransform: "uppercase",
                   lineHeight: 1,
-                }}>LAB LTD.</span>
-                <div style={{ height: "2px", width: "100%", background: "linear-gradient(90deg, var(--color-brand-blue), var(--color-brand-green))", borderRadius: "2px", margin: "0.25rem 0" }} />
+                }}>MITOSIS LAB LTD.</span>
+                <div style={{ height: "2px", width: "100%", background: "linear-gradient(90deg, #0073e6, var(--color-brand-green))", borderRadius: "2px", margin: "0.15rem 0" }} />
                 <span style={{
                   fontFamily: "var(--font-ui)",
-                  fontWeight: 600,
-                  fontSize: "0.6rem",
-                  color: "rgba(255,255,255,0.5)",
-                  letterSpacing: "0.2em",
+                  fontWeight: 700,
+                  fontSize: "0.75rem",
+                  color: "#9ca3af",
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   lineHeight: 1,
                 }}>Precision Diagnostics</span>
               </div>
             </div>
-            <p style={{ fontSize: "0.875rem", lineHeight: 1.75, color: "#8da0b3", marginBottom: "1.5rem" }}>
+            <p className="footer-brand-desc" style={{ fontSize: "0.875rem", lineHeight: 1.75, color: "#8da0b3", marginBottom: "1.5rem" }}>
               A private diagnostic center in Uttar Badda, Dhaka, serving the community with world-class medical diagnostics and compassionate care — 24 hours a day.
             </p>
             <div style={{ display: "flex", gap: "0.75rem" }}>
             {[
-              { Icon: Camera, href: "https://www.instagram.com/mitosislabltd/" },
-              { Icon: Share2, href: "#" }
-            ].map(({ Icon, href }, i) => (
-                <a key={i} href={href} target={href !== "#" ? "_blank" : undefined} rel={href !== "#" ? "noopener noreferrer" : undefined} style={{ width: "2.25rem", height: "2.25rem", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", display: "flex", alignItems: "center", justifyContent: "center", color: "#8da0b3", transition: "all 250ms ease", textDecoration: "none", minHeight: "unset", cursor: "pointer" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.12)"; (e.currentTarget as HTMLElement).style.border = "1px solid var(--color-brand-green)"; (e.currentTarget as HTMLElement).style.transform = "scale(1.1)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.border = "1px solid rgba(255,255,255,0.10)"; (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}>
-                  <Icon size={16} />
-                </a>
-              ))}
+              {
+                icon: (
+                  <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Instagram">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                ),
+                href: "https://www.instagram.com/mitosislabltd/",
+                label: "Instagram",
+              },
+              { icon: <Share2 size={16} />, href: "#", label: "Share" },
+            ].map(({ icon, href, label }, i) => (
+              <a key={i} href={href} aria-label={label} target={href !== "#" ? "_blank" : undefined} rel={href !== "#" ? "noopener noreferrer" : undefined} style={{ width: "2.25rem", height: "2.25rem", borderRadius: "50%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", display: "flex", alignItems: "center", justifyContent: "center", color: "#8da0b3", transition: "all 250ms ease", textDecoration: "none", minHeight: "unset", cursor: "pointer" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.12)"; (e.currentTarget as HTMLElement).style.border = "1px solid var(--color-brand-green)"; (e.currentTarget as HTMLElement).style.transform = "scale(1.1)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.border = "1px solid rgba(255,255,255,0.10)"; (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}>
+                {icon}
+              </a>
+            ))}
             </div>
           </div>
 
@@ -145,7 +155,7 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="footer-contact-col">
             <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Contact Us</h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[
@@ -208,7 +218,7 @@ export default function Footer() {
           padding: "0.75rem 0",
           marginTop: "0",
         }}>
-          <div className="container" style={{
+          <div className="container footer-badges-row" style={{
             display: "flex",
             alignItems: "center",
             gap: "0.75rem",
@@ -252,9 +262,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "1.5rem", display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "space-between", alignItems: "center" }}>
+        <div className="footer-bottom-bar" style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "1.5rem", display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "space-between", alignItems: "center" }}>
           <p style={{ color: "#5a7a99", fontSize: "0.85rem", flex: "1 1 auto" }}>
-            © 2026 Mitosis Lab Ltd. All rights reserved. | Registered in Bangladesh
+            © 2026 Mitosis Lab Ltd.<span className="footer-copyright-full"> All rights reserved. | Registered in Bangladesh</span>
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem 1.5rem" }}>
             {["Privacy Policy", "Terms of Service", "Accessibility"].map((t) => (

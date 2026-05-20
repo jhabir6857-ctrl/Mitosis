@@ -125,12 +125,13 @@ export default function Navigation() {
     >
       {/* ── TOP BAR ─────────────────────────────────────────────── */}
       <div
+        className={`nav-topbar ${scrolled ? 'topbar-scrolled' : ''}`}
         style={{
           background: "linear-gradient(90deg, #0a1e3d 0%, var(--color-primary) 100%)",
           color: "white",
           fontSize: "0.72rem",
-          padding: "0.25rem 0",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          transition: "all 300ms ease",
+          overflow: "hidden",
         }}
       >
         <div
@@ -145,9 +146,6 @@ export default function Navigation() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.3rem",
                 color: "rgba(255,255,255,0.9)",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
@@ -155,7 +153,7 @@ export default function Navigation() {
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.9)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
-              className="hidden md:flex"
+              className="hidden md:flex items-center gap-1"
               title="View Mitosis Lab Ltd on Google Maps"
             >
               <MapPin size={11} style={{ flexShrink: 0 }} />
@@ -168,6 +166,7 @@ export default function Navigation() {
             {/* Phone — always visible */}
             <a
               href="tel:+8801898806050"
+              className="nav-topbar-phone"
               style={{
                 color: "white",
                 textDecoration: "none",
@@ -212,6 +211,7 @@ export default function Navigation() {
           {/* Right — Language button */}
           <button
             onClick={() => setShowToast(true)}
+            className="nav-topbar-lang"
             style={{
               background: "rgba(255,255,255,0.15)",
               border: "1px solid rgba(255,255,255,0.35)",
@@ -677,6 +677,31 @@ export default function Navigation() {
             </Link>
           </div>
 
+          {/* Location */}
+          <div style={{ padding: "0.75rem 1.25rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            <a
+              href="https://www.google.com/maps/place/Mitosis+Lab+Ltd/@23.7987161,90.3519292,17z/data=!3m1!4b1!4m6!3m5!1s0x3755c100172e4cfd:0x6af678895c53a755!8m2!3d23.7987161!4d90.3519292!16s%2Fg%2F11wwgj972y"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)}
+              style={{ display: "flex", alignItems: "center", gap: "0.875rem", textDecoration: "none" }}
+            >
+              <div style={{
+                width: "2.25rem", height: "2.25rem", borderRadius: "50%",
+                background: "rgba(0,86,179,0.18)",
+                border: "1px solid rgba(0,86,179,0.35)",
+                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              }}>
+                <MapPin size={15} color="var(--color-secondary)" />
+              </div>
+              <div>
+                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, marginBottom: "0.1rem", fontFamily: "var(--font-ui)" }}>Our Location</div>
+                <div style={{ fontSize: "0.88rem", color: "white", fontWeight: 600, fontFamily: "var(--font-ui)" }}>Uttar Badda, Dhaka, Bangladesh</div>
+                <div style={{ fontSize: "0.72rem", color: "var(--color-brand-green)", fontWeight: 600, marginTop: "0.15rem", fontFamily: "var(--font-ui)" }}>Get Directions →</div>
+              </div>
+            </a>
+          </div>
+
           {/* Emergency CTA at bottom */}
           <div style={{ padding: "1rem 1.25rem 1.5rem" }}>
             <a
@@ -732,11 +757,57 @@ export default function Navigation() {
           from { opacity: 0; transform: translateX(-50%) translateY(20px); }
           to   { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
+        .nav-topbar {
+          max-height: 50px;
+          opacity: 1;
+          padding: 0.25rem 0;
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .topbar-scrolled {
+          max-height: 0 !important;
+          opacity: 0 !important;
+          padding: 0 !important;
+          border-bottom: 1px solid transparent !important;
+        }
         @media (max-width: 1024px) {
           .desktop-nav        { display: none !important; }
           .mobile-menu-btn    { display: flex !important; }
           .emergency-nav-btn  { display: none !important; }
           .desktop-login-btn  { display: none !important; }
+        }
+        @media (max-width: 767px) {
+          /* Restore topbar on mobile but make it very thin */
+          .nav-topbar { 
+            padding: 0 !important; 
+          }
+          .nav-topbar .container {
+            padding-top: 0.35rem;
+            padding-bottom: 0.35rem;
+            flex-wrap: nowrap !important;
+          }
+          .nav-topbar-phone {
+            font-size: 0.72rem !important;
+          }
+          .nav-topbar-lang {
+            padding: 0.2rem 0.6rem !important;
+            font-size: 0.68rem !important;
+          }
+        }
+        @media (max-width: 394px) {
+          /* Scale down slightly on very small screens to avoid wrapping */
+          .nav-topbar .container {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            gap: 0.25rem !important;
+          }
+          .nav-topbar-phone {
+            font-size: 0.68rem !important;
+            letter-spacing: -0.02em !important;
+          }
+          .nav-topbar-lang {
+            padding: 0.15rem 0.5rem !important;
+            font-size: 0.64rem !important;
+          }
         }
       `}</style>
     </header>
