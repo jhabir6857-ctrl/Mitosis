@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight } from "lucide-react";
@@ -83,6 +83,7 @@ export default function Navigation() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -255,13 +256,15 @@ export default function Navigation() {
                 fontFamily: "var(--font-heading)",
                 fontWeight: 900,
                 fontSize: "clamp(0.9rem, 2.5vw, 1.15rem)",
-                color: "var(--color-dark)",
-                letterSpacing: "0.1em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 lineHeight: 1,
+                display: "flex",
+                gap: "0.35rem",
               }}
             >
-              LAB LTD.
+              <span style={{ color: "var(--color-primary)" }}>MITOSIS</span>
+              <span style={{ color: "var(--color-dark)" }}>LAB LTD.</span>
             </span>
             <div
               style={{
@@ -294,8 +297,14 @@ export default function Navigation() {
             <div
               key={link.label}
               style={{ position: "relative" }}
-              onMouseEnter={() => link.children && setOpenDropdown(link.label)}
-              onMouseLeave={() => setOpenDropdown(null)}
+              onMouseEnter={() => {
+                if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                if (link.children) setOpenDropdown(link.label);
+                else setOpenDropdown(null);
+              }}
+              onMouseLeave={() => {
+                dropdownTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
+              }}
             >
               <Link
                 href={link.href}
@@ -330,6 +339,7 @@ export default function Navigation() {
               {/* Desktop Dropdown */}
               {link.children && openDropdown === link.label && (
                 <div
+                  onMouseEnter={() => setOpenDropdown(link.label)}
                   style={{
                     position: "absolute",
                     top: "calc(100% + 0.25rem)",
@@ -342,6 +352,8 @@ export default function Navigation() {
                     padding: "0.5rem",
                     zIndex: 100,
                     animation: "fadeInDown 150ms ease",
+                    marginTop: "-6px",
+                    paddingTop: "10px",
                   }}
                 >
                   {link.children

@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Shield, Activity } from "lucide-react";
+import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Activity, CalendarCheck, ChevronRight } from "lucide-react";
 import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
@@ -53,72 +55,84 @@ const stats = [
 export default function HomePage() {
   return (
     <div>
+      <style>{`
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
 
-      {/* ======= HERO SLIDER ======= */}
-      <HeroSlider />
+      {/* ======= HERO SLIDER & QUICK ACTION TILES ======= */}
+      <div style={{ position: "relative" }}>
+        <HeroSlider />
 
-      {/* ======= QUICK ACTION TILES — overlap the hero bottom edge ======= */}
-      <section className="qab-section">
-        <div className="container">
-          <div className="qab-grid">
-            {[
-              {
-                icon: Search,
-                title: "Find a Doctor",
-                desc: "Search 50+ specialists across all departments",
-                href: "/doctors",
-                color: "#006BB6",
-                bg: "rgba(0,107,182,0.08)",
-                id: "qab-find-doctor",
-              },
-              {
-                icon: Calendar,
-                title: "Book Appointment",
-                desc: "Home collection & walk-in, same day",
-                href: "/appointment",
-                color: "#3CA544",
-                bg: "rgba(60,165,68,0.08)",
-                id: "qab-book-appointment",
-              },
-              {
-                icon: Download,
-                title: "Download Reports",
-                desc: "Instant, secure access to your results",
-                href: "/portal/login",
-                color: "#7c3aed",
-                bg: "rgba(124,58,237,0.08)",
-                id: "qab-download-reports",
-              },
-              {
-                icon: Activity,
-                title: "MRD Services",
-                desc: "Medical records & digital report access",
-                href: "/mrd-services",
-                color: "#dc2626",
-                bg: "rgba(220,38,38,0.08)",
-                id: "qab-mrd-service",
-              },
-            ].map(({ icon: Icon, title, desc, href, color, bg, id }) => (
-              <Link key={id} id={id} href={href} className="qab-tile"
-                style={{ "--tile-color": color, "--tile-bg": bg } as React.CSSProperties}>
-                {/* Colored top accent bar */}
-                <div className="qab-tile-top-bar" style={{ background: color }} />
-                {/* Icon circle */}
-                <div className="qab-tile-icon-wrap" style={{ background: bg }}>
-                  <Icon size={30} color={color} strokeWidth={1.75} />
-                </div>
-                <div className="qab-tile-body">
-                  <span className="qab-tile-title">{title}</span>
-                  <span className="qab-tile-desc">{desc}</span>
-                </div>
-                <div className="qab-tile-arrow" style={{ color }}>
-                  <ArrowRight size={20} />
-                </div>
-              </Link>
-            ))}
+        {/* QAB Tiles — absolutely positioned inside the relative wrapper */}
+        <section className="qab-section">
+          <div className="container">
+            <div className="qab-grid">
+              {[
+                {
+                  icon: Search,
+                  title: "Find a Doctor",
+                  desc: "Search 50+ specialists across all departments",
+                  href: "/doctors",
+                  color: "#006BB6",
+                  bg: "rgba(0,107,182,0.08)",
+                  id: "qab-find-doctor",
+                },
+                {
+                  icon: Calendar,
+                  title: "Book Appointment",
+                  desc: "Home collection & walk-in, same day",
+                  href: "/appointment",
+                  color: "#3CA544",
+                  bg: "rgba(60,165,68,0.08)",
+                  id: "qab-book-appointment",
+                },
+                {
+                  icon: Download,
+                  title: "Download Reports",
+                  desc: "Instant, secure access to your results",
+                  href: "/portal/login",
+                  color: "#7c3aed",
+                  bg: "rgba(124,58,237,0.08)",
+                  id: "qab-download-reports",
+                },
+                {
+                  icon: Activity,
+                  title: "MRD Services",
+                  desc: "Medical records & digital report access",
+                  href: "/mrd-services",
+                  color: "#dc2626",
+                  bg: "rgba(220,38,38,0.08)",
+                  id: "qab-mrd-service",
+                },
+              ].map(({ icon: Icon, title, desc, href, color, bg, id }) => (
+                <Link key={id} id={id} href={href} className="qab-tile"
+                  style={{ "--tile-color": color, "--tile-bg": bg } as React.CSSProperties}>
+                  {/* Colored top accent bar */}
+                  <div className="qab-tile-top-bar" style={{ background: color }} />
+                  {/* Icon circle */}
+                  <div className="qab-tile-icon-wrap" style={{ background: bg }}>
+                    <Icon size={30} color={color} strokeWidth={1.75} />
+                  </div>
+                  <div className="qab-tile-body">
+                    <span className="qab-tile-title">{title}</span>
+                    <span className="qab-tile-desc">{desc}</span>
+                  </div>
+                  <div className="qab-tile-arrow" style={{ color }}>
+                    <ArrowRight size={20} />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* ======= STATS STRIP ======= */}
       <section className="stats-strip-section">
@@ -169,7 +183,7 @@ export default function HomePage() {
                 </span>
               </h2>
               <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(1rem, 3vw, 1.15rem)", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
-                From a simple blood test to a full-body MRI — we deliver world-class diagnostic accuracy with results you can access instantly, from anywhere.
+                Because your health decisions depend on accurate answers. We bring together advanced diagnostic technology and expert specialists to provide clear, reliable results you can trust.
               </p>
               <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                 <Link href="/appointment" className="btn-primary" style={{ fontSize: "1rem" }}>
@@ -181,60 +195,151 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: Action Card */}
+            {/* Right: Doctor Availability Card */}
             <div className="w-full md:w-1/2 flex justify-center md:justify-end">
               <div
-                className="card w-full max-w-md"
+                className="hidden md:block"
                 style={{
-                  padding: "2rem",
-                  background: "rgba(255,255,255,0.97)",
-                  backdropFilter: "blur(12px)",
-                  boxShadow: "0 24px 64px rgba(0,0,0,0.3)",
+                  background: "rgba(255,255,255,0.06)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: "1.25rem",
+                  padding: "1.5rem",
+                  width: "100%",
+                  maxWidth: "340px",
                 }}
               >
-                <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.35rem", fontWeight: 800, marginBottom: "0.5rem", color: "var(--color-text-primary)" }}>
-                  How can we help you today?
-                </h3>
-                <p style={{ color: "var(--color-text-secondary)", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-                  Choose what you need — we will guide you from here.
-                </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+
+                {/* Header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
+                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 6px #10b981", animation: "pulse-dot 2s ease-in-out infinite" }} />
+                      <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#10b981", textTransform: "uppercase", letterSpacing: "0.1em" }}>Live Availability</span>
+                    </div>
+                    <p style={{ fontSize: "1rem", fontWeight: 700, color: "white", margin: 0 }}>Available Today</p>
+                  </div>
+                  <Link href="/doctors" style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", border: "0.5px solid rgba(255,255,255,0.15)", padding: "0.3rem 0.65rem", borderRadius: "2rem" }}>
+                    View all
+                  </Link>
+                </div>
+
+                {/* Doctor cards */}
+                {[
+                  { name: "Dr. Kaiser Ahmed", spec: "Cardiology · FCPS", status: "Available Now", statusColor: "#10b981", initial: "KA", gradient: "linear-gradient(135deg, #0ea5e9, #10b981)", delay: "0s" },
+                  { name: "Dr. Farida Khanam", spec: "Gynecology · FCPS", status: "Next slot: 2:00 PM", statusColor: "#f59e0b", initial: "FK", gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", delay: "0.1s" },
+                  { name: "Dr. Nasrin Akter", spec: "Pediatrics · MD", status: "Available Now", statusColor: "#10b981", initial: "NA", gradient: "linear-gradient(135deg, #f59e0b, #ef4444)", delay: "0.2s" },
+                ].map((doc, i) => (
+                  <div key={i} style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    padding: "0.75rem",
+                    borderRadius: "0.85rem",
+                    background: "rgba(255,255,255,0.05)",
+                    border: "0.5px solid rgba(255,255,255,0.08)",
+                    marginBottom: "0.6rem",
+                    transition: "all 250ms ease",
+                    animation: `fadeSlideIn 500ms ease ${doc.delay} both`,
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.10)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
+                  }}
+                  >
+                    {/* Avatar */}
+                    <div style={{
+                      width: "2.75rem",
+                      height: "2.75rem",
+                      borderRadius: "50%",
+                      background: doc.gradient,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      color: "white",
+                      flexShrink: 0,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                    }}>
+                      {doc.initial}
+                    </div>
+
+                    {/* Info */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: "0.85rem", fontWeight: 700, color: "white", margin: "0 0 0.1rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{doc.name}</p>
+                      <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", margin: "0 0 0.25rem" }}>{doc.spec}</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: doc.statusColor, flexShrink: 0 }} />
+                        <span style={{ fontSize: "0.7rem", fontWeight: 600, color: doc.statusColor }}>{doc.status}</span>
+                      </div>
+                    </div>
+
+                    {/* Book arrow */}
+                    <div style={{
+                      width: "1.75rem",
+                      height: "1.75rem",
+                      borderRadius: "50%",
+                      background: "rgba(255,255,255,0.08)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}>
+                      <ChevronRight size={14} color="rgba(255,255,255,0.6)" />
+                    </div>
+                  </div>
+                ))}
+
+                {/* Divider */}
+                <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "0.75rem 0" }} />
+
+                {/* Stats row */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem", marginBottom: "1rem" }}>
                   {[
-                    { icon: Search, title: "Find a Test or Doctor", desc: "Search 200+ tests & 50+ specialists", href: "/doctors", color: "var(--color-primary)" },
-                    { icon: Calendar, title: "Book Home Sample Collection", desc: "We come to you — free pickup in Dhaka", href: "/appointment?type=home", color: "var(--color-secondary)" },
-                    { icon: Download, title: "Download Lab Reports", desc: "Securely access your test results", href: "/portal/login", color: "#9333ea" },
-                  ].map(({ icon: Icon, title, desc, href, color }) => (
-                    <Link
-                      key={title}
-                      href={href}
-                      className="card"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1rem",
-                        padding: "1.1rem 1.25rem",
-                        textDecoration: "none",
-                        border: `2px solid var(--color-surface-border)`,
-                        minHeight: "56px",
-                      }}
-                    >
-                      <div style={{ width: "2.75rem", height: "2.75rem", borderRadius: "var(--radius-lg)", background: `${color}18`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <Icon size={20} color={color} />
-                      </div>
-                      <div>
-                        <div style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "1rem", color: "var(--color-text-primary)" }}>{title}</div>
-                        <div style={{ fontSize: "0.82rem", color: "var(--color-text-secondary)" }}>{desc}</div>
-                      </div>
-                      <ArrowRight size={16} color="var(--color-text-muted)" style={{ marginLeft: "auto", flexShrink: 0 }} />
-                    </Link>
+                    { value: "50+", label: "Doctors" },
+                    { value: "8", label: "Depts" },
+                    { value: "4.8★", label: "Rating" },
+                  ].map((s, i) => (
+                    <div key={i} style={{
+                      background: "rgba(255,255,255,0.05)",
+                      borderRadius: "0.65rem",
+                      padding: "0.5rem",
+                      textAlign: "center",
+                    }}>
+                      <div style={{ fontSize: "0.9rem", fontWeight: 800, color: "white" }}>{s.value}</div>
+                      <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.45)", marginTop: "0.1rem" }}>{s.label}</div>
+                    </div>
                   ))}
                 </div>
-                <div style={{ marginTop: "1.25rem", padding: "0.875rem 1rem", borderRadius: "var(--radius-lg)", background: "var(--color-surface-alt)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <Shield size={18} color="var(--color-success)" />
-                  <span style={{ fontSize: "0.82rem", color: "var(--color-text-secondary)" }}>
-                    <strong style={{ color: "var(--color-text-primary)" }}>SSL Secured</strong> — Your health data is always encrypted and private.
-                  </span>
-                </div>
+
+                {/* CTA Button */}
+                <Link href="/appointment" style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  width: "100%",
+                  padding: "0.85rem",
+                  background: "var(--color-primary)",
+                  color: "white",
+                  borderRadius: "0.85rem",
+                  fontWeight: 700,
+                  fontSize: "0.9rem",
+                  textDecoration: "none",
+                  boxSizing: "border-box",
+                  boxShadow: "0 4px 20px rgba(0, 107, 182, 0.4)",
+                  transition: "all 250ms ease",
+                }}>
+                  <CalendarCheck size={16} />
+                  Book an Appointment
+                </Link>
               </div>
             </div>
           </div>

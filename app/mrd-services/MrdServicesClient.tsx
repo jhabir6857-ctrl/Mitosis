@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, AlertCircle, Upload } from "lucide-react";
-import ParallaxBanner from "@/components/ParallaxBanner";
 
 export default function MrdServicesClient() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -37,12 +36,232 @@ export default function MrdServicesClient() {
 
   return (
     <div>
-      {/* ── HERO SECTION ──────────────────────────────────── */}
-      <ParallaxBanner
-        title="Official Medical Records Services"
-        subtitle="Request certified copies of your complete medical history for visa applications, insurance claims, and hospital transfers."
-        imageSrc="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=2000&auto=format&fit=crop"
-      />
+      {/* ── NEW COMBINED HERO + PARALLAX SECTION ──────────────────────────────────── */}
+      <section style={{
+        position: "relative",
+        backgroundImage: "url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80')",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "7rem 0 5rem",
+        overflow: "hidden",
+        minHeight: "85vh",
+        display: "flex",
+        alignItems: "center",
+      }}>
+        {/* Dark overlay */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(135deg, rgba(10,30,61,0.93) 0%, rgba(0,100,60,0.80) 100%)",
+          zIndex: 0,
+        }} />
+        {/* Grid texture */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          zIndex: 1,
+        }} />
+
+        <div className="container" style={{ position: "relative", zIndex: 2, width: "100%" }}>
+          <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+
+            {/* Badge */}
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "var(--color-brand-green)",
+              background: "rgba(16,185,129,0.12)",
+              border: "1px solid rgba(16,185,129,0.25)",
+              padding: "0.35rem 0.9rem",
+              borderRadius: "2rem",
+              marginBottom: "1.5rem",
+            }}>
+              🏥 Medical Records Department
+            </span>
+
+            {/* H1 */}
+            <h1 style={{
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              fontWeight: 900,
+              color: "white",
+              lineHeight: 1.15,
+              marginBottom: "1.25rem",
+              fontFamily: "var(--font-heading)",
+            }}>
+              Official Medical<br />
+              <span style={{ color: "var(--color-brand-green)" }}>Records Services</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p style={{
+              fontSize: "1.05rem",
+              color: "rgba(255,255,255,0.7)",
+              maxWidth: "520px",
+              margin: "0 auto 2.5rem",
+              lineHeight: 1.75,
+            }}>
+              Request certified copies of your complete medical history for visa applications, insurance claims, and hospital transfers.
+            </p>
+
+            {/* CTA Buttons */}
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "3.5rem" }}>
+              <a href="#request-form" style={{
+                display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                padding: "0.9rem 2rem", background: "var(--color-primary)",
+                color: "white", borderRadius: "var(--radius-lg)", fontWeight: 700,
+                fontSize: "0.95rem", textDecoration: "none",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+                transition: "all 250ms ease",
+              }}>
+                Request Online →
+              </a>
+              <a href="tel:+8801898806050" style={{
+                display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                padding: "0.9rem 2rem", background: "rgba(255,255,255,0.08)",
+                color: "white", borderRadius: "var(--radius-lg)", fontWeight: 700,
+                fontSize: "0.95rem", textDecoration: "none",
+                border: "1px solid rgba(255,255,255,0.2)",
+                transition: "all 250ms ease",
+              }}>
+                📞 Call Us
+              </a>
+            </div>
+
+            {/* 4 Stat Cards */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+              gap: "1rem",
+            }}>
+              {[
+                { value: "500+", label: "Records Processed", icon: "📋" },
+                { value: "24hr", label: "Urgent Turnaround", icon: "⏱️" },
+                { value: "100%", label: "Confidential", icon: "🔒" },
+                { value: "ISO", label: "Certified Process", icon: "✅" },
+              ].map((s, i) => (
+                <div key={i} style={{
+                  background: "rgba(255,255,255,0.07)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: "1rem",
+                  padding: "1.25rem 0.75rem",
+                  textAlign: "center",
+                }}>
+                  <div style={{ fontSize: "1.5rem", marginBottom: "0.4rem" }}>{s.icon}</div>
+                  <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "white", lineHeight: 1 }}>{s.value}</div>
+                  <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.5)", marginTop: "0.3rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROCESSING TIME & FEES TABLE ──────────────────────────────────── */}
+      <section style={{ background: "var(--color-surface)", padding: "4rem 1rem" }}>
+        <div className="container">
+          <h2
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: "clamp(1.75rem, 4vw, 2.25rem)",
+              fontWeight: 800,
+              marginBottom: "3rem",
+              textAlign: "center",
+            }}
+          >
+            Processing Time & Fees
+          </h2>
+          <div style={{ overflowX: "auto", marginBottom: "1.5rem" }}>
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                border: "1px solid rgba(0,0,0,0.08)",
+              }}
+            >
+              <thead>
+                <tr style={{ background: "var(--color-primary)", color: "white" }}>
+                  <th
+                    style={{
+                      padding: "1rem",
+                      textAlign: "left",
+                      fontWeight: 700,
+                      fontSize: "0.95rem",
+                    }}
+                  >
+                    Service Type
+                  </th>
+                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
+                    Processing Time
+                  </th>
+                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
+                    Fee
+                  </th>
+                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
+                    Notes
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    service: "Standard Request",
+                    time: "3–5 Business Days",
+                    fee: "৳ 500",
+                    notes: "Printed & stamped copy",
+                    highlight: false,
+                  },
+                  {
+                    service: "Urgent Request",
+                    time: "24 Hours",
+                    fee: "৳ 1,200",
+                    notes: "Subject to availability",
+                    highlight: true,
+                  },
+                  {
+                    service: "Digital Copy (PDF)",
+                    time: "Same Day",
+                    fee: "৳ 300",
+                    notes: "Sent via email",
+                    highlight: false,
+                  },
+                  {
+                    service: "Complete History",
+                    time: "5–7 Business Days",
+                    fee: "৳ 1,500",
+                    notes: "All records since registration",
+                    highlight: false,
+                  },
+                ].map((row, i) => (
+                  <tr
+                    key={i}
+                    style={{
+                      background: i % 2 === 0 ? "rgba(0,0,0,0.02)" : "white",
+                      borderBottom: "1px solid rgba(0,0,0,0.08)",
+                      borderLeft: row.highlight ? "4px solid #fbbf24" : "none",
+                    }}
+                  >
+                    <td style={{ padding: "1rem", fontWeight: 600 }}>{row.service}</td>
+                    <td style={{ padding: "1rem" }}>{row.time}</td>
+                    <td style={{ padding: "1rem", fontWeight: 700 }}>{row.fee}</td>
+                    <td style={{ padding: "1rem", color: "#64748b", fontSize: "0.9rem" }}>{row.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p style={{ fontSize: "0.85rem", color: "#64748b" }}>
+            * Fees are subject to change. Additional printing charges may apply for records exceeding 50 pages.
+          </p>
+        </div>
+      </section>
 
       {/* ── WHO NEEDS THIS ──────────────────────────────────── */}
       <section style={{ background: "var(--color-surface)", padding: "4rem 1rem" }}>
@@ -209,105 +428,6 @@ export default function MrdServicesClient() {
               <strong>Incomplete documents will result in delayed processing.</strong> Please verify all requirements before visiting.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* ── PROCESSING TIME & FEES TABLE ──────────────────────────────────── */}
-      <section style={{ background: "var(--color-surface)", padding: "4rem 1rem" }}>
-        <div className="container">
-          <h2
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontSize: "clamp(1.75rem, 4vw, 2.25rem)",
-              fontWeight: 800,
-              marginBottom: "3rem",
-              textAlign: "center",
-            }}
-          >
-            Processing Time & Fees
-          </h2>
-          <div style={{ overflowX: "auto", marginBottom: "1.5rem" }}>
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                border: "1px solid rgba(0,0,0,0.08)",
-              }}
-            >
-              <thead>
-                <tr style={{ background: "var(--color-primary)", color: "white" }}>
-                  <th
-                    style={{
-                      padding: "1rem",
-                      textAlign: "left",
-                      fontWeight: 700,
-                      fontSize: "0.95rem",
-                    }}
-                  >
-                    Service Type
-                  </th>
-                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
-                    Processing Time
-                  </th>
-                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
-                    Fee
-                  </th>
-                  <th style={{ padding: "1rem", textAlign: "left", fontWeight: 700, fontSize: "0.95rem" }}>
-                    Notes
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  {
-                    service: "Standard Request",
-                    time: "3–5 Business Days",
-                    fee: "৳ 500",
-                    notes: "Printed & stamped copy",
-                    highlight: false,
-                  },
-                  {
-                    service: "Urgent Request",
-                    time: "24 Hours",
-                    fee: "৳ 1,200",
-                    notes: "Subject to availability",
-                    highlight: true,
-                  },
-                  {
-                    service: "Digital Copy (PDF)",
-                    time: "Same Day",
-                    fee: "৳ 300",
-                    notes: "Sent via email",
-                    highlight: false,
-                  },
-                  {
-                    service: "Complete History",
-                    time: "5–7 Business Days",
-                    fee: "৳ 1,500",
-                    notes: "All records since registration",
-                    highlight: false,
-                  },
-                ].map((row, i) => (
-                  <tr
-                    key={i}
-                    style={{
-                      background: i % 2 === 0 ? "rgba(0,0,0,0.02)" : "white",
-                      borderBottom: "1px solid rgba(0,0,0,0.08)",
-                      borderLeft: row.highlight ? "4px solid #fbbf24" : "none",
-                    }}
-                  >
-                    <td style={{ padding: "1rem", fontWeight: 600 }}>{row.service}</td>
-                    <td style={{ padding: "1rem" }}>{row.time}</td>
-                    <td style={{ padding: "1rem", fontWeight: 700 }}>{row.fee}</td>
-                    <td style={{ padding: "1rem", color: "#64748b", fontSize: "0.9rem" }}>{row.notes}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p style={{ fontSize: "0.85rem", color: "#64748b" }}>
-            * Fees are subject to change. Additional printing charges may apply for records exceeding 50 pages.
-          </p>
         </div>
       </section>
 

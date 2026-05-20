@@ -13,8 +13,14 @@ const stats = [
 export default function ParallaxStats() {
   const [isMobile, setIsMobile] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [counts, setCounts] = useState([0, 0, 0, 0]);
+  const [mounted, setMounted] = useState(false);
+  const [counts, setCounts] = useState([50000, 15, 200, 24]);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Hydration fix: ensure component is mounted before running IntersectionObserver
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Mobile detection
   useEffect(() => {
@@ -26,6 +32,7 @@ export default function ParallaxStats() {
 
   // Intersection observer for count-up animation
   useEffect(() => {
+    if (!mounted) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
@@ -65,7 +72,7 @@ export default function ParallaxStats() {
     return () => {
       observer.disconnect();
     };
-  }, [hasAnimated]);
+  }, [hasAnimated, mounted]);
 
   return (
     <section
@@ -74,12 +81,24 @@ export default function ParallaxStats() {
         position: "relative",
         backgroundImage: "url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&q=80')",
         backgroundAttachment: isMobile ? "scroll" : "fixed",
+        WebkitBackgroundAttachment: isMobile ? "scroll" : "fixed",
+        imageRendering: "auto",
         backgroundSize: "cover",
         backgroundPosition: "center",
         overflow: "hidden",
         padding: "5rem 0",
+        transform: "translateZ(0)",
+        willChange: "transform",
+        WebkitTransform: "translateZ(0)",
       }}
     >
+      <style>{`
+        @keyframes popIn {
+          0% { opacity: 0; transform: translateY(15px); }
+          60% { opacity: 1; transform: translateY(-3px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
       {/* Gradient overlay */}
       <div
         style={{
@@ -102,7 +121,7 @@ export default function ParallaxStats() {
       />
 
       {/* Content container */}
-      <div className="container" style={{ position: "relative", zIndex: 2 }}>
+      <div className="container" style={{ position: "relative", zIndex: 2, backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", perspective: 1000 }}>
         {/* Section title */}
         <div
           style={{
@@ -150,70 +169,74 @@ export default function ParallaxStats() {
             return (
               <div key={index} style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
                 {/* Stat Card */}
-                <div
-                  style={{
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0",
+                  position: "relative",
+                  zIndex: 2,
+                  width: "100%",
+                }}>
+                  {/* Icon circle — fully isolated, no animation at all */}
+                  <div style={{
+                    width: "5rem",
+                    height: "5rem",
+                    borderRadius: "50%",
+                    background: `${stat.color}25`,
+                    border: `2px solid ${stat.color}60`,
+                    boxShadow: `0 0 30px ${stat.color}50`,
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
-                    gap: "0.75rem",
-                    padding: "1.5rem",
-                    position: "relative",
-                    zIndex: 2,
-                    flex: 1,
-                  }}
-                >
-                  {/* Glowing icon circle */}
-                  <div
-                    style={{
-                      width: "5rem",
-                      height: "5rem",
-                      borderRadius: "50%",
-                      background: `${stat.color}25`,
-                      border: `2px solid ${stat.color}60`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: stat.color,
-                      boxShadow: `0 0 20px ${stat.color}40, 0 0 40px ${stat.color}30, 0 0 60px ${stat.color}20, inset 0 0 20px ${stat.color}15`,
-                    }}
-                  >
+                    justifyContent: "center",
+                    color: stat.color,
+                    marginBottom: "1rem",
+                    flexShrink: 0,
+                    animation: "none",
+                    transform: "none",
+                    willChange: "auto",
+                  }}>
                     <IconComponent size={28} />
                   </div>
 
-                  {/* Count-up number */}
-                  <div
-                    style={{
-                      fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                      fontWeight: 900,
-                      color: "white",
-                      fontFamily: "var(--font-heading)",
-                      lineHeight: 1,
-                      letterSpacing: "-0.02em",
-                    }}
-                  >
-                    {counts[index].toLocaleString()}
-                    {stat.suffix}
+                  {/* ANIMATED ROW — only number animates */}
+                  <div style={{
+                    display: "inline-block",
+                    fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                    fontWeight: 900,
+                    color: "white",
+                    fontFamily: "var(--font-heading)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.02em",
+                    animationName: mounted && hasAnimated ? "popIn" : "none",
+                    animationDuration: "400ms",
+                    animationTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    animationDelay: `${index * 80}ms`,
+                    animationFillMode: "both",
+                  }}>
+                    {mounted ? counts[index].toLocaleString() : stat.value.toLocaleString()}{stat.suffix}
                   </div>
 
-                  {/* Glowing line under number */}
+                  {/* Colored line — static */}
                   <div style={{
                     width: "2rem",
                     height: "2px",
                     background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)`,
                     borderRadius: "1px",
+                    margin: "0.5rem 0",
+                    animation: "none",
                   }} />
 
-                  {/* Label */}
-                  <div
-                    style={{
-                      fontSize: "0.875rem",
-                      fontWeight: 600,
-                      color: "rgba(255,255,255,0.75)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      textAlign: "center",
-                    }}
-                  >
+                  {/* Label — static */}
+                  <div style={{
+                    fontSize: "0.875rem",
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.75)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                    textAlign: "center",
+                    animation: "none",
+                  }}>
                     {stat.label}
                   </div>
                 </div>

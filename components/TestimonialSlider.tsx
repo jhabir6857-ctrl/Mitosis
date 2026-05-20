@@ -18,7 +18,7 @@ const testimonials = [
   },
   {
     name: "Rashida Begum",
-    location: "Mirpur",
+    location: "Uttar Badda",
     rating: 5,
     text: "As an elderly patient, I was nervous about using an online portal. The staff helped me step by step. Now I download my reports myself. Very easy and secure.",
   },
@@ -30,15 +30,15 @@ const testimonials = [
   },
   {
     name: "Fatema Khatun",
-    location: "Mirpur-10",
+    location: "Badda",
     rating: 5,
     text: "Wonderful service! The lab is very clean and the technicians are gentle and professional. I booked my home sample collection in just 2 minutes. Will come back!",
   },
   {
     name: "Shahinur Rahman",
-    location: "Kazipara",
+    location: "Khilgaon",
     rating: 5,
-    text: "Best diagnostic center in Mirpur. Reports are accurate, staff is polite, and the waiting time is minimal. They truly care about patients. Five stars!",
+    text: "Best diagnostic center in Uttar Badda. Reports are accurate, staff is polite, and the waiting time is minimal. They truly care about patients. Five stars!",
   },
 ];
 
