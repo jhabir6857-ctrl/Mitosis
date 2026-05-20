@@ -93,8 +93,27 @@ export default function Navigation() {
   };
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          const goingDown = y > lastY;
+          setScrolled((prev) => {
+            if (!prev && goingDown && y > 120) return true;
+            if (prev && !goingDown && y < 20) return false;
+            return prev;
+          });
+          lastY = y;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -121,6 +140,8 @@ export default function Navigation() {
         backgroundColor: "var(--color-surface)",
         boxShadow: scrolled ? "var(--shadow-nav)" : "none",
         transition: "box-shadow 200ms ease",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
       }}
     >
       {/* ── TOP BAR ─────────────────────────────────────────────── */}
@@ -762,6 +783,10 @@ export default function Navigation() {
           opacity: 1;
           padding: 0.25rem 0;
           border-bottom: 1px solid rgba(255,255,255,0.08);
+          transition: max-height 300ms ease, opacity 300ms ease, padding 300ms ease, border-color 300ms ease;
+          will-change: max-height, opacity;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
         .topbar-scrolled {
           max-height: 0 !important;
