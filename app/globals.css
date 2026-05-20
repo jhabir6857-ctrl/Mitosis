@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
@@ -500,3 +500,674 @@ button, a, [role="button"] {
     padding: 3.5rem 0;
   }
 }
+
+/* ============================================================
+   HERO IMAGE SECTION
+   Full-bleed background image · text anchored center-left
+   Tiles from the next section overlap the bottom edge.
+   ============================================================ */
+
+.hero-image-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 200px); /* tiles visible, stats hidden on load */
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.hero-image-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Strong left gradient so white text is always legible */
+.hero-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(8, 18, 44, 0.93) 0%,
+    rgba(8, 18, 44, 0.80) 38%,
+    rgba(8, 18, 44, 0.22) 65%,
+    rgba(8, 18, 44, 0.00) 100%
+  );
+  z-index: 1;
+}
+
+/* Bottom vignette only — softens edge before tiles overlap */
+.hero-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(8, 18, 44, 0.35) 100%
+  );
+  z-index: 2;
+}
+
+/* Ambient blue radial tint — brand presence */
+.hero-overlay-ambient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 12% 55%,
+    rgba(0, 107, 182, 0.20) 0%,
+    transparent 58%
+  );
+  z-index: 1;
+}
+
+/* ---- HERO TEXT CONTENT ----
+   Absolutely positioned, vertically centered in the hero.
+   Bottom padding leaves visual breathing room above the tiles.
+*/
+.hero-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;        /* center vertically */
+  padding-top: 5.5rem;            /* clear navbar */
+  padding-bottom: 7rem;           /* visual room above tile overlap */
+}
+
+/* Live badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1.1rem;
+  border-radius: var(--radius-full);
+  background: rgba(60, 165, 68, 0.18);
+  border: 1px solid rgba(60, 165, 68, 0.45);
+  color: #6ee87a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+  animation: heroFadeUp 0.55s ease both;
+}
+
+/* Main headline */
+.hero-headline {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.75rem);
+  line-height: 1.04;
+  color: white;
+  margin-bottom: 1.25rem;
+  max-width: 620px;
+  animation: heroFadeUp 0.65s 0.08s ease both;
+}
+
+.hero-headline-line2 {
+  display: block;
+}
+
+.hero-headline-accent {
+  display: block;
+  font-size: 90%;
+  background: linear-gradient(90deg, #3CA544 0%, #48e8e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtext */
+.hero-subtext {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(1rem, 2.2vw, 1.175rem);
+  line-height: 1.78;
+  max-width: 500px;
+  margin-bottom: 2.5rem;
+  animation: heroFadeUp 0.65s 0.17s ease both;
+}
+
+/* CTA row */
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  animation: heroFadeUp 0.65s 0.26s ease both;
+}
+
+.hero-cta-primary {
+  font-size: 1rem;
+  padding: 0.9rem 2.25rem;
+  box-shadow: 0 8px 30px rgba(0, 107, 182, 0.55);
+}
+
+.hero-cta-secondary {
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.06) !important;
+}
+.hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   QUICK ACTION TILES (QAB)
+   BSH-inspired: sits immediately below the hero.
+   Negative margin-top pulls the tiles UP, overlapping the
+   bottom edge of the hero image.
+   ============================================================ */
+
+.qab-section {
+  position: relative;
+  z-index: 30;
+  margin-top: -120px;     /* pull tiles well up into the hero bottom */
+  padding-bottom: 0;
+}
+
+/* The 4-tile unified bar */
+.qab-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow:
+    0 24px 72px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Individual tile */
+.qab-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 2rem 1.625rem 1.875rem;
+  text-decoration: none;
+  border-right: 1px solid #e9ecef;
+  background: white;
+  transition:
+    background 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+  overflow: hidden;
+  min-height: 48px;
+}
+
+.qab-tile:last-child {
+  border-right: none;
+}
+
+.qab-tile:hover {
+  background: #f8f9ff;
+  transform: translateY(-4px);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.06) inset;
+  z-index: 2;
+}
+
+/* Colored accent bar at top of each tile */
+.qab-tile-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 18px 18px 0 0;
+  transition: height 220ms ease;
+}
+
+.qab-tile:hover .qab-tile-top-bar {
+  height: 5px;
+}
+
+/* Rounded icon wrapper */
+.qab-tile-icon-wrap {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--transition-bounce), border-radius 220ms ease;
+}
+
+.qab-tile:hover .qab-tile-icon-wrap {
+  transform: scale(1.12) rotate(-6deg);
+  border-radius: 18px;
+}
+
+/* Text block */
+.qab-tile-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.qab-tile-title {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 1.0rem;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.qab-tile-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* Arrow */
+.qab-tile-arrow {
+  opacity: 0.45;
+  transition: opacity 200ms ease, transform 200ms ease;
+  margin-top: auto;
+}
+
+.qab-tile:hover .qab-tile-arrow {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+/* ============================================================
+   STATS STRIP
+   Clean row of 4 key metrics below the QAB tiles.
+   ============================================================ */
+
+.stats-strip-section {
+  background: white;
+  border-bottom: 1px solid var(--color-surface-border);
+  padding: 0;
+}
+
+.stats-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.stats-strip-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 2.25rem 1rem;
+  text-align: center;
+  border-right: 1px solid var(--color-surface-border);
+  position: relative;
+  transition: background 200ms ease;
+}
+
+.stats-strip-item:last-child {
+  border-right: none;
+}
+
+.stats-strip-item:hover {
+  background: var(--color-surface-alt);
+}
+
+/* Faint vertical separator accent on hover */
+.stats-strip-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transform: scaleX(0);
+  transition: transform 250ms ease;
+}
+
+.stats-strip-item:hover::after {
+  transform: scaleX(1);
+}
+
+.stats-strip-icon-wrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-xl);
+  background: var(--color-brand-blue-08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+  transition: transform var(--transition-bounce);
+}
+
+.stats-strip-item:hover .stats-strip-icon-wrap {
+  transform: scale(1.15);
+}
+
+.stats-strip-value {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 1.75rem;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.stats-strip-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet: 2 × 2 grid for tiles & stats */
+@media (max-width: 900px) {
+  .qab-grid {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 14px;
+  }
+
+  .qab-section {
+    margin-top: -96px;
+  }
+
+  .qab-tile:nth-child(2) { border-right: none; }
+  .qab-tile:nth-child(3) {
+    border-top: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+  }
+  .qab-tile:nth-child(4) {
+    border-top: 1px solid #e9ecef;
+    border-right: none;
+  }
+
+  .stats-strip-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-strip-item:nth-child(2) { border-right: none; }
+  .stats-strip-item:nth-child(3) {
+    border-top: 1px solid var(--color-surface-border);
+    border-right: 1px solid var(--color-surface-border);
+  }
+  .stats-strip-item:nth-child(4) {
+    border-top: 1px solid var(--color-surface-border);
+    border-right: none;
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .hero-image-section {
+    height: calc(100svh - 240px);
+    min-height: 300px;
+  }
+
+  .hero-headline {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+  }
+
+  .hero-subtext {
+    font-size: 0.95rem;
+  }
+
+  .qab-section {
+    margin-top: -80px;
+  }
+
+  .qab-grid {
+    grid-template-columns: 1fr 1fr;
+    border-radius: 12px;
+  }
+
+  .qab-tile {
+    padding: 1.375rem 1.1rem 1.25rem;
+    gap: 0.6rem;
+  }
+
+  .qab-tile-title {
+    font-size: 0.875rem;
+  }
+
+  .qab-tile-desc {
+    font-size: 0.72rem;
+  }
+
+  .qab-tile-icon-wrap {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .stats-strip-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-strip-value {
+    font-size: 1.45rem;
+  }
+
+  .stats-strip-item {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+
+/* ============================================================
+   HERO SLIDER  (.hs-*)
+   Cross-fading full-bleed image slider · native <img> tags
+   ============================================================ */
+
+.hs-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 200px);
+  min-height: 420px;
+  overflow: hidden;
+  background: #0a1628;
+  isolation: isolate;
+}
+
+/* ── Background images ── */
+.hs-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Outgoing slide fades out */
+.hs-bg--out {
+  z-index: 1;
+  animation: hsFadeOut 900ms ease forwards;
+}
+
+/* Incoming slide fades in on top */
+.hs-bg--in {
+  z-index: 2;
+  opacity: 0;
+}
+.hs-bg--in.is-fading {
+  animation: hsFadeIn 900ms ease forwards;
+}
+.hs-bg--in.is-visible {
+  opacity: 1;
+}
+
+@keyframes hsFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hsFadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* ── Dark gradient overlay ── */
+.hs-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    108deg,
+    rgba(6, 14, 38, 0.90) 0%,
+    rgba(6, 14, 38, 0.62) 42%,
+    rgba(6, 14, 38, 0.08) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Text content ── */
+.hs-content {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 5.5rem;
+  padding-bottom: 6rem;
+  animation: hsFadeUp 0.65s ease both;
+}
+
+/* Badge */
+.hs-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: rgba(60, 165, 68, 0.18);
+  border: 1px solid rgba(60, 165, 68, 0.50);
+  color: #6ee87a;
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+/* Headline */
+.hs-headline {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.75rem);
+  line-height: 1.04;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  max-width: 600px;
+}
+
+.hs-headline--accent {
+  background: linear-gradient(90deg, #3CA544 0%, #48e8e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sub-text */
+.hs-sub {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.75;
+  max-width: 480px;
+}
+
+@keyframes hsFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Dot navigation ── */
+.hs-dots {
+  position: absolute;
+  bottom: 2.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.hs-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.50);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  min-height: unset;
+  transition: width 250ms ease, border-radius 250ms ease,
+              background 250ms ease, border-color 250ms ease;
+}
+
+.hs-dot.is-active {
+  width: 28px;
+  border-radius: 5px;
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.hs-dot:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.30);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Progress bar ── */
+.hs-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  z-index: 5;
+  overflow: hidden;
+}
+
+.hs-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3CA544, #48e8e0);
+  animation: hsProgress linear forwards;
+}
+
+.hs-progress-bar.is-paused {
+  animation-play-state: paused;
+}
+
+@keyframes hsProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 560px) {
+  .hs-section {
+    height: calc(100svh - 240px);
+    min-height: 300px;
+  }
+  .hs-headline {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+  .hs-sub {
+    font-size: 0.9rem;
+  }
+}
+

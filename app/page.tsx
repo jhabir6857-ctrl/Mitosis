@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Shield } from "lucide-react";
+import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Shield, Activity } from "lucide-react";
 import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
 import ParallaxStats from "@/components/ParallaxStats";
+import HeroSlider from "@/components/HeroSlider";
 import { getDeptMeta } from "@/lib/departmentIcons";
 
 const healthPackages = [
@@ -52,45 +53,122 @@ const stats = [
 export default function HomePage() {
   return (
     <div>
-      {/* ======= HERO SECTION ======= */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, #0d1b2e 0%, #0a2a5e 50%, #0d3a7a 100%)",
-          padding: "5rem 0 4rem",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+
+      {/* ======= HERO SLIDER ======= */}
+      <HeroSlider />
+
+      {/* ======= QUICK ACTION TILES — overlap the hero bottom edge ======= */}
+      <section className="qab-section">
+        <div className="container">
+          <div className="qab-grid">
+            {[
+              {
+                icon: Search,
+                title: "Find a Doctor",
+                desc: "Search 50+ specialists across all departments",
+                href: "/doctors",
+                color: "#006BB6",
+                bg: "rgba(0,107,182,0.08)",
+                id: "qab-find-doctor",
+              },
+              {
+                icon: Calendar,
+                title: "Book Appointment",
+                desc: "Home collection & walk-in, same day",
+                href: "/appointment",
+                color: "#3CA544",
+                bg: "rgba(60,165,68,0.08)",
+                id: "qab-book-appointment",
+              },
+              {
+                icon: Download,
+                title: "Download Reports",
+                desc: "Instant, secure access to your results",
+                href: "/portal/login",
+                color: "#7c3aed",
+                bg: "rgba(124,58,237,0.08)",
+                id: "qab-download-reports",
+              },
+              {
+                icon: Activity,
+                title: "MRD Services",
+                desc: "Medical records & digital report access",
+                href: "/mrd-services",
+                color: "#dc2626",
+                bg: "rgba(220,38,38,0.08)",
+                id: "qab-mrd-service",
+              },
+            ].map(({ icon: Icon, title, desc, href, color, bg, id }) => (
+              <Link key={id} id={id} href={href} className="qab-tile"
+                style={{ "--tile-color": color, "--tile-bg": bg } as React.CSSProperties}>
+                {/* Colored top accent bar */}
+                <div className="qab-tile-top-bar" style={{ background: color }} />
+                {/* Icon circle */}
+                <div className="qab-tile-icon-wrap" style={{ background: bg }}>
+                  <Icon size={30} color={color} strokeWidth={1.75} />
+                </div>
+                <div className="qab-tile-body">
+                  <span className="qab-tile-title">{title}</span>
+                  <span className="qab-tile-desc">{desc}</span>
+                </div>
+                <div className="qab-tile-arrow" style={{ color }}>
+                  <ArrowRight size={20} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ======= STATS STRIP ======= */}
+      <section className="stats-strip-section">
+        <div className="container">
+          <div className="stats-strip-grid">
+            {stats.map(({ icon: Icon, value, label }) => (
+              <div key={label} className="stats-strip-item">
+                <div className="stats-strip-icon-wrap">
+                  <Icon size={26} strokeWidth={1.75} />
+                </div>
+                <div className="stats-strip-value">{value}</div>
+                <div className="stats-strip-label">{label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ======= HERO SCROLL REVEAL - Precision Diagnostics Text ======= */}
+      <section className="hero-scroll-reveal section" style={{ background: "linear-gradient(135deg, #0d1b2e 0%, #0a2a5e 50%, #0d3a7a 100%)", position: "relative", overflow: "hidden" }}>
         {/* Background decoration */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-          <div style={{ position: "absolute", top: "-20%", right: "-10%", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(32,178,170,0.12) 0%, transparent 70%)" }} />
-          <div style={{ position: "absolute", bottom: "-30%", left: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0,86,179,0.15) 0%, transparent 70%)" }} />
+          <div style={{ position: "absolute", top: "-20%", right: "-10%", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(60,165,68,0.10) 0%, transparent 70%)" }} />
+          <div style={{ position: "absolute", bottom: "-30%", left: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(0,107,182,0.15) 0%, transparent 70%)" }} />
         </div>
-
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-10">
-            {/* Left: Headline */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            {/* Left: Copy */}
             <div className="w-full md:w-1/2">
-              <div className="badge badge-online" style={{ marginBottom: "1.25rem", background: "rgba(32,178,170,0.15)", color: "var(--color-secondary)" }}>
+              <div className="badge badge-online" style={{ marginBottom: "1.25rem" }}>
                 <span className="status-dot" style={{ marginRight: "0.5rem" }} />
-                Open Now · 7:30 AM – 11:00 PM
+                Trusted by 50,000+ patients
               </div>
-              <h1
-                className="text-3xl md:text-4xl lg:text-5xl"
+              <h2
                 style={{
                   fontFamily: "var(--font-heading)",
                   fontWeight: 900,
                   color: "white",
+                  fontSize: "clamp(2rem, 5vw, 3rem)",
                   lineHeight: 1.1,
                   marginBottom: "1.25rem",
                 }}
               >
-                Precision Diagnostics.
+                Precision
+                <span style={{ display: "block" }}>Diagnostics.</span>
                 <span style={{ display: "block", background: "linear-gradient(90deg, var(--color-secondary), #48e8e0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   Compassionate Care.
                 </span>
-              </h1>
-              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(1rem, 3vw, 1.2rem)", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(1rem, 3vw, 1.15rem)", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "480px" }}>
                 From a simple blood test to a full-body MRI — we deliver world-class diagnostic accuracy with results you can access instantly, from anywhere.
               </p>
               <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -100,16 +178,6 @@ export default function HomePage() {
                 <a href="tel:+8801898806050" className="btn-secondary" style={{ color: "white", borderColor: "rgba(255,255,255,0.4)", fontSize: "1rem" }}>
                   📞 Call Us
                 </a>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-                {stats.map(({ value, label }) => (
-                  <div key={label} style={{ textAlign: "center" }}>
-                    <div style={{ color: "var(--color-secondary)", fontFamily: "var(--font-heading)", fontSize: "1.5rem", fontWeight: 800 }}>{value}</div>
-                    <div style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.78rem", marginTop: "0.2rem" }}>{label}</div>
-                  </div>
-                ))}
               </div>
             </div>
 
@@ -124,9 +192,9 @@ export default function HomePage() {
                   boxShadow: "0 24px 64px rgba(0,0,0,0.3)",
                 }}
               >
-                <h2 style={{ fontFamily: "var(--font-heading)", fontSize: "1.35rem", fontWeight: 800, marginBottom: "0.5rem", color: "var(--color-text-primary)" }}>
+                <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.35rem", fontWeight: 800, marginBottom: "0.5rem", color: "var(--color-text-primary)" }}>
                   How can we help you today?
-                </h2>
+                </h3>
                 <p style={{ color: "var(--color-text-secondary)", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
                   Choose what you need — we will guide you from here.
                 </p>

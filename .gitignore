@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw source images (large unoptimised files — processed WebPs go in public/)
+/raw-images
+/.raw-images
