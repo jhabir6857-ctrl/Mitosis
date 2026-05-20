@@ -3,6 +3,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import StickySidebar from "@/components/StickySidebar";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +67,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <StickySidebar />
+        <MobileBottomNav />
       </body>
     </html>
   );

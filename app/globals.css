@@ -920,6 +920,12 @@ button, a, [role="button"] {
   }
 }
 
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px; /* Space for MobileBottomNav */
+  }
+}
+
 /* Mobile */
 @media (max-width: 560px) {
   .hero-image-section {
