@@ -257,8 +257,6 @@ export default function StickySidebar() {
         borderRadius: "1rem 0 0 1rem",
         boxShadow: "-8px 0 40px rgba(0,0,0,0.15), -2px 0 8px rgba(0,0,0,0.08), inset 1px 0 0 rgba(255,255,255,0.9)",
         padding: "0.6rem 0.4rem",
-        display: "flex",
-        flexDirection: "column",
         gap: "0.25rem",
       }}
     >
