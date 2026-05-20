@@ -49,7 +49,7 @@ export default function Footer() {
             <a href="tel:+8801898806050" className="btn-emergency">
               <Phone size={16} /> Call Now: +880 1898-806050
             </a>
-            <Link href="/appointment" style={{ background: "white", color: "var(--color-primary)", borderRadius: "var(--radius-lg)", padding: "0.75rem 1.75rem", fontWeight: 700, textDecoration: "none", minHeight: "3rem", display: "inline-flex", alignItems: "center" }}>
+            <Link prefetch={false} href="/appointment" style={{ background: "white", color: "var(--color-primary)", borderRadius: "var(--radius-lg)", padding: "0.75rem 1.75rem", fontWeight: 700, textDecoration: "none", minHeight: "3rem", display: "inline-flex", alignItems: "center" }}>
               Book Appointment
             </Link>
           </div>
@@ -118,7 +118,7 @@ export default function Footer() {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {services.map((s) => (
                 <li key={s.label}>
-                  <Link href={s.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
+                  <Link prefetch={false} href={s.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(6px)"; (e.currentTarget as HTMLElement).style.color = "var(--color-brand-green)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(0)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}>
                     {s.label}
@@ -134,7 +134,7 @@ export default function Footer() {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {quickLinks.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
+                  <Link prefetch={false} href={l.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.85rem", lineHeight: 1.5, transition: "all 250ms ease", display: "block", padding: "0.2rem 0" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(6px)"; (e.currentTarget as HTMLElement).style.color = "var(--color-brand-green)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateX(0)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}>
                     {l.label}
@@ -258,7 +258,7 @@ export default function Footer() {
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem 1.5rem" }}>
             {["Privacy Policy", "Terms of Service", "Accessibility"].map((t) => (
-              <Link key={t} href="#" style={{ color: "#5a7a99", fontSize: "0.85rem", textDecoration: "none" }}>{t}</Link>
+              <Link prefetch={false} key={t} href="#" style={{ color: "#5a7a99", fontSize: "0.85rem", textDecoration: "none" }}>{t}</Link>
             ))}
           </div>
         </div>

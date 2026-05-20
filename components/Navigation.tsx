@@ -306,7 +306,7 @@ export default function Navigation() {
                 dropdownTimeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
               }}
             >
-              <Link
+              <Link prefetch={false}
                 href={link.href}
                 style={{
                   display: "flex",
@@ -359,7 +359,7 @@ export default function Navigation() {
                   {link.children
                     .filter((child) => child.section === "cta")
                     .map((child) => (
-                      <Link
+                      <Link prefetch={false}
                         key={`${child.label}-${child.href}`}
                         href={child.href}
                         style={{
@@ -398,7 +398,7 @@ export default function Navigation() {
                   {link.children
                     .filter((child) => child.section === "item" || child.section === "dept")
                     .map((child) => (
-                      <Link
+                      <Link prefetch={false}
                         key={`${child.label}-${child.href}`}
                         href={child.href}
                         style={{
@@ -447,7 +447,7 @@ export default function Navigation() {
           </a>
 
           {/* Patient Login — mobile: icon+text button; desktop: full btn-primary */}
-          <Link
+          <Link prefetch={false}
             href="/portal/login"
             className="btn-primary desktop-login-btn"
             style={{ fontSize: "0.875rem", padding: "0.6rem 1.1rem" }}
@@ -561,7 +561,7 @@ export default function Navigation() {
                         {link.children
                           .filter((child) => child.section === "cta")
                           .map((child) => (
-                            <Link
+                            <Link prefetch={false}
                               key={`${child.label}-${child.href}`}
                               href={child.href}
                               onClick={() => setIsOpen(false)}
@@ -599,7 +599,7 @@ export default function Navigation() {
                         {link.children
                           .filter((child) => child.section === "item" || child.section === "dept")
                           .map((child) => (
-                            <Link
+                            <Link prefetch={false}
                               key={`${child.label}-${child.href}`}
                               href={child.href}
                               onClick={() => setIsOpen(false)}
@@ -625,7 +625,7 @@ export default function Navigation() {
                     )}
                   </>
                 ) : (
-                  <Link
+                  <Link prefetch={false}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
                     style={{
@@ -652,7 +652,7 @@ export default function Navigation() {
 
           {/* Patient Login CTA inside drawer */}
           <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
-            <Link
+            <Link prefetch={false}
               href="/portal/login"
               onClick={() => setIsOpen(false)}
               style={{
