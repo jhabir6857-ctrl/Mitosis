@@ -913,6 +913,11 @@ button, a, [role="button"] {
     border-top: 1px solid var(--color-surface-border);
     border-right: none;
   }
+
+  .hs-content {
+    padding-bottom: 280px; /* space for 2x2 QAB */
+    padding-top: 3rem;
+  }
 }
 
 /* Mobile */
@@ -1162,13 +1167,17 @@ button, a, [role="button"] {
 @media (max-width: 560px) {
   .hs-section {
     height: calc(100svh - 70px);
-    min-height: 550px;
+    min-height: 600px; /* increased to prevent overlap */
   }
   .hs-headline {
     font-size: clamp(2rem, 9vw, 2.75rem);
   }
   .hs-sub {
     font-size: 0.9rem;
+  }
+  .hs-content {
+    padding-bottom: 300px;
+    padding-top: 2rem;
   }
 }
 
