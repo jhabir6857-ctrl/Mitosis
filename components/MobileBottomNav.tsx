@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone, Stethoscope, CalendarCheck, Download } from "lucide-react";
+import { Phone, Stethoscope, CalendarCheck, Download, HeadphonesIcon, BookCheck, Building2, MessageCircle } from "lucide-react";
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
@@ -33,7 +33,7 @@ export default function MobileBottomNav() {
     };
   }, []);
 
-  const navItems = [
+  const defaultItems = [
     {
       label: "Call",
       icon: <Phone size={22} />,
@@ -60,6 +60,45 @@ export default function MobileBottomNav() {
       color: "#0ea5e9", // Light blue
     },
   ];
+
+  const navItems = [...defaultItems];
+
+  if (pathname === "/portal/login" || pathname.startsWith("/reports")) {
+    navItems[3] = {
+      label: "Support",
+      icon: <HeadphonesIcon size={22} />,
+      href: "/contact",
+      color: "#f59e0b",
+    };
+  }
+
+  if (pathname.startsWith("/appointment")) {
+    navItems[2] = {
+      label: "Bookings",
+      icon: <BookCheck size={22} />,
+      href: "/portal/login",
+      color: "#10b981",
+    };
+  }
+
+  if (pathname.startsWith("/doctors")) {
+    navItems[1] = {
+      label: "Depts",
+      icon: <Building2 size={22} />,
+      href: "/doctors",
+      color: "#8b5cf6",
+    };
+  }
+
+  if (pathname === "/contact") {
+    navItems[0] = {
+      label: "WhatsApp",
+      icon: <MessageCircle size={22} />,
+      href: "https://wa.me/8801898806050",
+      color: "#25d366",
+      isExternal: true,
+    };
+  }
 
   return (
     <div
