@@ -485,7 +485,22 @@ export default function Navigation() {
 
       {/* ── MOBILE DRAWER ───────────────────────────────────────── */}
       {isOpen && (
-        <div
+        <>
+          {/* Click-away backdrop */}
+          <div
+            onClick={() => setIsOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: -1,
+              background: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+              animation: "fadeIn 200ms ease",
+            }}
+            aria-hidden="true"
+          />
+          <div
           style={{
             position: "absolute",
             top: "100%",
@@ -674,6 +689,7 @@ export default function Navigation() {
             </a>
           </div>
         </div>
+        </>
       )}
 
       {/* ── TOAST NOTIFICATION ──────────────────────────────────── */}
@@ -704,6 +720,10 @@ export default function Navigation() {
       )}
 
       <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
         @keyframes fadeInDown {
           from { opacity: 0; transform: translateY(-8px); }
           to   { opacity: 1; transform: translateY(0); }
