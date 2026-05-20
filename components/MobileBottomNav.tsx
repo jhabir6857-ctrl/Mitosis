@@ -100,14 +100,33 @@ export default function MobileBottomNav() {
             >
               <div 
                 style={{ 
-                  color: isActive ? item.color : "inherit",
+                  width: "2.4rem",
+                  height: "2.4rem",
+                  borderRadius: "0.75rem",
+                  background: item.color + "22",
+                  border: `1.5px solid ${item.color}45`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: item.color,
                   transform: isActive ? "scale(1.1)" : "scale(1)",
-                  transition: "transform 200ms ease"
+                  transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)"
                 }}
               >
                 {item.icon}
               </div>
-              <span style={{ fontSize: "0.65rem", fontWeight: isActive ? 700 : 500 }}>
+              <span 
+                style={{ 
+                  fontSize: "0.62rem",
+                  fontWeight: 700,
+                  color: "#334155",
+                  textAlign: "center",
+                  lineHeight: 1.2,
+                  letterSpacing: "0.02em",
+                  maxWidth: "3.5rem",
+                  whiteSpace: "nowrap"
+                }}
+              >
                 {item.label}
               </span>
             </div>
