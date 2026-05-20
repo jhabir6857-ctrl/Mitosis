@@ -79,9 +79,8 @@ export default function ParallaxStats() {
       ref={sectionRef}
       style={{
         position: "relative",
-        backgroundImage: "url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1920&q=80')",
+        backgroundImage: "url('https://images.unsplash.com/photo-1579684385127-1ef15d508119?auto=format&fit=crop&q=80')",
         backgroundAttachment: isMobile ? "scroll" : "fixed",
-        WebkitBackgroundAttachment: isMobile ? "scroll" : "fixed",
         imageRendering: "auto",
         backgroundSize: "cover",
         backgroundPosition: "center",
