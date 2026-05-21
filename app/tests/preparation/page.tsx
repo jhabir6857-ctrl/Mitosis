@@ -266,28 +266,6 @@ export default function TestPreparationPage() {
       />
 
       <div className="container prep-container" style={{ padding: "2.5rem 1rem 4rem" }}>
-        <style>{`
-          .prep-filters { display: flex; gap: 0.85rem; flex-wrap: wrap; }
-          .prep-search { position: relative; flex: 1; min-width: 220px; }
-          .prep-select { padding: 0.7rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-family: var(--font-ui); font-size: 0.9rem; color: var(--color-dark); background: white; outline: none; cursor: pointer; }
-          .prep-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-          .prep-accordion-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.4rem; border: none; cursor: pointer; gap: 1rem; text-align: left; transition: background 200ms; }
-          .prep-accordion-header { display: flex; align-items: center; gap: 0.85rem; flex: 1; min-width: 0; }
-          
-          @media (max-width: 768px) {
-            .prep-container { padding: 1.5rem 1rem 3rem !important; }
-            .prep-filters { flex-direction: column; }
-            .prep-search { min-width: 100%; }
-            .prep-select { width: 100%; }
-            .prep-pills { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem; scrollbar-width: none; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; }
-            .prep-pills::-webkit-scrollbar { display: none; }
-            .prep-pill-btn { white-space: nowrap; flex-shrink: 0; }
-            .prep-accordion-btn { padding: 0.85rem 1rem !important; flex-direction: column; align-items: flex-start !important; gap: 0.75rem !important; }
-            .prep-accordion-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-            .prep-accordion-title { white-space: normal !important; line-height: 1.35; }
-            .prep-accordion-right { width: 100%; justify-content: space-between; flex-direction: row-reverse; }
-          }
-        `}</style>
 
 
         {/* Search + Filter */}

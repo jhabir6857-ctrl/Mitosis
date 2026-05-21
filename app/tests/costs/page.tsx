@@ -268,64 +268,6 @@ function TestCostsContent() {
       />
 
       <div className="container costs-container" style={{ padding: "2.5rem 1rem 4rem" }}>
-        <style>{`
-          .costs-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-          .costs-stat-box { flex: 1; min-width: 150px; background: white; border: 1px solid #e2e8f0; border-radius: 0.85rem; padding: 0.75rem 1.25rem; display: flex; gap: 0.5rem; align-items: baseline; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-          .costs-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; }
-          .costs-search-wrap { position: relative; }
-          .costs-input, .costs-select { width: 100%; padding: 0.7rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-family: var(--font-ui); font-size: 0.9rem; outline: none; box-sizing: border-box; color: var(--color-dark); background: white; cursor: pointer; }
-          .costs-search-input { padding-left: 2.5rem; cursor: text; }
-          
-          /* Mobile Card Layout for Table */
-          @media (max-width: 768px) {
-            .costs-container { padding: 1.5rem 1rem 3rem !important; }
-            .costs-filters { grid-template-columns: 1fr; }
-            .costs-stat-box { min-width: 100%; }
-            
-            /* Hide table headers */
-            .costs-table thead { display: none; }
-            .costs-table, .costs-table tbody, .costs-table tr, .costs-table td { display: block; width: 100%; }
-            
-            /* Card style for rows */
-            .costs-table tr { 
-              background: white; 
-              border: 1px solid #e2e8f0 !important; 
-              border-radius: 0.85rem; 
-              margin-bottom: 1rem; 
-              padding: 1rem; 
-              box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            }
-            .costs-table td { 
-              padding: 0 !important; 
-              border: none !important; 
-              text-align: left !important; 
-            }
-            
-            /* Specific cell positioning */
-            .costs-cell-index { display: none !important; } /* Hide the # index */
-            .costs-cell-dept { margin-bottom: 0.5rem; display: inline-block; }
-            .costs-cell-name { font-size: 1.05rem !important; font-weight: 700 !important; margin-bottom: 0.25rem; }
-            .costs-cell-sub { font-size: 0.85rem !important; color: #64748b !important; margin-bottom: 0.85rem; }
-            .costs-cell-price { 
-              font-size: 1.15rem !important; 
-              font-weight: 800 !important; 
-              color: #3CA544 !important; 
-              border-top: 1px dashed #e2e8f0 !important; 
-              padding-top: 0.75rem !important; 
-              margin-top: 0.5rem; 
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            }
-            .costs-cell-price::before {
-              content: "Price";
-              font-size: 0.85rem;
-              color: #94a3b8;
-              font-weight: 600;
-              text-transform: uppercase;
-            }
-          }
-        `}</style>
 
 
         {/* Summary stats */}
