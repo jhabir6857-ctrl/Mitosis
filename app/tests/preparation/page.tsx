@@ -281,8 +281,11 @@ export default function TestPreparationPage() {
             .prep-select { width: 100%; }
             .prep-pills { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem; scrollbar-width: none; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; }
             .prep-pills::-webkit-scrollbar { display: none; }
-            .prep-accordion-btn { padding: 0.85rem 1rem !important; align-items: flex-start; }
-            .prep-accordion-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+            .prep-pill-btn { white-space: nowrap; flex-shrink: 0; }
+            .prep-accordion-btn { padding: 0.85rem 1rem !important; flex-direction: column; align-items: flex-start !important; gap: 0.75rem !important; }
+            .prep-accordion-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .prep-accordion-title { white-space: normal !important; line-height: 1.35; }
+            .prep-accordion-right { width: 100%; justify-content: space-between; flex-direction: row-reverse; }
           }
         `}</style>
 
@@ -312,8 +315,9 @@ export default function TestPreparationPage() {
         <div className="prep-pills">
           {CATEGORIES.map(c => (
             <button key={c} onClick={() => { setCategory(c); setOpen(null); }}
+              className="prep-pill-btn"
               style={{
-                padding: "0.35rem 0.9rem", borderRadius: "2rem", fontSize: "0.8rem", fontWeight: 600,
+                padding: "0.4rem 1rem", borderRadius: "2rem", fontSize: "0.85rem", fontWeight: 600,
                 fontFamily: "var(--font-ui)", cursor: "pointer", border: "1.5px solid",
                 borderColor: category === c ? "var(--color-primary)" : "#e2e8f0",
                 background: category === c ? "var(--color-primary)" : "white",
@@ -358,11 +362,11 @@ export default function TestPreparationPage() {
                       fontFamily: "var(--font-ui)", whiteSpace: "nowrap", flexShrink: 0,
                       textTransform: "uppercase", letterSpacing: "0.04em",
                     }}>{prep.category}</span>
-                    <span style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.95rem", color: "var(--color-dark)" }}>
+                    <span className="prep-accordion-title" style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.95rem", color: "var(--color-dark)" }}>
                       {prep.title}
                     </span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0, alignSelf: "center" }}>
+                  <div className="prep-accordion-right" style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0, alignSelf: "center" }}>
                     {prep.fastingHours && (
                       <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", background: "rgba(237,137,54,0.1)", color: "#c05621", padding: "0.2rem 0.6rem", borderRadius: "0.4rem", fontSize: "0.75rem", fontWeight: 600, fontFamily: "var(--font-ui)", whiteSpace: "nowrap" }}>
                         <Clock size={12} /> {prep.fastingHours}h fast
