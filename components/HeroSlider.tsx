@@ -147,10 +147,10 @@ export default function HeroSlider() {
             style={{ 
               animation: "heroFadeUp 700ms ease 550ms both",
               textShadow: "0 0 40px rgba(0,200,100,0.4), 0 0 80px rgba(0,200,100,0.15)",
-              display: "inline-block",
+              display: "block",
             }}
           >
-            <br />{SLIDES[current].heading[1]}
+            {SLIDES[current].heading[1]}
           </span>
         </h1>
         <p 

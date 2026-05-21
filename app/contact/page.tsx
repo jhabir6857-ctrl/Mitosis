@@ -30,7 +30,7 @@ export default function ContactPage() {
               <div className="bg-white/10 backdrop-blur-lg p-4 rounded-xl border border-white/20 shadow-lg">
                 <MapPin className="text-green-400 w-8 h-8 mb-2" />
                 <h3 className="text-white font-bold text-lg">Visit Us</h3>
-                <p className="text-white/80">Uttar Badda, Dhaka</p>
+                <p className="text-white/80">Ma Plaza (2nd Floor), Opposite of Muktijodda Super Market, Holding No C-2/1, Mirpur 1, Dhaka 1216</p>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function ContactPage() {
             {
               Icon: MapPin,
               title: "Location",
-              details: "Uttar Badda, Dhaka, Bangladesh",
+              details: "Ma Plaza (2nd Floor), Opposite of Muktijodda Super Market, Holding No C-2/1, Mirpur 1, Dhaka 1216",
               link: "https://maps.google.com/?q=Uttar+Badda+Dhaka",
             },
             {

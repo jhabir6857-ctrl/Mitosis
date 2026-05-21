@@ -36,6 +36,9 @@ const navLinks = [
     href: "#",
     children: [
       { label: "All Services", href: "/services", section: "cta" },
+      { label: "Test Information", href: "/tests", section: "item" },
+      { label: "Test Costs", href: "/tests/costs", section: "item" },
+      { label: "Test Preparation", href: "/tests/preparation", section: "item" },
       { label: "Facilities", href: "/facilities", section: "item" },
       { label: "Health Check Up", href: "/health-checkup", section: "item" },
       { label: "Packages", href: "/packages", section: "item" },
@@ -178,7 +181,7 @@ export default function Navigation() {
               title="View Mitosis Lab Ltd on Google Maps"
             >
               <MapPin size={11} style={{ flexShrink: 0 }} />
-              Uttar Badda, Dhaka
+              Mirpur 1, Dhaka
             </a>
 
             {/* Divider — desktop only */}
@@ -717,7 +720,7 @@ export default function Navigation() {
               </div>
               <div>
                 <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontWeight: 500, marginBottom: "0.1rem", fontFamily: "var(--font-ui)" }}>Our Location</div>
-                <div style={{ fontSize: "0.88rem", color: "white", fontWeight: 600, fontFamily: "var(--font-ui)" }}>Uttar Badda, Dhaka, Bangladesh</div>
+                <div style={{ fontSize: "0.88rem", color: "white", fontWeight: 600, fontFamily: "var(--font-ui)" }}>Mirpur 1, Dhaka, Bangladesh</div>
                 <div style={{ fontSize: "0.72rem", color: "var(--color-brand-green)", fontWeight: 600, marginTop: "0.15rem", fontFamily: "var(--font-ui)" }}>Get Directions →</div>
               </div>
             </a>
