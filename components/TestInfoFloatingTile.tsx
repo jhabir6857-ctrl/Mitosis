@@ -110,6 +110,7 @@ export default function TestInfoFloatingTile() {
 
       {/* Floating Tile Anchor */}
       <div
+        className="test-info-float-wrap"
         style={{
           position: "fixed",
           bottom: "1.75rem",

@@ -1109,6 +1109,10 @@ button, a, [role="button"] {
   body {
     padding-bottom: 70px; /* Space for MobileBottomNav */
   }
+  /* Floating Test Info tile hidden on mobile — accessible via bottom nav Tests tab instead */
+  .test-info-float-wrap {
+    display: none !important;
+  }
 }
 
 /* Mobile — QAB flows below hero in normal document flow */
