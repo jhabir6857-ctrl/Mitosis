@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, Suspense } from "react";
+import { useTestInfoStore } from "@/components/TestInfoStore";
 import { useSearchParams } from "next/navigation";
 import ParallaxBanner from "@/components/ParallaxBanner";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
@@ -190,6 +191,10 @@ function TestCostsContent() {
   const [dept, setDept] = useState("All Departments");
   const [subDept, setSubDept] = useState("All Sub-Departments");
   const [page, setPage] = useState(1);
+  const { setLastVisited } = useTestInfoStore();
+
+  // Record this visit for cross-suggestion logic
+  useEffect(() => { setLastVisited("costs"); }, [setLastVisited]);
 
   // Read department from URL query param on mount
   useEffect(() => {

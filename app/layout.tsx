@@ -4,6 +4,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import StickySidebar from "@/components/StickySidebar";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import TestInfoFloatingTile from "@/components/TestInfoFloatingTile";
+import { TestInfoStoreProvider } from "@/components/TestInfoStore";
 
 export const metadata: Metadata = {
   title: {
@@ -63,11 +65,14 @@ export default function RootLayout({
   return (
     <html lang="en" style={{ scrollBehavior: "smooth" }} data-scroll-behavior="smooth">
       <body style={{ overflowX: "clip" }}>
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <StickySidebar />
-        <MobileBottomNav />
+        <TestInfoStoreProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+          <StickySidebar />
+          <MobileBottomNav />
+          <TestInfoFloatingTile />
+        </TestInfoStoreProvider>
       </body>
     </html>
   );

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ParallaxBanner from "@/components/ParallaxBanner";
 import { ChevronDown, Search, Clock, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+import { useTestInfoStore } from "@/components/TestInfoStore";
 
 interface Prep {
   title: string;
@@ -243,6 +244,10 @@ export default function TestPreparationPage() {
   const [open, setOpen] = useState<number | null>(0);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const { setLastVisited } = useTestInfoStore();
+
+  // Record this visit for cross-suggestion logic
+  useEffect(() => { setLastVisited("preparation"); }, [setLastVisited]);
 
   const filtered = PREPS.filter(p => {
     const matchCat = category === "All" || p.category === category;
