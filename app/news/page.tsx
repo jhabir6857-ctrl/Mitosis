@@ -7,7 +7,7 @@ const BLOG_POSTS = [
   {
     id: 7,
     title: "শীতের ফ্লু বারবার ফিরে আসছে? কারণটা লুকিয়ে থাকতে পারে আপনার ঘুমে",
-    summary: "শীতের ফ্লু ও ইমিউন সিস্টেম: ভালো ঘুম কেন এত জরুরি",
+    summary: "শীতের ফ্লু ও ইমিউন সিস্টেম: ভালো ঘুম কেন এত জরুরি। আপনার প্রতিদিনের ঘুম আপনার শরীরের রোগ প্রতিরোধ ক্ষমতার ওপর কতটা প্রভাব ফেলে তা জানলে অবাক হবেন।",
     image: "https://www.mitosislabltd.com/storage/blog/17670098332222.png",
     category: "Health Tips",
     date: "Dec 12, 2024",
@@ -51,32 +51,51 @@ const BLOG_POSTS = [
   }
 ];
 
-export default function BlogPage() {
+export default function NewsPage() {
+  const featuredPost = BLOG_POSTS[0];
+  const remainingPosts = BLOG_POSTS.slice(1);
+
   return (
-    <main style={{ minHeight: "100vh", background: "#f8fafc" }}>
+    <main className="news-ambient-bg">
       <ParallaxBanner
-        title="Our Blog & News"
-        subtitle="Latest health tips, medical updates, and news from Mitosis Lab."
+        title="Our News & Blog"
+        subtitle="Stay updated with the latest health tips, medical breakthroughs, and news from Mitosis Lab."
         imageSrc="https://images.unsplash.com/photo-1576091160550-2173ff9e5eb2?q=80&w=2000&auto=format&fit=crop"
         heightClass="h-[40vh]"
       />
 
-      <section className="section">
-        <div className="container" style={{ padding: "3rem 1rem 6rem" }}>
+      <section className="section news-content-wrapper">
+        <div className="container" style={{ padding: "4rem 1rem 6rem" }}>
           
+          {/* Featured Article Banner */}
+          {featuredPost && (
+            <a href={featuredPost.link} target="_blank" rel="noopener noreferrer" className="featured-article">
+              <img src={featuredPost.image} alt={featuredPost.title} className="featured-image" />
+              <div className="featured-overlay">
+                <div className="featured-meta">
+                  <span className="featured-badge">{featuredPost.category}</span>
+                  <span className="featured-date">
+                    <Calendar size={15} /> {featuredPost.date}
+                  </span>
+                </div>
+                <h1 className="featured-title">{featuredPost.title}</h1>
+                <p className="featured-summary">{featuredPost.summary}</p>
+              </div>
+            </a>
+          )}
+
+          {/* Grid for the Rest */}
           <div className="blog-grid">
-            {BLOG_POSTS.map((post) => (
+            {remainingPosts.map((post) => (
               <a key={post.id} href={post.link} target="_blank" rel="noopener noreferrer" className="blog-card">
                 
                 <div className="blog-image-wrapper">
+                  <span className="glass-badge">{post.category}</span>
                   <img src={post.image} alt={post.title} className="blog-image" />
                 </div>
                 
                 <div className="blog-content">
-                  <div className="blog-meta">
-                    <span className="blog-category">
-                      {post.category}
-                    </span>
+                  <div className="blog-meta-inline">
                     <span className="blog-date">
                       <Calendar size={14} /> {post.date}
                     </span>
@@ -87,7 +106,7 @@ export default function BlogPage() {
                   
                   <div className="blog-footer">
                     <span className="blog-read-more">
-                      Read Article <ArrowRight size={16} />
+                      Read Article <ArrowRight size={18} />
                     </span>
                   </div>
                 </div>
