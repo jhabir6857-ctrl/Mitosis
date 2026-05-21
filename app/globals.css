@@ -1381,7 +1381,7 @@ button, a, [role="button"] {
     max-height: 320px;
   }
   .hs-content {
-    padding-top: 1.75rem;
+    padding-top: 2.5rem;
     padding-bottom: 2.5rem; /* QAB flows below — no need for massive padding */
   }
 }
@@ -1393,7 +1393,7 @@ button, a, [role="button"] {
     font-size: 0.9rem;
   }
   .hs-content {
-    padding-top: 1.5rem;
+    padding-top: 2.25rem;
     padding-bottom: 2rem;
   }
 }
@@ -1415,7 +1415,7 @@ button, a, [role="button"] {
     margin-bottom: 0.6rem;
   }
   .hs-content {
-    padding-top: 1rem;
+    padding-top: 1.75rem;
     padding-bottom: 1.5rem;
   }
 }
