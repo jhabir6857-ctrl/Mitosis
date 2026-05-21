@@ -6,24 +6,27 @@ import {
   FlaskConical, ClipboardList, DollarSign, BookOpen,
   Clock, Home, ShieldCheck, Microscope, Activity,
   Beaker, Heart, Brain, ArrowRight, CheckCircle2,
+  Dna, Stethoscope,
 } from "lucide-react";
 
 const DEPARTMENTS = [
-  { name: "Biochemistry", icon: <Beaker size={22} />, tests: 120, color: "#006BB6" },
-  { name: "Haematology", icon: <Activity size={22} />, tests: 45, color: "#e53e3e" },
-  { name: "Microbiology", icon: <FlaskConical size={22} />, tests: 60, color: "#3CA544" },
-  { name: "Immunology", icon: <ShieldCheck size={22} />, tests: 38, color: "#805ad5" },
-  { name: "Histopathology", icon: <Microscope size={22} />, tests: 30, color: "#d69e2e" },
-  { name: "Cardiology", icon: <Heart size={22} />, tests: 22, color: "#e53e3e" },
-  { name: "Neurology", icon: <Brain size={22} />, tests: 18, color: "#0bc5ea" },
-  { name: "Endocrinology", icon: <Activity size={22} />, tests: 35, color: "#ed8936" },
+  { name: "Biochemistry",       icon: <Beaker size={22} />,      tests: 35,  color: "#006BB6", slug: "biochemistry" },
+  { name: "Haematology",        icon: <Activity size={22} />,    tests: 14,  color: "#c53030", slug: "haematology" },
+  { name: "Microbiology",       icon: <FlaskConical size={22} />,tests: 10,  color: "#276749", slug: "microbiology" },
+  { name: "Immunology",         icon: <ShieldCheck size={22} />, tests: 14,  color: "#6b46c1", slug: "immunology" },
+  { name: "Endocrinology",      icon: <Activity size={22} />,    tests: 15,  color: "#c05621", slug: "endocrinology" },
+  { name: "Clinical Pathology", icon: <Stethoscope size={22} />, tests: 5,   color: "#975a16", slug: "clinical pathology" },
+  { name: "Histopathology",     icon: <Microscope size={22} />,  tests: 9,   color: "#2b6cb0", slug: "histopathology" },
+  { name: "Cardiology",         icon: <Heart size={22} />,       tests: 10,  color: "#9b2c2c", slug: "cardiology" },
+  { name: "Neurology",          icon: <Brain size={22} />,       tests: 8,   color: "#0987a0", slug: "neurology" },
+  { name: "Imaging",            icon: <Dna size={22} />,         tests: 20,  color: "#553c9a", slug: "imaging" },
 ];
 
 const HIGHLIGHTS = [
-  { icon: <Clock size={20} />, label: "Reports in 4–24 hrs", color: "#006BB6" },
-  { icon: <Home size={20} />, label: "Home Sample Collection", color: "#3CA544" },
-  { icon: <ShieldCheck size={20} />, label: "ISO Certified Lab", color: "#805ad5" },
-  { icon: <CheckCircle2 size={20} />, label: "Specialist Reviewed", color: "#d69e2e" },
+  { icon: <Clock size={20} />,       label: "Reports in 4–24 hrs",      color: "#006BB6" },
+  { icon: <Home size={20} />,        label: "Home Sample Collection",    color: "#3CA544" },
+  { icon: <ShieldCheck size={20} />, label: "ISO Certified Lab",         color: "#805ad5" },
+  { icon: <CheckCircle2 size={20} />,label: "Specialist Reviewed",       color: "#d69e2e" },
 ];
 
 const QUICK_LINKS = [
@@ -131,12 +134,12 @@ export default function TestsPage() {
               Our Test Departments
             </h2>
             <p style={{ color: "var(--color-text-muted)", fontSize: "0.95rem", fontFamily: "var(--font-ui)" }}>
-              Tests organized by medical specialty
+              Browse tests organised by medical specialty — click any department to view its tests and prices.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "1rem" }}>
             {DEPARTMENTS.map((dept) => (
-              <Link key={dept.name} href={`/tests/costs?department=${dept.name.toLowerCase()}`} style={{ textDecoration: "none" }}>
+              <Link key={dept.name} href={`/tests/costs?department=${encodeURIComponent(dept.slug)}`} style={{ textDecoration: "none" }}>
                 <div style={{
                   background: "white",
                   border: "1.5px solid #e2e8f0",
@@ -179,7 +182,7 @@ export default function TestsPage() {
               Not sure which test you need?
             </h3>
             <p style={{ fontFamily: "var(--font-ui)", color: "rgba(255,255,255,0.8)", fontSize: "0.95rem" }}>
-              Talk to our specialists — we'll guide you to the right test.
+              Talk to our specialists — we&apos;ll guide you to the right test.
             </p>
           </div>
           <div style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}>

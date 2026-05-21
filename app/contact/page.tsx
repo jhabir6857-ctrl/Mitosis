@@ -91,7 +91,7 @@ export default function ContactPage() {
               Icon: MapPin,
               title: "Location",
               details: "Ma Plaza (2nd Floor), Opposite of Muktijodda Super Market, Holding No C-2/1, Mirpur 1, Dhaka 1216",
-              link: "https://maps.google.com/?q=Uttar+Badda+Dhaka",
+              link: "https://www.google.com/maps/place/Mitosis+Lab+Ltd/@23.7987161,90.3519292,17z",
             },
             {
               Icon: Phone,
