@@ -61,7 +61,8 @@ export default function NewsPage() {
         title="Our News & Blog"
         subtitle="Stay updated with the latest health tips, medical breakthroughs, and news from Mitosis Lab."
         imageSrc="https://images.unsplash.com/photo-1576091160550-2173ff9e5eb2?q=80&w=2000&auto=format&fit=crop"
-        heightClass="h-[40vh]"
+        heightClass="h-[45vh]"
+        overlayClass="bg-gradient-to-b from-blue-950/75 via-blue-900/60 to-blue-800/50"
       />
 
       <section className="section news-content-wrapper">
