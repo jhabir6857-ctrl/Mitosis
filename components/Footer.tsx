@@ -57,10 +57,10 @@ export default function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container" style={{ padding: "2rem 0" }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 footer-main-grid" style={{ gap: "2rem", marginBottom: "3rem", alignItems: "flex-start" }}>
+      <div className="container" style={{ paddingTop: "4rem", paddingBottom: "3rem" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 footer-main-grid" style={{ gap: "3.5rem", marginBottom: "3.5rem", alignItems: "flex-start" }}>
           {/* Brand — Logo + tagline */}
-          <div className="footer-brand-col" style={{ paddingRight: "2rem", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="footer-brand-col">
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
               {/* Transparent logo with monochrome white filter for enterprise look */}
               <div style={{ display: "inline-flex", flexShrink: 0 }}>
@@ -124,7 +124,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Our Services</h4>
+            <h4 style={{ color: "#e2e8f0", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.9rem", marginBottom: "1.25rem", textTransform: "uppercase", letterSpacing: "0.12em", borderLeft: "3px solid var(--color-brand-green)", paddingLeft: "0.75rem" }}>Our Services</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {services.map((s) => (
                 <li key={s.label}>
@@ -140,7 +140,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Quick Links</h4>
+            <h4 style={{ color: "#e2e8f0", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.9rem", marginBottom: "1.25rem", textTransform: "uppercase", letterSpacing: "0.12em", borderLeft: "3px solid var(--color-brand-green)", paddingLeft: "0.75rem" }}>Quick Links</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
               {quickLinks.map((l) => (
                 <li key={l.label}>
@@ -156,7 +156,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="footer-contact-col">
-            <h4 style={{ color: "white", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: "0.85rem", marginBottom: "0.85rem", textTransform: "uppercase", letterSpacing: "0.1em", borderLeft: "3px solid var(--color-primary)", paddingLeft: "0.6rem" }}>Contact Us</h4>
+            <h4 style={{ color: "#e2e8f0", fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "0.9rem", marginBottom: "1.25rem", textTransform: "uppercase", letterSpacing: "0.12em", borderLeft: "3px solid var(--color-brand-green)", paddingLeft: "0.75rem" }}>Contact Us</h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[
                 { Icon: MapPin, text: "Ma Plaza (2nd Floor), Opposite of Muktijodda Super Market, Holding No C-2/1, Mirpur 1, Dhaka 1216", isAddress: true },

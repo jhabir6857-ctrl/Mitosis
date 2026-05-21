@@ -60,7 +60,7 @@ export default function NewsPage() {
       <ParallaxBanner
         title="Our News & Blog"
         subtitle="Stay updated with the latest health tips, medical breakthroughs, and news from Mitosis Lab."
-        imageSrc="https://images.unsplash.com/photo-1576091160550-2173ff9e5eb2?q=80&w=2000&auto=format&fit=crop"
+        imageSrc="https://images.unsplash.com/photo-1618042164219-62c820f10723?q=80&w=2000&auto=format&fit=crop"
         heightClass="h-[45vh]"
         overlayClass="bg-gradient-to-b from-blue-950/75 via-blue-900/60 to-blue-800/50"
       />

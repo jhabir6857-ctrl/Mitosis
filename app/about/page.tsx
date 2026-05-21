@@ -28,17 +28,12 @@ export default function AboutPage() {
 
         {/* Facility & Tech Tour Parallax */}
         <ParallaxBanner
+          title="State-of-the-Art Facilities"
+          subtitle="Experience our ultra-modern, brightly lit laboratory and active testing rooms. We use cutting-edge, sterile equipment to ensure the highest accuracy in every diagnosis."
           imageSrc="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=2000&auto=format&fit=crop"
           heightClass="h-[50vh]"
           overlayClass="bg-blue-950/60"
-        >
-          <div className="max-w-3xl mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">State-of-the-Art Facilities</h2>
-            <p className="text-lg md:text-xl text-white/90 drop-shadow-md">
-              Experience our ultra-modern, brightly lit laboratory and active testing rooms. We use cutting-edge, sterile equipment to ensure the highest accuracy in every diagnosis.
-            </p>
-          </div>
-        </ParallaxBanner>
+        />
 
         <div className="container" style={{ padding: "3rem 1rem" }}>
           {/* Values Grid */}

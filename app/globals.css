@@ -1928,7 +1928,6 @@ button, a, [role="button"] {
   position: relative;
   background: #f8fafc;
   min-height: 100vh;
-  overflow: hidden;
 }
 
 /* Ambient gradient orbs */

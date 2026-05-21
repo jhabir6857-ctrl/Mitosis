@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight } from "lucide-react";
+import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight, Clock } from "lucide-react";
 
 const navLinks = [
   {
@@ -164,28 +164,38 @@ export default function Navigation() {
         >
           {/* Left — Address + Phone */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap", flex: 1, minWidth: 0 }}>
-            {/* Address — clickable, opens exact Mitosis Lab Ltd location on Google Maps */}
+            {/* Address — clickable button */}
             <a
               href="https://www.google.com/maps/place/Mitosis+Lab+Ltd/@23.7987161,90.3519292,17z/data=!3m1!4b1!4m6!3m5!1s0x3755c100172e4cfd:0x6af678895c53a755!8m2!3d23.7987161!4d90.3519292!16s%2Fg%2F11wwgj972y"
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: "rgba(255,255,255,0.9)",
+                background: "rgba(255,255,255,0.15)",
+                border: "1px solid rgba(255,255,255,0.35)",
+                color: "white",
+                borderRadius: "var(--radius-full)",
+                padding: "0.2rem 0.8rem",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
-                transition: "color 150ms",
+                transition: "background 200ms",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                fontWeight: 700,
+                fontSize: "0.75rem",
+                minHeight: "unset",
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.9)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
-              className="hidden md:flex items-center gap-1"
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.25)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.15)"; }}
+              className="hidden md:flex"
               title="View Mitosis Lab Ltd on Google Maps"
             >
               <MapPin size={11} style={{ flexShrink: 0 }} />
-              Mirpur 1, Dhaka
+              Location
             </a>
 
             {/* Divider — desktop only */}
-            <span className="hidden md:block" style={{ color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
+            <span className="hidden md:flex" style={{ alignItems: "center", color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
 
             {/* Phone — always visible */}
             <a
@@ -207,9 +217,13 @@ export default function Navigation() {
             </a>
 
             {/* Hours — desktop only */}
-            <span className="hidden lg:flex" style={{ alignItems: "center", gap: "0.3rem", color: "rgba(255,255,255,0.7)" }}>
-              <span style={{ color: "rgba(255,255,255,0.25)" }}>|</span>
-              Open Everyday: 7:30 AM – 11:00 PM
+            <span className="hidden lg:flex" style={{ alignItems: "center", gap: "0.75rem", color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-ui)" }}>
+              <span style={{ color: "rgba(255,255,255,0.25)", userSelect: "none" }}>|</span>
+              <span style={{ display: "flex", alignItems: "center", gap: "0.35rem", paddingTop: "1px" }}>
+                <Clock size={11} color="var(--color-brand-green)" style={{ flexShrink: 0 }} />
+                <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>Open Everyday:</span>
+                <span style={{ color: "white", fontWeight: 700, letterSpacing: "0.02em" }}>7:30 AM – 11:30 PM</span>
+              </span>
             </span>
 
             {/* Emergency badge — desktop only */}

@@ -79,7 +79,7 @@ export default function ParallaxStats() {
       ref={sectionRef}
       style={{
         position: "relative",
-        backgroundImage: "url('https://images.unsplash.com/photo-1579684385127-1ef15d508119?auto=format&fit=crop&q=80')",
+        backgroundImage: "url('/images/surgeons-looking-down.jpg')",
         backgroundAttachment: isMobile ? "scroll" : "fixed",
         imageRendering: "auto",
         backgroundSize: "cover",
@@ -98,12 +98,12 @@ export default function ParallaxStats() {
           100% { opacity: 1; transform: translateY(0); }
         }
       `}</style>
-      {/* Gradient overlay */}
+      {/* Gradient overlay — navy left, teal right, matching screenshot */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(135deg, rgba(10,30,61,0.92) 0%, rgba(10,30,61,0.75) 50%, rgba(0,100,60,0.65) 100%)",
+          background: "linear-gradient(135deg, rgba(10,25,60,0.82) 0%, rgba(10,40,80,0.65) 45%, rgba(0,110,80,0.55) 100%)",
           zIndex: 0,
         }}
       />

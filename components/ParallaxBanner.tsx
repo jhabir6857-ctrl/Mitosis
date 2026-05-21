@@ -19,7 +19,7 @@ export default function ParallaxBanner({
 }: ParallaxBannerProps) {
   return (
     <div
-      className={`relative w-full bg-scroll bg-cover bg-center bg-no-repeat ${heightClass}`}
+      className={`relative w-full bg-fixed bg-cover bg-center bg-no-repeat ${heightClass}`}
       style={{ backgroundImage: `url(${imageSrc})` }}
     >
       {/* Overlay */}
@@ -28,12 +28,24 @@ export default function ParallaxBanner({
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center" style={{ paddingTop: "80px" }}>
         {title && (
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          <h1 
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4" 
+            style={{ 
+              color: "#ffffff",
+              textShadow: "0 2px 10px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.3)"
+            }}
+          >
             {title}
           </h1>
         )}
         {subtitle && (
-          <p className="text-lg md:text-xl text-gray-200 max-w-2xl drop-shadow mb-6">
+          <p 
+            className="text-base md:text-lg lg:text-xl font-medium max-w-3xl mb-6 leading-relaxed" 
+            style={{ 
+              color: "#f8fafc",
+              textShadow: "0 2px 8px rgba(0,0,0,0.5)"
+            }}
+          >
             {subtitle}
           </p>
         )}

@@ -352,8 +352,17 @@ function Step4Details({ onConfirm }: { onConfirm: () => void }) {
 }
 
 // ─── CONFIRMATION SCREEN ──────────────────────────────────────────────────────
-function ConfirmationScreen() {
-  const store = useBookingStore();
+interface ConfirmationDetails {
+  selectedDoctorName: string | null;
+  selectedDepartmentName: string | null;
+  selectedDate: string | null;
+  selectedSlotTime: string | null;
+  patientName: string;
+  patientPhone: string;
+}
+
+// ─── CONFIRMATION SCREEN ──────────────────────────────────────────────────────
+function ConfirmationScreen({ details, onReset }: { details: ConfirmationDetails; onReset: () => void }) {
   return (
     <div style={{ textAlign: "center", padding: "2rem 0" }}>
       <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: "var(--color-success-light)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem", animation: "scaleIn 400ms var(--transition-bounce)" }}>
@@ -370,12 +379,12 @@ function ConfirmationScreen() {
       <div className="card" style={{ padding: "1.75rem", textAlign: "left", maxWidth: "480px", margin: "0 auto 2rem", border: "2px solid var(--color-success-light)" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
           {[
-            { label: "Doctor", value: store.selectedDoctorName },
-            { label: "Department", value: store.selectedDepartmentName },
-            { label: "Date", value: store.selectedDate ? new Date(store.selectedDate).toLocaleDateString("en-BD", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "" },
-            { label: "Time", value: store.selectedSlotTime },
-            { label: "Patient", value: store.patientName },
-            { label: "Phone", value: store.patientPhone },
+            { label: "Doctor", value: details.selectedDoctorName },
+            { label: "Department", value: details.selectedDepartmentName },
+            { label: "Date", value: details.selectedDate ? new Date(details.selectedDate).toLocaleDateString("en-BD", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "" },
+            { label: "Time", value: details.selectedSlotTime },
+            { label: "Patient", value: details.patientName },
+            { label: "Phone", value: details.patientPhone },
           ].map(({ label, value }) => value && (
             <div key={label} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid var(--color-surface-border)", paddingBottom: "0.5rem" }}>
               <span style={{ color: "var(--color-text-secondary)", fontSize: "0.9rem" }}>{label}</span>
@@ -388,7 +397,7 @@ function ConfirmationScreen() {
         </p>
       </div>
 
-      <button className="btn-primary" onClick={store.resetBooking} style={{ margin: "0 auto" }}>
+      <button className="btn-primary" onClick={onReset} style={{ margin: "0 auto" }}>
         Book Another Appointment
       </button>
       <style>{`@keyframes scaleIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }`}</style>
@@ -400,9 +409,38 @@ function ConfirmationScreen() {
 function BookingWizard() {
   const { currentStep, setStep } = useBookingStore();
   const [confirmed, setConfirmed] = useState(false);
+  const [completedDetails, setCompletedDetails] = useState<ConfirmationDetails | null>(null);
+  const [showResumeModal, setShowResumeModal] = useState(false);
+  const [draftInfo, setDraftInfo] = useState<{
+    step: number;
+    department: string | null;
+    doctor: string | null;
+    date: string | null;
+    time: string | null;
+  } | null>(null);
+
   const searchParams = useSearchParams();
 
   const doctorParam = searchParams.get("doctor");
+
+  // Load and check draft on initial mount
+  useEffect(() => {
+    const docParam = searchParams.get("doctor");
+    if (!docParam) {
+      const storeState = useBookingStore.getState();
+      if (storeState.currentStep > 1 && storeState.selectedDepartmentId) {
+        setDraftInfo({
+          step: storeState.currentStep,
+          department: storeState.selectedDepartmentName,
+          doctor: storeState.selectedDoctorName,
+          date: storeState.selectedDate,
+          time: storeState.selectedSlotTime,
+        });
+        setShowResumeModal(true);
+      }
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     if (doctorParam) {
       const doc = mockDoctors.find(d => d.id === doctorParam);
@@ -413,6 +451,20 @@ function BookingWizard() {
       }
     }
   }, [doctorParam, setStep]);
+
+  const handleConfirm = () => {
+    const storeState = useBookingStore.getState();
+    setCompletedDetails({
+      selectedDoctorName: storeState.selectedDoctorName,
+      selectedDepartmentName: storeState.selectedDepartmentName,
+      selectedDate: storeState.selectedDate,
+      selectedSlotTime: storeState.selectedSlotTime,
+      patientName: storeState.patientName,
+      patientPhone: storeState.patientPhone,
+    });
+    storeState.resetBooking();
+    setConfirmed(true);
+  };
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--color-surface-alt)" }}>
@@ -436,8 +488,14 @@ function BookingWizard() {
         <div style={{ maxWidth: "700px", margin: "0 auto" }}>
           {!confirmed && <StepIndicator current={currentStep} />}
           <div className="card" style={{ padding: "clamp(1.25rem, 5vw, 2.5rem)" }}>
-            {confirmed ? (
-              <ConfirmationScreen />
+            {confirmed && completedDetails ? (
+              <ConfirmationScreen
+                details={completedDetails}
+                onReset={() => {
+                  setConfirmed(false);
+                  setCompletedDetails(null);
+                }}
+              />
             ) : (
               <>
                 {/* Step counter */}
@@ -451,12 +509,179 @@ function BookingWizard() {
                 {currentStep === 1 && <Step1Department />}
                 {currentStep === 2 && <Step2Doctor />}
                 {currentStep === 3 && <Step3DateTime />}
-                {currentStep === 4 && <Step4Details onConfirm={() => setConfirmed(true)} />}
+                {currentStep === 4 && <Step4Details onConfirm={handleConfirm} />}
               </>
             )}
           </div>
         </div>
       </div>
+
+      {/* Resume Progress Glassmorphic Choice Modal */}
+      {showResumeModal && draftInfo && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 9999,
+          background: "rgba(15, 23, 42, 0.75)",
+          backdropFilter: "blur(12px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "1.5rem",
+          animation: "fadeIn 250ms ease-out both",
+        }}>
+          <div style={{
+            background: "var(--color-surface)",
+            border: "2px solid var(--color-surface-border)",
+            borderRadius: "var(--radius-2xl)",
+            padding: "clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 4vw, 2rem)",
+            maxWidth: "500px",
+            width: "100%",
+            maxHeight: "90vh",
+            overflowY: "auto",
+            boxShadow: "0 24px 64px rgba(0, 0, 0, 0.25)",
+            animation: "modalSlideUp 350ms cubic-bezier(0.34, 1.56, 0.64, 1) both",
+            textAlign: "center",
+            position: "relative",
+          }}>
+            <div style={{
+              width: "64px",
+              height: "64px",
+              borderRadius: "50%",
+              background: "var(--color-primary-50)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 1.5rem",
+            }}>
+              <Calendar size={28} color="var(--color-primary)" />
+            </div>
+
+            <h3 style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: "1.6rem",
+              fontWeight: 800,
+              marginBottom: "0.75rem",
+              color: "var(--color-text-primary)",
+            }}>
+              Resume Your Booking?
+            </h3>
+            <p style={{
+              color: "var(--color-text-secondary)",
+              fontSize: "0.95rem",
+              lineHeight: 1.5,
+              marginBottom: "1.5rem",
+            }}>
+              We saved your progress from your previous session. Would you like to continue from <strong>Step {draftInfo.step}</strong>?
+            </p>
+
+            {/* Draft Details Card */}
+            <div style={{
+              background: "var(--color-surface-alt)",
+              border: "1px solid var(--color-surface-border)",
+              borderRadius: "var(--radius-xl)",
+              padding: "1.25rem",
+              marginBottom: "2rem",
+              textAlign: "left",
+            }}>
+              <h4 style={{
+                fontFamily: "var(--font-heading)",
+                fontWeight: 700,
+                fontSize: "0.82rem",
+                color: "var(--color-text-secondary)",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                marginBottom: "0.75rem",
+                borderBottom: "1px solid var(--color-surface-border)",
+                paddingBottom: "0.5rem",
+              }}>
+                Saved Progress Details
+              </h4>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", fontSize: "0.9rem" }}>
+                {draftInfo.department && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span>🏥</span>
+                    <span style={{ color: "var(--color-text-secondary)", width: "90px", flexShrink: 0 }}>Department:</span>
+                    <span style={{ fontWeight: 700, color: "var(--color-text-primary)" }}>{draftInfo.department}</span>
+                  </div>
+                )}
+                {draftInfo.doctor && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span>👨‍⚕️</span>
+                    <span style={{ color: "var(--color-text-secondary)", width: "90px", flexShrink: 0 }}>Doctor:</span>
+                    <span style={{ fontWeight: 700, color: "var(--color-text-primary)" }}>{draftInfo.doctor}</span>
+                  </div>
+                )}
+                {draftInfo.date && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span>📅</span>
+                    <span style={{ color: "var(--color-text-secondary)", width: "90px", flexShrink: 0 }}>Date:</span>
+                    <span style={{ fontWeight: 700, color: "var(--color-text-primary)" }}>
+                      {new Date(draftInfo.date).toLocaleDateString("en-BD", { weekday: "short", day: "numeric", month: "short" })}
+                    </span>
+                  </div>
+                )}
+                {draftInfo.time && (
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span>🕐</span>
+                    <span style={{ color: "var(--color-text-secondary)", width: "90px", flexShrink: 0 }}>Time Slot:</span>
+                    <span style={{ fontWeight: 700, color: "var(--color-text-primary)" }}>{draftInfo.time}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.875rem",
+            }}>
+              <button
+                onClick={() => {
+                  setShowResumeModal(false);
+                }}
+                className="btn-primary"
+                style={{ width: "100%", justifyContent: "center", fontSize: "1rem" }}
+              >
+                Resume Previous Booking
+              </button>
+              <button
+                onClick={() => {
+                  useBookingStore.getState().resetBooking();
+                  setShowResumeModal(false);
+                }}
+                className="btn-secondary"
+                style={{ width: "100%", justifyContent: "center", fontSize: "1rem", borderColor: "var(--color-surface-muted)", color: "var(--color-text-secondary)" }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "var(--color-danger)";
+                  el.style.color = "var(--color-danger)";
+                  el.style.background = "var(--color-danger-light)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "var(--color-surface-muted)";
+                  el.style.color = "var(--color-text-secondary)";
+                  el.style.background = "transparent";
+                }}
+              >
+                Start New Booking
+              </button>
+            </div>
+          </div>
+          <style>{`
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes modalSlideUp {
+              from { transform: translateY(20px) scale(0.96); opacity: 0; }
+              to { transform: translateY(0) scale(1); opacity: 1; }
+            }
+          `}</style>
+        </div>
+      )}
     </div>
   );
 }
