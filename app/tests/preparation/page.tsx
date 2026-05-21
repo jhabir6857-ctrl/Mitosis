@@ -265,12 +265,32 @@ export default function TestPreparationPage() {
         heightClass="h-[38vh]"
       />
 
-      <div className="container" style={{ padding: "2.5rem 1rem 4rem" }}>
+      <div className="container prep-container" style={{ padding: "2.5rem 1rem 4rem" }}>
+        <style>{`
+          .prep-filters { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+          .prep-search { position: relative; flex: 1; min-width: 220px; }
+          .prep-select { padding: 0.7rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-family: var(--font-ui); font-size: 0.9rem; color: var(--color-dark); background: white; outline: none; cursor: pointer; }
+          .prep-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+          .prep-accordion-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.4rem; border: none; cursor: pointer; gap: 1rem; text-align: left; transition: background 200ms; }
+          .prep-accordion-header { display: flex; align-items: center; gap: 0.85rem; flex: 1; min-width: 0; }
+          
+          @media (max-width: 768px) {
+            .prep-container { padding: 1.5rem 1rem 3rem !important; }
+            .prep-filters { flex-direction: column; }
+            .prep-search { min-width: 100%; }
+            .prep-select { width: 100%; }
+            .prep-pills { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.5rem; scrollbar-width: none; margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; }
+            .prep-pills::-webkit-scrollbar { display: none; }
+            .prep-accordion-btn { padding: 0.85rem 1rem !important; align-items: flex-start; }
+            .prep-accordion-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+          }
+        `}</style>
+
 
         {/* Search + Filter */}
         <div style={{ background: "white", borderRadius: "1.25rem", padding: "1.5rem", boxShadow: "0 4px 20px rgba(0,0,0,0.07)", border: "1px solid #e2e8f0", marginBottom: "1.75rem" }}>
-          <div style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}>
-            <div style={{ position: "relative", flex: 1, minWidth: "220px" }}>
+          <div className="prep-filters">
+            <div className="prep-search">
               <Search size={16} style={{ position: "absolute", left: "0.85rem", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
               <input
                 type="text"
@@ -282,15 +302,14 @@ export default function TestPreparationPage() {
                 onBlur={e => { e.currentTarget.style.borderColor = "#e2e8f0"; }}
               />
             </div>
-            <select value={category} onChange={e => { setCategory(e.target.value); setOpen(null); }}
-              style={{ padding: "0.7rem 0.85rem", border: "1.5px solid #e2e8f0", borderRadius: "0.65rem", fontFamily: "var(--font-ui)", fontSize: "0.9rem", color: "var(--color-dark)", background: "white", outline: "none", cursor: "pointer" }}>
+            <select value={category} onChange={e => { setCategory(e.target.value); setOpen(null); }} className="prep-select">
               {CATEGORIES.map(c => <option key={c}>{c}</option>)}
             </select>
           </div>
         </div>
 
         {/* Category pills */}
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+        <div className="prep-pills">
           {CATEGORIES.map(c => (
             <button key={c} onClick={() => { setCategory(c); setOpen(null); }}
               style={{
@@ -330,13 +349,9 @@ export default function TestPreparationPage() {
               }}>
                 {/* Header */}
                 <button onClick={() => setOpen(isOpen ? null : idx)}
-                  style={{
-                    width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
-                    padding: "1.1rem 1.4rem", background: isOpen ? `${color}08` : "transparent",
-                    border: "none", cursor: "pointer", gap: "1rem", textAlign: "left",
-                    transition: "background 200ms",
-                  }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.85rem", flex: 1, minWidth: 0 }}>
+                  className="prep-accordion-btn"
+                  style={{ background: isOpen ? `${color}08` : "transparent" }}>
+                  <div className="prep-accordion-header">
                     <span style={{
                       background: `${color}15`, color, padding: "0.2rem 0.65rem",
                       borderRadius: "0.4rem", fontSize: "0.72rem", fontWeight: 700,
@@ -347,7 +362,7 @@ export default function TestPreparationPage() {
                       {prep.title}
                     </span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0, alignSelf: "center" }}>
                     {prep.fastingHours && (
                       <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", background: "rgba(237,137,54,0.1)", color: "#c05621", padding: "0.2rem 0.6rem", borderRadius: "0.4rem", fontSize: "0.75rem", fontWeight: 600, fontFamily: "var(--font-ui)", whiteSpace: "nowrap" }}>
                         <Clock size={12} /> {prep.fastingHours}h fast

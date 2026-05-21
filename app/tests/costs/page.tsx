@@ -267,15 +267,74 @@ function TestCostsContent() {
         heightClass="h-[38vh]"
       />
 
-      <div className="container" style={{ padding: "2.5rem 1rem 4rem" }}>
+      <div className="container costs-container" style={{ padding: "2.5rem 1rem 4rem" }}>
+        <style>{`
+          .costs-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+          .costs-stat-box { flex: 1; min-width: 150px; background: white; border: 1px solid #e2e8f0; border-radius: 0.85rem; padding: 0.75rem 1.25rem; display: flex; gap: 0.5rem; align-items: baseline; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+          .costs-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; }
+          .costs-search-wrap { position: relative; }
+          .costs-input, .costs-select { width: 100%; padding: 0.7rem 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-family: var(--font-ui); font-size: 0.9rem; outline: none; box-sizing: border-box; color: var(--color-dark); background: white; cursor: pointer; }
+          .costs-search-input { padding-left: 2.5rem; cursor: text; }
+          
+          /* Mobile Card Layout for Table */
+          @media (max-width: 768px) {
+            .costs-container { padding: 1.5rem 1rem 3rem !important; }
+            .costs-filters { grid-template-columns: 1fr; }
+            .costs-stat-box { min-width: 100%; }
+            
+            /* Hide table headers */
+            .costs-table thead { display: none; }
+            .costs-table, .costs-table tbody, .costs-table tr, .costs-table td { display: block; width: 100%; }
+            
+            /* Card style for rows */
+            .costs-table tr { 
+              background: white; 
+              border: 1px solid #e2e8f0 !important; 
+              border-radius: 0.85rem; 
+              margin-bottom: 1rem; 
+              padding: 1rem; 
+              box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .costs-table td { 
+              padding: 0 !important; 
+              border: none !important; 
+              text-align: left !important; 
+            }
+            
+            /* Specific cell positioning */
+            .costs-cell-index { display: none !important; } /* Hide the # index */
+            .costs-cell-dept { margin-bottom: 0.5rem; display: inline-block; }
+            .costs-cell-name { font-size: 1.05rem !important; font-weight: 700 !important; margin-bottom: 0.25rem; }
+            .costs-cell-sub { font-size: 0.85rem !important; color: #64748b !important; margin-bottom: 0.85rem; }
+            .costs-cell-price { 
+              font-size: 1.15rem !important; 
+              font-weight: 800 !important; 
+              color: #3CA544 !important; 
+              border-top: 1px dashed #e2e8f0 !important; 
+              padding-top: 0.75rem !important; 
+              margin-top: 0.5rem; 
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+            .costs-cell-price::before {
+              content: "Price";
+              font-size: 0.85rem;
+              color: #94a3b8;
+              font-weight: 600;
+              text-transform: uppercase;
+            }
+          }
+        `}</style>
+
 
         {/* Summary stats */}
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+        <div className="costs-stats">
           {[
             { label: "Total Tests", value: TESTS.length },
             { label: "Departments", value: departments.length - 1 },
           ].map(s => (
-            <div key={s.label} style={{ background: "white", border: "1px solid #e2e8f0", borderRadius: "0.85rem", padding: "0.75rem 1.25rem", display: "flex", gap: "0.5rem", alignItems: "baseline", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+            <div key={s.label} className="costs-stat-box">
               <span style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: "1.4rem", color: "var(--color-primary)" }}>{s.value}</span>
               <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.82rem", color: "var(--color-text-muted)" }}>{s.label}</span>
             </div>
@@ -287,28 +346,26 @@ function TestCostsContent() {
           <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "1.05rem", color: "var(--color-dark)", marginBottom: "1rem" }}>
             Filter & Search
           </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.85rem" }}>
+          <div className="costs-filters">
             {/* Search */}
-            <div style={{ position: "relative" }}>
+            <div className="costs-search-wrap">
               <Search size={16} style={{ position: "absolute", left: "0.85rem", top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
               <input
                 type="text"
                 placeholder="Search test name..."
                 value={search}
                 onChange={e => handleSearch(e.target.value)}
-                style={{ width: "100%", paddingLeft: "2.5rem", padding: "0.7rem 0.85rem 0.7rem 2.5rem", border: "1.5px solid #e2e8f0", borderRadius: "0.65rem", fontFamily: "var(--font-ui)", fontSize: "0.9rem", outline: "none", boxSizing: "border-box", color: "var(--color-dark)" }}
+                className="costs-input costs-search-input"
                 onFocus={e => { e.currentTarget.style.borderColor = "var(--color-primary)"; }}
                 onBlur={e => { e.currentTarget.style.borderColor = "#e2e8f0"; }}
               />
             </div>
             {/* Dept */}
-            <select value={dept} onChange={e => handleDeptChange(e.target.value)}
-              style={{ padding: "0.7rem 0.85rem", border: "1.5px solid #e2e8f0", borderRadius: "0.65rem", fontFamily: "var(--font-ui)", fontSize: "0.9rem", color: "var(--color-dark)", background: "white", outline: "none", cursor: "pointer" }}>
+            <select value={dept} onChange={e => handleDeptChange(e.target.value)} className="costs-select">
               {departments.map(d => <option key={d}>{d}</option>)}
             </select>
             {/* Sub-dept */}
-            <select value={subDept} onChange={e => handleSubChange(e.target.value)}
-              style={{ padding: "0.7rem 0.85rem", border: "1.5px solid #e2e8f0", borderRadius: "0.65rem", fontFamily: "var(--font-ui)", fontSize: "0.9rem", color: "var(--color-dark)", background: "white", outline: "none", cursor: "pointer" }}>
+            <select value={subDept} onChange={e => handleSubChange(e.target.value)} className="costs-select">
               {subDepts.map(s => <option key={s}>{s}</option>)}
             </select>
           </div>
@@ -328,7 +385,7 @@ function TestCostsContent() {
         {/* Table */}
         <div style={{ background: "white", borderRadius: "1.25rem", boxShadow: "0 4px 20px rgba(0,0,0,0.07)", border: "1px solid #e2e8f0", overflow: "hidden", marginBottom: "1.5rem" }}>
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-ui)" }}>
+            <table className="costs-table" style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-ui)" }}>
               <thead>
                 <tr style={{ background: "linear-gradient(90deg, #0a1e3d 0%, #006BB6 100%)" }}>
                   {["#", "Department", "Sub-Department", "Test Name", "Price (৳)"].map((h, i) => (
@@ -349,24 +406,24 @@ function TestCostsContent() {
                     return (
                       <tr key={i}
                         style={{ borderBottom: "1px solid #f1f5f9", transition: "background 150ms" }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#f8fafc"; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "white"; }}
+                        onMouseEnter={e => { if (window.innerWidth > 768) (e.currentTarget as HTMLElement).style.background = "#f8fafc"; }}
+                        onMouseLeave={e => { if (window.innerWidth > 768) (e.currentTarget as HTMLElement).style.background = "white"; }}
                       >
-                        <td style={{ padding: "0.85rem 1rem", color: "#94a3b8", fontSize: "0.8rem", width: "2.5rem" }}>
+                        <td className="costs-cell-index" style={{ padding: "0.85rem 1rem", color: "#94a3b8", fontSize: "0.8rem", width: "2.5rem" }}>
                           {(page - 1) * PAGE_SIZE + i + 1}
                         </td>
-                        <td style={{ padding: "0.85rem 1rem" }}>
+                        <td className="costs-cell-dept" style={{ padding: "0.85rem 1rem" }}>
                           <span style={{ background: ds.bg, color: ds.color, padding: "0.2rem 0.6rem", borderRadius: "0.4rem", fontSize: "0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>
                             {t.dept.toUpperCase()}
                           </span>
                         </td>
-                        <td style={{ padding: "0.85rem 1rem", color: "#64748b", fontSize: "0.85rem", fontWeight: 500 }}>
+                        <td className="costs-cell-sub" style={{ padding: "0.85rem 1rem", color: "#64748b", fontSize: "0.85rem", fontWeight: 500 }}>
                           {t.sub}
                         </td>
-                        <td style={{ padding: "0.85rem 1rem", color: "var(--color-dark)", fontSize: "0.9rem", fontWeight: 600 }}>
+                        <td className="costs-cell-name" style={{ padding: "0.85rem 1rem", color: "var(--color-dark)", fontSize: "0.9rem", fontWeight: 600 }}>
                           {t.name}
                         </td>
-                        <td style={{ padding: "0.85rem 1rem", textAlign: "right" }}>
+                        <td className="costs-cell-price" style={{ padding: "0.85rem 1rem", textAlign: "right" }}>
                           <span style={{ fontWeight: 800, fontSize: "0.95rem", color: "#3CA544" }}>৳ {t.price.toLocaleString()}</span>
                         </td>
                       </tr>
