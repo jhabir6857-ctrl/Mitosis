@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award, Activity, CalendarCheck, ChevronRight } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
+import {
+  Search, Calendar, Download, ArrowRight, CheckCircle, Clock, Users, Award,
+  Activity, CalendarCheck, ChevronRight, FlaskConical, DollarSign, ClipboardList, ChevronDown,
+} from "lucide-react";
 import { mockDepartments } from "./api/mock/doctors/route";
 import DoctorSlider from "@/components/DoctorSlider";
 import TestimonialSlider from "@/components/TestimonialSlider";
@@ -53,6 +57,26 @@ const stats = [
 ];
 
 export default function HomePage() {
+  const [testsOpen, setTestsOpen] = useState(false);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Desktop: hover opens — keep open while cursor is inside wrapper OR dropdown
+  const handleTestsEnter = useCallback(() => {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
+    setTestsOpen(true);
+  }, []);
+
+  const handleTestsLeave = useCallback(() => {
+    leaveTimer.current = setTimeout(() => setTestsOpen(false), 120);
+  }, []);
+
+  // Mobile/touch: tap toggles
+  const handleTestsTap = useCallback(() => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      setTestsOpen(o => !o);
+    }
+  }, []);
+
   return (
     <div>
       <style>{`
@@ -74,49 +98,16 @@ export default function HomePage() {
         <section className="qab-section">
           <div className="container">
             <div className="qab-grid">
+              {/* ── Tiles 1–4 (unchanged) ── */}
               {[
-                {
-                  icon: Search,
-                  title: "Find a Doctor",
-                  desc: "Search 50+ specialists across all departments",
-                  href: "/doctors",
-                  color: "#006BB6",
-                  bg: "rgba(0,107,182,0.08)",
-                  id: "qab-find-doctor",
-                },
-                {
-                  icon: Calendar,
-                  title: "Book Appointment",
-                  desc: "Home collection & walk-in, same day",
-                  href: "/appointment",
-                  color: "#3CA544",
-                  bg: "rgba(60,165,68,0.08)",
-                  id: "qab-book-appointment",
-                },
-                {
-                  icon: Download,
-                  title: "Download Reports",
-                  desc: "Instant, secure access to your results",
-                  href: "/portal/login",
-                  color: "#7c3aed",
-                  bg: "rgba(124,58,237,0.08)",
-                  id: "qab-download-reports",
-                },
-                {
-                  icon: Activity,
-                  title: "MRD Services",
-                  desc: "Medical records & digital report access",
-                  href: "/mrd-services",
-                  color: "#dc2626",
-                  bg: "rgba(220,38,38,0.08)",
-                  id: "qab-mrd-service",
-                },
+                { icon: Search,   title: "Find a Doctor",     desc: "Search 50+ specialists across all departments", href: "/doctors",      color: "#006BB6", bg: "rgba(0,107,182,0.08)",   id: "qab-find-doctor" },
+                { icon: Calendar, title: "Book Appointment",  desc: "Home collection & walk-in, same day",           href: "/appointment",  color: "#3CA544", bg: "rgba(60,165,68,0.08)",   id: "qab-book-appointment" },
+                { icon: Download, title: "Download Reports",  desc: "Instant, secure access to your results",        href: "/portal/login", color: "#7c3aed", bg: "rgba(124,58,237,0.08)", id: "qab-download-reports" },
+                { icon: Activity, title: "MRD Services",      desc: "Medical records & digital report access",       href: "/mrd-services", color: "#dc2626", bg: "rgba(220,38,38,0.08)",   id: "qab-mrd-service" },
               ].map(({ icon: Icon, title, desc, href, color, bg, id }) => (
                 <Link key={id} id={id} href={href} className="qab-tile"
                   style={{ "--tile-color": color, "--tile-bg": bg } as React.CSSProperties}>
-                  {/* Colored top accent bar */}
                   <div className="qab-tile-top-bar" style={{ background: color }} />
-                  {/* Icon circle */}
                   <div className="qab-tile-icon-wrap" style={{ background: bg }}>
                     <Icon size={30} color={color} strokeWidth={1.75} />
                   </div>
@@ -129,6 +120,67 @@ export default function HomePage() {
                   </div>
                 </Link>
               ))}
+
+              {/* ── Tile 5: Test Information (hover → sub-tiles) ── */}
+              <div
+                id="qab-test-info"
+                className="qab-tests-wrapper"
+                onMouseEnter={handleTestsEnter}
+                onMouseLeave={handleTestsLeave}
+              >
+                {/* Sub-tile dropdown — above on desktop, inline on mobile */}
+                <div className={`qab-sub-dropdown${testsOpen ? " is-open" : ""}`}>
+                  <Link
+                    href="/tests/costs"
+                    className="qab-sub-tile"
+                    onClick={() => setTestsOpen(false)}
+                  >
+                    <div className="qab-sub-tile-icon" style={{ background: "rgba(0,107,182,0.10)", color: "#006BB6" }}>
+                      <DollarSign size={17} />
+                    </div>
+                    <div className="qab-sub-tile-body">
+                      <div className="qab-sub-tile-title">Test Costs</div>
+                      <div className="qab-sub-tile-desc">Browse our full price list</div>
+                    </div>
+                    <div className="qab-sub-tile-arrow"><ArrowRight size={14} color="#006BB6" /></div>
+                  </Link>
+                  <Link
+                    href="/tests/preparation"
+                    className="qab-sub-tile"
+                    onClick={() => setTestsOpen(false)}
+                  >
+                    <div className="qab-sub-tile-icon" style={{ background: "rgba(13,148,136,0.10)", color: "#0d9488" }}>
+                      <ClipboardList size={17} />
+                    </div>
+                    <div className="qab-sub-tile-body">
+                      <div className="qab-sub-tile-title">Test Preparation</div>
+                      <div className="qab-sub-tile-desc">Step-by-step guides</div>
+                    </div>
+                    <div className="qab-sub-tile-arrow"><ArrowRight size={14} color="#0d9488" /></div>
+                  </Link>
+                </div>
+
+                {/* The main 5th tile */}
+                <div
+                  className={`qab-tile qab-tile--tests${testsOpen ? " is-open" : ""}`}
+                  onClick={handleTestsTap}
+                  role="button"
+                  aria-label="Test Information"
+                  aria-expanded={testsOpen}
+                >
+                  <div className="qab-tile-top-bar" style={{ background: "#0d9488" }} />
+                  <div className="qab-tile-icon-wrap" style={{ background: "rgba(13,148,136,0.08)" }}>
+                    <FlaskConical size={30} color="#0d9488" strokeWidth={1.75} />
+                  </div>
+                  <div className="qab-tile-body">
+                    <span className="qab-tile-title">Test Information</span>
+                    <span className="qab-tile-desc">Prices &amp; prep guides</span>
+                  </div>
+                  <div className="qab-tests-chevron">
+                    <ChevronDown size={20} color="#0d9488" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
