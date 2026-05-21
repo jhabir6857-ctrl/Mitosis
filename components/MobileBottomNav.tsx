@@ -99,6 +99,26 @@ export default function MobileBottomNav() {
 
   const navHeight = "4.25rem"; // approximate bottom nav height
 
+  // Page-aware filtering — only show the OTHER option when already on a tests page
+  const isOnCostsPage = pathname === "/tests/costs";
+  const isOnPrepPage  = pathname === "/tests/preparation";
+  const isOnTestsPage = isOnCostsPage || isOnPrepPage;
+
+  const visibleOptions = TEST_OPTIONS.filter(opt => {
+    if (isOnCostsPage) return opt.key === "preparation";
+    if (isOnPrepPage)  return opt.key === "costs";
+    return true;
+  });
+
+  // Hint text: page-context takes priority over cross-suggestion history
+  const sheetHint = isOnCostsPage
+    ? { text: "You're on Test Costs — view preparation guides:", color: "#0d9488", bg: "rgba(13,148,136,0.08)", border: "rgba(13,148,136,0.2)" }
+    : isOnPrepPage
+    ? { text: "You're on Test Preparation — check pricing:", color: "#006BB6", bg: "rgba(0,107,182,0.08)", border: "rgba(0,107,182,0.2)" }
+    : lastVisited
+    ? { text: suggestedNext === "preparation" ? "You checked Test Costs — try Preparation next!" : "You checked Preparation — see Test Costs next!", color: "#f59e0b", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" }
+    : null;
+
   return (
     <>
       {/* ── BOTTOM SHEET OVERLAY ─────────────────────────────────── */}
@@ -172,26 +192,24 @@ export default function MobileBottomNav() {
               </button>
             </div>
 
-            {/* Cross-suggestion hint */}
-            {lastVisited && (
+            {/* Context-aware hint */}
+            {sheetHint && (
               <div style={{
-                background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)",
+                background: sheetHint.bg, border: `1px solid ${sheetHint.border}`,
                 borderRadius: "0.65rem", padding: "0.5rem 0.75rem",
                 marginBottom: "0.85rem", display: "flex", alignItems: "center", gap: "0.4rem",
               }}>
-                <Sparkles size={13} color="#f59e0b" style={{ flexShrink: 0 }} />
-                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.73rem", color: "#92400e", fontWeight: 600 }}>
-                  {suggestedNext === "preparation"
-                    ? "You checked Test Costs — try Preparation next!"
-                    : "You checked Preparation — see Test Costs next!"}
+                <Sparkles size={13} color={sheetHint.color} style={{ flexShrink: 0 }} />
+                <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.73rem", color: "var(--color-dark)", fontWeight: 600 }}>
+                  {sheetHint.text}
                 </span>
               </div>
             )}
 
             {/* Option Cards */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
-              {TEST_OPTIONS.map(opt => {
-                const isRecommended = lastVisited !== null && opt.key === suggestedNext;
+              {visibleOptions.map(opt => {
+                const isRecommended = !isOnTestsPage && lastVisited !== null && opt.key === suggestedNext;
                 return (
                   <button
                     key={opt.key}

@@ -58,9 +58,10 @@ export default function StickySidebar() {
     };
   }, []);
 
-  // Close tests panel when on a tests page
+  // Auto-open tests panel on tests pages so the complementary button is immediately visible
   useEffect(() => {
-    if (pathname.startsWith("/tests")) setTestsOpen(false);
+    if (pathname === "/tests/costs" || pathname === "/tests/preparation") setTestsOpen(true);
+    else setTestsOpen(false);
   }, [pathname]);
 
   const defaultButtons: SidebarButton[] = [
@@ -103,6 +104,13 @@ export default function StickySidebar() {
       color: "#0d9488",
     },
   ];
+
+  // On a tests page, only show the complementary button (the one they're NOT on)
+  const filteredTestButtons = TEST_BUTTONS.filter(tb => {
+    if (pathname === "/tests/costs") return tb.key === "preparation";
+    if (pathname === "/tests/preparation") return tb.key === "costs";
+    return true;
+  });
 
   const buttonInner = (btn: SidebarButton, pulseRing: boolean) => (
     <div
@@ -255,7 +263,7 @@ export default function StickySidebar() {
               <ChevronUp size={12} color="rgba(13,148,136,0.5)" />
             </div>
 
-            {TEST_BUTTONS.map((tb, idx) => {
+            {filteredTestButtons.map((tb, idx) => {
               const isRecommended = lastVisited !== null && tb.key === suggestedNext;
               return (
                 <button

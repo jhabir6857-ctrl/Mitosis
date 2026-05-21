@@ -5,6 +5,31 @@ import { useRouter, usePathname } from "next/navigation";
 import { FlaskConical, DollarSign, ClipboardList, X, ChevronRight, Sparkles } from "lucide-react";
 import { useTestInfoStore, useSuggestedNext } from "./TestInfoStore";
 
+const OPTIONS = [
+  {
+    key: "costs" as const,
+    href: "/tests/costs",
+    icon: <DollarSign size={26} />,
+    label: "Test Costs",
+    desc: "Browse our full price list for all departments.",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    border: "rgba(0,107,182,0.18)",
+    activeBorder: "#006BB6",
+  },
+  {
+    key: "preparation" as const,
+    href: "/tests/preparation",
+    icon: <ClipboardList size={26} />,
+    label: "Test Preparation",
+    desc: "Step-by-step guides on how to prepare for each test.",
+    color: "#0d9488",
+    bg: "rgba(13,148,136,0.06)",
+    border: "rgba(13,148,136,0.18)",
+    activeBorder: "#0d9488",
+  },
+];
+
 export default function TestInfoFloatingTile() {
   const router = useRouter();
   const pathname = usePathname();
@@ -36,40 +61,33 @@ export default function TestInfoFloatingTile() {
     }
   }, []);
 
-  // Hide on test pages (user is already there)
-  const isOnTestsPage = pathname.startsWith("/tests");
+  // Page detection — on a tests page, only show the OTHER option
+  const isOnCostsPage = pathname === "/tests/costs";
+  const isOnPrepPage  = pathname === "/tests/preparation";
+  const isOnTestsPage = isOnCostsPage || isOnPrepPage;
+
+  // Filter to only show the complementary option when already on a tests page
+  const visibleOptions = OPTIONS.filter(opt => {
+    if (isOnCostsPage) return opt.key === "preparation";
+    if (isOnPrepPage)  return opt.key === "costs";
+    return true;
+  });
+
+  // Context-aware hint text inside the panel
+  const hintText = isOnCostsPage
+    ? "You're viewing Test Costs — check preparation guides too:"
+    : isOnPrepPage
+    ? "You're viewing Test Preparation — check pricing too:"
+    : lastVisited
+    ? suggestedNext === "preparation"
+      ? "✨ Based on your last visit — try Test Preparation next"
+      : "✨ Based on your last visit — try Test Costs next"
+    : null;
 
   const navigate = (href: string) => {
     setIsOpen(false);
     router.push(href);
   };
-
-  const OPTIONS = [
-    {
-      key: "costs" as const,
-      href: "/tests/costs",
-      icon: <DollarSign size={26} />,
-      label: "Test Costs",
-      desc: "Browse our full price list for all departments.",
-      color: "#006BB6",
-      bg: "rgba(0,107,182,0.06)",
-      border: "rgba(0,107,182,0.18)",
-      activeBorder: "#006BB6",
-    },
-    {
-      key: "preparation" as const,
-      href: "/tests/preparation",
-      icon: <ClipboardList size={26} />,
-      label: "Test Preparation",
-      desc: "Step-by-step guides on how to prepare for each test.",
-      color: "#0d9488",
-      bg: "rgba(13,148,136,0.06)",
-      border: "rgba(13,148,136,0.18)",
-      activeBorder: "#0d9488",
-    },
-  ];
-
-  if (isOnTestsPage) return null;
 
   return (
     <>
@@ -149,16 +167,21 @@ export default function TestInfoFloatingTile() {
               </button>
             </div>
 
-            {lastVisited && (
-              <p style={{ fontSize: "0.72rem", color: "#94a3b8", fontFamily: "var(--font-ui)", marginBottom: "0.75rem", fontWeight: 600 }}>
-                {suggestedNext === "preparation" ? "✨ Based on your last visit — try Test Preparation next" : "✨ Based on your last visit — try Test Costs next"}
+            {/* Context hint */}
+            {hintText && (
+              <p style={{
+                fontSize: "0.72rem", color: isOnTestsPage ? "#475569" : "#94a3b8",
+                fontFamily: "var(--font-ui)", marginBottom: "0.75rem", fontWeight: 600,
+                lineHeight: 1.5,
+              }}>
+                {hintText}
               </p>
             )}
 
-            {/* Option Cards */}
+            {/* Option Cards — only the relevant one(s) */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-              {OPTIONS.map(opt => {
-                const isRecommended = lastVisited !== null && opt.key === suggestedNext;
+              {visibleOptions.map(opt => {
+                const isRecommended = !isOnTestsPage && lastVisited !== null && opt.key === suggestedNext;
                 return (
                   <button
                     key={opt.key}
@@ -166,8 +189,8 @@ export default function TestInfoFloatingTile() {
                     style={{
                       display: "flex", alignItems: "center", gap: "0.85rem",
                       padding: "0.9rem 1rem",
-                      background: isRecommended ? opt.bg : "rgba(248,250,252,0.8)",
-                      border: `1.5px solid ${isRecommended ? opt.activeBorder : "#e2e8f0"}`,
+                      background: (isRecommended || isOnTestsPage) ? opt.bg : "rgba(248,250,252,0.8)",
+                      border: `1.5px solid ${(isRecommended || isOnTestsPage) ? opt.activeBorder : "#e2e8f0"}`,
                       borderRadius: "0.85rem",
                       cursor: "pointer",
                       textAlign: "left",
@@ -175,7 +198,7 @@ export default function TestInfoFloatingTile() {
                       transition: "all 200ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                       position: "relative",
                       overflow: "hidden",
-                      boxShadow: isRecommended ? `0 4px 16px ${opt.color}22` : "none",
+                      boxShadow: (isRecommended || isOnTestsPage) ? `0 4px 16px ${opt.color}22` : "none",
                     }}
                     onMouseEnter={e => {
                       (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
@@ -184,8 +207,8 @@ export default function TestInfoFloatingTile() {
                     }}
                     onMouseLeave={e => {
                       (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = isRecommended ? `0 4px 16px ${opt.color}22` : "none";
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = isRecommended ? opt.activeBorder : "#e2e8f0";
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow = (isRecommended || isOnTestsPage) ? `0 4px 16px ${opt.color}22` : "none";
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = (isRecommended || isOnTestsPage) ? opt.activeBorder : "#e2e8f0";
                     }}
                   >
                     <div style={{
@@ -272,7 +295,10 @@ export default function TestInfoFloatingTile() {
           {isOpen ? <X size={18} /> : (
             <>
               <FlaskConical size={18} />
-              <span>Test Info</span>
+              {/* Label adapts to context */}
+              <span>
+                {isOnCostsPage ? "Test Prep" : isOnPrepPage ? "Test Costs" : "Test Info"}
+              </span>
             </>
           )}
         </button>
