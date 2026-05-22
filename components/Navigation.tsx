@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight, Clock } from "lucide-react";
+import { Menu, X, Phone, User, ChevronDown, MapPin, ChevronRight, Clock, LayoutGrid } from "lucide-react";
 
 const navLinks = [
   {
@@ -37,8 +37,6 @@ const navLinks = [
     children: [
       { label: "All Services", href: "/services", section: "cta" },
       { label: "Test Information", href: "/tests", section: "item" },
-      { label: "Test Costs", href: "/tests/costs", section: "item" },
-      { label: "Test Preparation", href: "/tests/preparation", section: "item" },
       { label: "Facilities", href: "/facilities", section: "item" },
       { label: "Health Check Up", href: "/health-checkup", section: "item" },
       { label: "Packages", href: "/packages", section: "item" },
@@ -62,6 +60,47 @@ const navLinks = [
   },
   { label: "Career", href: "/career" },
   { label: "Contact", href: "/contact" },
+];
+
+const VISITORS_PATIENTS_GROUPS = [
+  {
+    title: "TESTS & REPORTS",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    items: [
+      { label: "Test Information", href: "/tests", desc: "Costs & prep guides unified in one place" },
+      { label: "MRD Services", href: "/mrd-services", desc: "Medical records department & reports" },
+    ],
+  },
+  {
+    title: "HEALTH PACKAGES",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    items: [
+      { label: "Health Check Up", href: "/health-checkup", desc: "Routine wellness examinations" },
+      { label: "Packages", href: "/packages", desc: "Comprehensive family health plans" },
+    ],
+  },
+  {
+    title: "HOSPITAL INFO",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    items: [
+      { label: "Facilities", href: "/facilities", desc: "Diagnostics & patient amenities" },
+      { label: "Room Rent", href: "/room-rent", desc: "Cabin & ward pricing details" },
+      { label: "Equipments", href: "/equipments", desc: "Our advanced diagnostic machines" },
+    ],
+  },
+  {
+    title: "SUPPORT",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    items: [
+      { label: "Health Tips", href: "/health-tips", desc: "Wellness advice & guidelines" },
+      { label: "Visitors Policy", href: "/visitors-policy", desc: "Visiting hours & guest regulations" },
+      { label: "Feedback", href: "/feedback", desc: "Share your experience with us" },
+    ],
+  },
 ];
 
 function dropdownSectionLabel(parentLabel: string): string {
@@ -376,97 +415,228 @@ export default function Navigation() {
 
               {/* Desktop Dropdown */}
               {link.children && openDropdown === link.label && (
-                <div
-                  onMouseEnter={() => setOpenDropdown(link.label)}
-                  style={{
-                    position: "absolute",
-                    top: "calc(100% + 0.25rem)",
-                    left: 0,
-                    minWidth: "220px",
-                    background: "var(--color-surface)",
-                    borderRadius: "var(--radius-xl)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-                    border: "1px solid var(--color-surface-border)",
-                    padding: "0.5rem",
-                    zIndex: 100,
-                    animation: "fadeInDown 150ms ease",
-                    marginTop: "-6px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  {link.children
-                    .filter((child) => child.section === "cta")
-                    .map((child) => (
-                      <Link prefetch={false}
-                        key={`${child.label}-${child.href}`}
-                        href={child.href}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          padding: "0.65rem 1rem",
-                          background: "var(--color-primary-50)",
-                          color: "var(--color-primary)",
-                          fontFamily: "var(--font-ui)",
-                          fontWeight: 700,
-                          fontSize: "0.875rem",
-                          textDecoration: "none",
-                          borderRadius: "var(--radius-md)",
-                          transition: "all 150ms",
-                        }}
-                      >
-                        {child.label}
-                        <span>→</span>
-                      </Link>
-                    ))}
-                  <div style={{ margin: "0.35rem 0", height: "1px", background: "var(--color-surface-border)" }} />
-                  <span
+                link.label === "Visitors & Patients" ? (
+                  /* Custom 2x2 Mega Menu */
+                  <div
+                    onMouseEnter={() => setOpenDropdown(link.label)}
                     style={{
-                      padding: "0.4rem 1rem",
-                      fontSize: "0.7rem",
-                      fontWeight: 700,
-                      color: "var(--color-text-muted)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      display: "block",
+                      position: "absolute",
+                      top: "calc(100% + 0.25rem)",
+                      left: "-200px",
+                      width: "600px",
+                      background: "var(--color-surface)",
+                      borderRadius: "var(--radius-xl)",
+                      boxShadow: "0 10px 40px rgba(0,0,0,0.15)",
+                      border: "1px solid var(--color-surface-border)",
+                      padding: "1.25rem",
+                      zIndex: 100,
+                      animation: "fadeInDown 150ms ease",
+                      marginTop: "-6px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1rem",
                     }}
                   >
-                    {dropdownSectionLabel(link.label)}
-                  </span>
-                  {link.children
-                    .filter((child) => child.section === "item" || child.section === "dept")
-                    .map((child) => (
-                      <Link prefetch={false}
-                        key={`${child.label}-${child.href}`}
-                        href={child.href}
-                        style={{
-                          display: "block",
-                          padding: "0.65rem 1rem",
-                          paddingLeft: "0.85rem",
-                          borderLeft: "2px solid transparent",
-                          color: "var(--color-text-primary)",
-                          fontFamily: "var(--font-ui)",
-                          fontWeight: 500,
-                          fontSize: "0.875rem",
-                          textDecoration: "none",
-                          borderRadius: "var(--radius-md)",
-                          transition: "all 150ms",
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = "var(--color-primary-50)";
-                          (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
-                          (e.currentTarget as HTMLElement).style.borderLeft = "2px solid var(--color-primary)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = "transparent";
-                          (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
-                          (e.currentTarget as HTMLElement).style.borderLeft = "2px solid transparent";
-                        }}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                </div>
+                    {/* CTA Banner full-width at top */}
+                    <Link prefetch={false}
+                      href="/services"
+                      onClick={() => setOpenDropdown(null)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        padding: "0.75rem 1.25rem",
+                        background: "linear-gradient(90deg, var(--color-primary-50) 0%, rgba(13,148,136,0.06) 100%)",
+                        color: "var(--color-primary)",
+                        fontFamily: "var(--font-ui)",
+                        fontWeight: 700,
+                        fontSize: "0.88rem",
+                        textDecoration: "none",
+                        borderRadius: "var(--radius-lg)",
+                        border: "1px solid rgba(0,107,182,0.15)",
+                        transition: "all 150ms",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.background = "linear-gradient(90deg, var(--color-primary-100) 0%, rgba(13,148,136,0.12) 100%)";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.background = "linear-gradient(90deg, var(--color-primary-50) 0%, rgba(13,148,136,0.06) 100%)";
+                      }}
+                    >
+                      <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <LayoutGrid size={15} style={{ flexShrink: 0 }} /> Explore All Services &amp; Patient Resources
+                      </span>
+                      <span style={{ fontWeight: 800 }}>Go to Services →</span>
+                    </Link>
+
+                    {/* 2x2 Grid of Groups with 1px Center Dividers */}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                      {VISITORS_PATIENTS_GROUPS.map((group, idx) => {
+                        const isRightCol = idx % 2 === 1;
+                        const isBottomRow = idx >= 2;
+                        const cellStyle: React.CSSProperties = {
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.4rem",
+                          paddingLeft: isRightCol ? "1.25rem" : "0",
+                          paddingRight: isRightCol ? "0" : "1.25rem",
+                          paddingTop: isBottomRow ? "1.25rem" : "0",
+                          paddingBottom: isBottomRow ? "0" : "1.25rem",
+                          borderLeft: isRightCol ? "1px solid var(--color-surface-border)" : "none",
+                          borderTop: isBottomRow ? "1px solid var(--color-surface-border)" : "none",
+                        };
+                        return (
+                          <div key={group.title} style={cellStyle}>
+                            <span
+                              style={{
+                                fontSize: "0.8rem",
+                                fontWeight: 800,
+                                color: group.color,
+                                textTransform: "uppercase",
+                                letterSpacing: "0.08em",
+                                display: "block",
+                                borderBottom: `2px solid ${group.color}25`,
+                                paddingBottom: "0.25rem",
+                                marginBottom: "0.25rem",
+                              }}
+                            >
+                              {group.title}
+                            </span>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                              {group.items.map((item) => (
+                                <Link prefetch={false}
+                                  key={item.label}
+                                  href={item.href}
+                                  onClick={() => setOpenDropdown(null)}
+                                  style={{
+                                    display: "block",
+                                    padding: "0.45rem 0.6rem",
+                                    borderRadius: "var(--radius-md)",
+                                    textDecoration: "none",
+                                    transition: "all 150ms",
+                                    borderLeft: "2px solid transparent",
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    (e.currentTarget as HTMLElement).style.background = group.bg;
+                                    (e.currentTarget as HTMLElement).style.borderLeft = `2px solid ${group.color}`;
+                                    const titleEl = (e.currentTarget as HTMLElement).querySelector(".item-title") as HTMLElement;
+                                    if (titleEl) titleEl.style.color = group.color;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    (e.currentTarget as HTMLElement).style.background = "transparent";
+                                    (e.currentTarget as HTMLElement).style.borderLeft = "2px solid transparent";
+                                    const titleEl = (e.currentTarget as HTMLElement).querySelector(".item-title") as HTMLElement;
+                                    if (titleEl) titleEl.style.color = "var(--color-dark)";
+                                  }}
+                                >
+                                  <div className="item-title" style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.85rem", color: "var(--color-dark)", transition: "color 150ms", marginBottom: "0.05rem" }}>
+                                    {item.label}
+                                  </div>
+                                  <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.7rem", color: "var(--color-text-muted)", lineHeight: 1.3 }}>
+                                    {item.desc}
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  /* Regular Dropdown */
+                  <div
+                    onMouseEnter={() => setOpenDropdown(link.label)}
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 0.25rem)",
+                      left: 0,
+                      minWidth: "220px",
+                      background: "var(--color-surface)",
+                      borderRadius: "var(--radius-xl)",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+                      border: "1px solid var(--color-surface-border)",
+                      padding: "0.5rem",
+                      zIndex: 100,
+                      animation: "fadeInDown 150ms ease",
+                      marginTop: "-6px",
+                      paddingTop: "10px",
+                    }}
+                  >
+                    {link.children
+                      .filter((child) => child.section === "cta")
+                      .map((child) => (
+                        <Link prefetch={false}
+                          key={`${child.label}-${child.href}`}
+                          href={child.href}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "0.65rem 1rem",
+                            background: "var(--color-primary-50)",
+                            color: "var(--color-primary)",
+                            fontFamily: "var(--font-ui)",
+                            fontWeight: 700,
+                            fontSize: "0.875rem",
+                            textDecoration: "none",
+                            borderRadius: "var(--radius-md)",
+                            transition: "all 150ms",
+                          }}
+                        >
+                          {child.label}
+                          <span>→</span>
+                        </Link>
+                      ))}
+                    <div style={{ margin: "0.35rem 0", height: "1px", background: "var(--color-surface-border)" }} />
+                    <span
+                      style={{
+                        padding: "0.4rem 1rem",
+                        fontSize: "0.7rem",
+                        fontWeight: 700,
+                        color: "var(--color-text-muted)",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        display: "block",
+                      }}
+                    >
+                      {dropdownSectionLabel(link.label)}
+                    </span>
+                    {link.children
+                      .filter((child) => child.section === "item" || child.section === "dept")
+                      .map((child) => (
+                        <Link prefetch={false}
+                          key={`${child.label}-${child.href}`}
+                          href={child.href}
+                          style={{
+                            display: "block",
+                            padding: "0.65rem 1rem",
+                            paddingLeft: "0.85rem",
+                            borderLeft: "2px solid transparent",
+                            color: "var(--color-text-primary)",
+                            fontFamily: "var(--font-ui)",
+                            fontWeight: 500,
+                            fontSize: "0.875rem",
+                            textDecoration: "none",
+                            borderRadius: "var(--radius-md)",
+                            transition: "all 150ms",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.background = "var(--color-primary-50)";
+                            (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
+                            (e.currentTarget as HTMLElement).style.borderLeft = "2px solid var(--color-primary)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.background = "transparent";
+                            (e.currentTarget as HTMLElement).style.color = "var(--color-text-primary)";
+                            (e.currentTarget as HTMLElement).style.borderLeft = "2px solid transparent";
+                          }}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                  </div>
+                )
               )}
             </div>
           ))}
@@ -595,70 +765,143 @@ export default function Navigation() {
                       />
                     </button>
                     {mobileExpanded === link.label && (
-                      <div style={{ background: "rgba(0,0,0,0.15)" }}>
-                        {link.children
-                          .filter((child) => child.section === "cta")
-                          .map((child) => (
+                      <div style={{ background: "rgba(0,0,0,0.2)" }}>
+                        {link.label === "Visitors & Patients" ? (
+                          <>
+                            {/* All Services CTA */}
                             <Link prefetch={false}
-                              key={`${child.label}-${child.href}`}
-                              href={child.href}
+                              key="all-services-mobile"
+                              href="/services"
                               onClick={() => setIsOpen(false)}
                               style={{
                                 display: "flex",
                                 alignItems: "center",
                                 gap: "0.5rem",
-                                padding: "0.75rem 1.25rem 0.75rem 2rem",
+                                padding: "0.8rem 1.25rem",
+                                margin: "0.75rem 1.25rem 0.25rem",
                                 color: "var(--color-primary)",
                                 fontFamily: "var(--font-ui)",
-                                fontSize: "0.875rem",
-                                fontWeight: 700,
+                                fontSize: "0.9rem",
+                                fontWeight: 800,
                                 textDecoration: "none",
-                                borderBottom: "1px solid rgba(255,255,255,0.15)",
-                                transition: "color 150ms",
+                                background: "rgba(0, 107, 182, 0.14)",
+                                border: "1px solid rgba(0, 107, 182, 0.3)",
+                                borderLeft: "4px solid var(--color-primary)",
+                                borderRadius: "var(--radius-md)",
                               }}
                             >
-                              <ChevronRight size={13} color="var(--color-primary)" style={{ flexShrink: 0 }} />
-                              {child.label}
+                              <ChevronRight size={14} color="var(--color-primary)" style={{ flexShrink: 0 }} />
+                              All Services &amp; Resources
                             </Link>
-                          ))}
-                        <span
-                          style={{
-                            padding: "0.5rem 1.25rem 0.25rem 2rem",
-                            fontSize: "0.68rem",
-                            fontWeight: 700,
-                            color: "rgba(255,255,255,0.45)",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.08em",
-                            display: "block",
-                          }}
-                        >
-                          {dropdownSectionLabel(link.label)}
-                        </span>
-                        {link.children
-                          .filter((child) => child.section === "item" || child.section === "dept")
-                          .map((child) => (
-                            <Link prefetch={false}
-                              key={`${child.label}-${child.href}`}
-                              href={child.href}
-                              onClick={() => setIsOpen(false)}
+
+                            {/* Grouped lists */}
+                            {VISITORS_PATIENTS_GROUPS.map((group) => (
+                              <div key={group.title} style={{ padding: "0.5rem 0", borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
+                                <span
+                                  style={{
+                                    padding: "0.4rem 1.25rem 0.2rem 2rem",
+                                    fontSize: "0.8rem",
+                                    fontWeight: 800,
+                                    color: group.color,
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.08em",
+                                    display: "block",
+                                  }}
+                                >
+                                  {group.title}
+                                </span>
+                                {group.items.map((item) => (
+                                  <Link prefetch={false}
+                                    key={item.label}
+                                    href={item.href}
+                                    onClick={() => setIsOpen(false)}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "0.5rem",
+                                      padding: "0.45rem 1.25rem 0.45rem 2.25rem",
+                                      color: "rgba(255,255,255,0.9)",
+                                      fontFamily: "var(--font-ui)",
+                                      fontSize: "0.85rem",
+                                      fontWeight: 500,
+                                      textDecoration: "none",
+                                      transition: "color 150ms",
+                                    }}
+                                  >
+                                    <ChevronRight size={12} color="rgba(255,255,255,0.4)" style={{ flexShrink: 0 }} />
+                                    {item.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {link.children
+                              .filter((child) => child.section === "cta")
+                              .map((child) => (
+                                <Link prefetch={false}
+                                  key={`${child.label}-${child.href}`}
+                                  href={child.href}
+                                  onClick={() => setIsOpen(false)}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.5rem",
+                                    padding: "0.75rem 1.25rem 0.75rem 2rem",
+                                    color: "var(--color-primary)",
+                                    fontFamily: "var(--font-ui)",
+                                    fontSize: "0.875rem",
+                                    fontWeight: 700,
+                                    textDecoration: "none",
+                                    borderBottom: "1px solid rgba(255,255,255,0.15)",
+                                    transition: "color 150ms",
+                                  }}
+                                >
+                                  <ChevronRight size={13} color="var(--color-primary)" style={{ flexShrink: 0 }} />
+                                  {child.label}
+                                </Link>
+                              ))}
+                            <span
                               style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.5rem",
-                                padding: "0.75rem 1.25rem 0.75rem 2rem",
-                                color: "rgba(255,255,255,0.85)",
-                                fontFamily: "var(--font-ui)",
-                                fontSize: "0.875rem",
-                                fontWeight: 500,
-                                textDecoration: "none",
-                                borderBottom: "1px solid rgba(255,255,255,0.15)",
-                                transition: "color 150ms",
+                                padding: "0.5rem 1.25rem 0.25rem 2rem",
+                                fontSize: "0.68rem",
+                                fontWeight: 700,
+                                color: "rgba(255,255,255,0.45)",
+                                textTransform: "uppercase",
+                                letterSpacing: "0.08em",
+                                display: "block",
                               }}
                             >
-                              <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
-                              {child.label}
-                            </Link>
-                          ))}
+                              {dropdownSectionLabel(link.label)}
+                            </span>
+                            {link.children
+                              .filter((child) => child.section === "item" || child.section === "dept")
+                              .map((child) => (
+                                <Link prefetch={false}
+                                  key={`${child.label}-${child.href}`}
+                                  href={child.href}
+                                  onClick={() => setIsOpen(false)}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.5rem",
+                                    padding: "0.75rem 1.25rem 0.75rem 2rem",
+                                    color: "rgba(255,255,255,0.85)",
+                                    fontFamily: "var(--font-ui)",
+                                    fontSize: "0.875rem",
+                                    fontWeight: 500,
+                                    textDecoration: "none",
+                                    borderBottom: "1px solid rgba(255,255,255,0.15)",
+                                    transition: "color 150ms",
+                                  }}
+                                >
+                                  <ChevronRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0 }} />
+                                  {child.label}
+                                </Link>
+                              ))}
+                          </>
+                        )}
                       </div>
                     )}
                   </>

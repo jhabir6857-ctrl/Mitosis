@@ -152,7 +152,7 @@ export default function HomePage() {
                 {/* DROPDOWN second — only rendered when open (never in DOM when closed) */}
                 {testsOpen && (
                   <div className="qab-sub-dropdown">
-                    <Link href="/tests/costs" className="qab-sub-tile" onClick={() => setTestsOpen(false)}>
+                    <Link href="/tests?tab=costs" className="qab-sub-tile" onClick={() => setTestsOpen(false)}>
                       <div className="qab-sub-tile-icon" style={{ background: "rgba(0,107,182,0.10)", color: "#006BB6" }}>
                         <DollarSign size={17} />
                       </div>
@@ -162,15 +162,15 @@ export default function HomePage() {
                       </div>
                       <div className="qab-sub-tile-arrow"><ArrowRight size={14} color="#006BB6" /></div>
                     </Link>
-                    <Link href="/tests/preparation" className="qab-sub-tile" onClick={() => setTestsOpen(false)}>
-                      <div className="qab-sub-tile-icon" style={{ background: "rgba(13,148,136,0.10)", color: "#0d9488" }}>
+                    <Link href="/tests?tab=preparation" className="qab-sub-tile" onClick={() => setTestsOpen(false)}>
+                      <div className="qab-sub-tile-icon" style={{ background: "rgba(0,107,182,0.10)", color: "#006BB6" }}>
                         <ClipboardList size={17} />
                       </div>
                       <div className="qab-sub-tile-body">
                         <div className="qab-sub-tile-title">Test Preparation</div>
                         <div className="qab-sub-tile-desc">Step-by-step guides</div>
                       </div>
-                      <div className="qab-sub-tile-arrow"><ArrowRight size={14} color="#0d9488" /></div>
+                      <div className="qab-sub-tile-arrow"><ArrowRight size={14} color="#006BB6" /></div>
                     </Link>
                   </div>
                 )}

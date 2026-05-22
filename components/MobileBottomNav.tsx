@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Phone, Stethoscope, CalendarCheck, Download,
   HeadphonesIcon, BookCheck, Building2, MessageCircle,
-  FlaskConical, DollarSign, ClipboardList, X, Sparkles, ChevronRight,
+  FlaskConical, DollarSign, ClipboardList, X, Sparkles, ChevronRight, Info,
 } from "lucide-react";
 import { useTestInfoStore, useSuggestedNext } from "./TestInfoStore";
 
-export default function MobileBottomNav() {
+function MobileBottomNavContent() {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [showSheet, setShowSheet] = useState(false);
@@ -77,7 +78,7 @@ export default function MobileBottomNav() {
   const TEST_OPTIONS = [
     {
       key: "costs" as const,
-      href: "/tests/costs",
+      href: "/tests?tab=costs",
       icon: <DollarSign size={28} />,
       label: "Test Costs",
       desc: "Browse our full price list for all departments and tests.",
@@ -87,22 +88,23 @@ export default function MobileBottomNav() {
     },
     {
       key: "preparation" as const,
-      href: "/tests/preparation",
+      href: "/tests?tab=preparation",
       icon: <ClipboardList size={28} />,
       label: "Test Preparation",
       desc: "Step-by-step guides on how to prepare before each test.",
-      color: "#0d9488",
-      border: "rgba(13,148,136,0.2)",
-      bg: "rgba(13,148,136,0.05)",
+      color: "#006BB6",
+      border: "rgba(0,107,182,0.2)",
+      bg: "rgba(0,107,182,0.05)",
     },
   ];
 
   const navHeight = "4.25rem"; // approximate bottom nav height
 
   // Page-aware filtering — only show the OTHER option when already on a tests page
-  const isOnCostsPage = pathname === "/tests/costs";
-  const isOnPrepPage  = pathname === "/tests/preparation";
-  const isOnTestsPage = isOnCostsPage || isOnPrepPage;
+  const currentTab = searchParams.get("tab");
+  const isOnCostsPage = pathname === "/tests/costs" || (pathname === "/tests" && currentTab === "costs");
+  const isOnPrepPage  = pathname === "/tests/preparation" || (pathname === "/tests" && currentTab === "preparation");
+  const isOnTestsPage = isOnCostsPage || isOnPrepPage || pathname === "/tests";
 
   const visibleOptions = TEST_OPTIONS.filter(opt => {
     if (isOnCostsPage) return opt.key === "preparation";
@@ -112,11 +114,11 @@ export default function MobileBottomNav() {
 
   // Hint text: page-context takes priority over cross-suggestion history
   const sheetHint = isOnCostsPage
-    ? { text: "You're on Test Costs — view preparation guides:", color: "#0d9488", bg: "rgba(13,148,136,0.08)", border: "rgba(13,148,136,0.2)" }
+    ? { text: "You're on Test Costs — view preparation guides:", color: "#006BB6", bg: "rgba(0,107,182,0.08)", border: "rgba(0,107,182,0.2)" }
     : isOnPrepPage
     ? { text: "You're on Test Preparation — check pricing:", color: "#006BB6", bg: "rgba(0,107,182,0.08)", border: "rgba(0,107,182,0.2)" }
     : lastVisited
-    ? { text: suggestedNext === "preparation" ? "You checked Test Costs — try Preparation next!" : "You checked Preparation — see Test Costs next!", color: "#f59e0b", bg: "rgba(245,158,11,0.08)", border: "rgba(245,158,11,0.2)" }
+    ? { text: suggestedNext === "preparation" ? "You checked Test Costs — try Preparation next!" : "You checked Preparation — see Test Costs next!", color: "#006BB6", bg: "rgba(0,107,182,0.08)", border: "rgba(0,107,182,0.2)" }
     : null;
 
   return (
@@ -150,7 +152,7 @@ export default function MobileBottomNav() {
               WebkitBackdropFilter: "blur(20px)",
               borderRadius: "1.5rem 1.5rem 0 0",
               boxShadow: "0 -8px 40px rgba(0,0,0,0.18)",
-              padding: "0 1rem 1.25rem",
+              padding: "0 1rem 3.5rem",
               animation: "mobileSheetSlideUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
             }}
           >
@@ -199,7 +201,7 @@ export default function MobileBottomNav() {
                 borderRadius: "0.65rem", padding: "0.5rem 0.75rem",
                 marginBottom: "0.85rem", display: "flex", alignItems: "center", gap: "0.4rem",
               }}>
-                <Sparkles size={13} color={sheetHint.color} style={{ flexShrink: 0 }} />
+                <Info size={14} color={sheetHint.color} style={{ flexShrink: 0 }} />
                 <span style={{ fontFamily: "var(--font-ui)", fontSize: "0.73rem", color: "var(--color-dark)", fontWeight: 600 }}>
                   {sheetHint.text}
                 </span>
@@ -213,10 +215,11 @@ export default function MobileBottomNav() {
                 return (
                   <button
                     key={opt.key}
+                    className="option-card-button"
                     onClick={() => { setShowSheet(false); router.push(opt.href); }}
                     style={{
                       display: "flex", alignItems: "center", gap: "1rem",
-                      padding: "1rem 1.1rem",
+                      padding: isRecommended ? "1.5rem 1.1rem 1rem" : "1rem 1.1rem",
                       background: isRecommended ? opt.bg : "rgba(248,250,252,0.9)",
                       border: `1.5px solid ${isRecommended ? opt.color + "55" : "#e2e8f0"}`,
                       borderRadius: "1rem",
@@ -226,15 +229,18 @@ export default function MobileBottomNav() {
                     }}
                   >
                     {isRecommended && (
-                      <div style={{
-                        position: "absolute", top: "-8px", right: "12px",
-                        background: opt.color, borderRadius: "2rem",
-                        padding: "0.15rem 0.6rem",
-                        display: "flex", alignItems: "center", gap: "0.25rem",
+                      <span style={{
+                        position: "absolute",
+                        top: "0.45rem",
+                        right: "2.25rem",
+                        display: "inline-flex", alignItems: "center", gap: "0.2rem",
+                        fontSize: "0.58rem", fontWeight: 800, color: opt.color,
+                        background: `${opt.color}15`, padding: "0.1rem 0.45rem",
+                        borderRadius: "2rem", letterSpacing: "0.04em",
+                        border: `1px solid ${opt.color}25`,
                       }}>
-                        <Sparkles size={9} color="white" />
-                        <span style={{ fontSize: "0.62rem", color: "white", fontWeight: 800, letterSpacing: "0.04em" }}>TRY NEXT</span>
-                      </div>
+                        <Info size={9} /> TRY NEXT
+                      </span>
                     )}
                     <div style={{
                       width: "3rem", height: "3rem", borderRadius: "0.85rem", flexShrink: 0,
@@ -246,8 +252,10 @@ export default function MobileBottomNav() {
                       {opt.icon}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.95rem", color: "var(--color-dark)", marginBottom: "0.2rem" }}>
-                        {opt.label}
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.2rem" }}>
+                        <span style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.95rem", color: "var(--color-dark)" }}>
+                          {opt.label}
+                        </span>
                       </div>
                       <div style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#64748b", lineHeight: 1.4 }}>
                         {opt.desc}
@@ -334,14 +342,14 @@ export default function MobileBottomNav() {
               transition: "color 200ms ease",
             }}>
               {/* Active indicator */}
-              <div style={{ position: "absolute", top: 0, width: showSheet ? "1.5rem" : "0", height: "3px", borderRadius: "0 0 4px 4px", background: "#0d9488", transition: "width 350ms cubic-bezier(0.34, 1.56, 0.64, 1)" }} />
+              <div style={{ position: "absolute", top: 0, width: showSheet ? "1.5rem" : "0", height: "3px", borderRadius: "0 0 4px 4px", background: "#006BB6", transition: "width 350ms cubic-bezier(0.34, 1.56, 0.64, 1)" }} />
 
               <div style={{
                 width: "2.2rem", height: "2.2rem", borderRadius: "0.65rem",
-                background: showSheet ? "rgba(13,148,136,0.28)" : "rgba(13,148,136,0.14)",
-                border: `1.5px solid rgba(13,148,136,${showSheet ? "0.55" : "0.30"})`,
+                background: showSheet ? "rgba(0,107,182,0.28)" : "rgba(0,107,182,0.14)",
+                border: `1.5px solid rgba(0,107,182,${showSheet ? "0.55" : "0.30"})`,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                color: "#0d9488",
+                color: "#006BB6",
                 transform: showSheet ? "scale(1.08)" : "scale(1)",
                 transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                 position: "relative",
@@ -357,7 +365,7 @@ export default function MobileBottomNav() {
                   }} />
                 )}
               </div>
-              <span style={{ fontSize: "0.58rem", fontWeight: 700, color: showSheet ? "#0d9488" : "#64748b", textAlign: "center", lineHeight: 1.2, letterSpacing: "0.02em", maxWidth: "3.5rem", whiteSpace: "nowrap", transition: "color 200ms ease" }}>
+              <span style={{ fontSize: "0.58rem", fontWeight: 700, color: showSheet ? "#006BB6" : "#64748b", textAlign: "center", lineHeight: 1.2, letterSpacing: "0.02em", maxWidth: "3.5rem", whiteSpace: "nowrap", transition: "color 200ms ease" }}>
                 Tests
               </span>
             </div>
@@ -378,7 +386,27 @@ export default function MobileBottomNav() {
           0%, 100% { transform: scale(1); opacity: 1; }
           50% { transform: scale(1.4); opacity: 0.7; }
         }
+        .option-card-button {
+          transition: all 200ms ease !important;
+        }
+        .option-card-button:hover {
+          background-color: rgba(0, 107, 182, 0.04) !important;
+          border-color: rgba(0, 107, 182, 0.25) !important;
+        }
+        .option-card-button:active {
+          transform: scale(0.98) !important;
+          background-color: rgba(0, 107, 182, 0.08) !important;
+          border-color: rgba(0, 107, 182, 0.4) !important;
+        }
       `}</style>
     </>
+  );
+}
+
+export default function MobileBottomNav() {
+  return (
+    <Suspense fallback={null}>
+      <MobileBottomNavContent />
+    </Suspense>
   );
 }

@@ -417,6 +417,16 @@ button, a, [role="button"] {
 ::-webkit-scrollbar-thumb { background: var(--color-surface-muted); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
 /* ============================================================
    MICRO-INTERACTIONS (The 300ms Rule)
    All transitions are 150-250ms — fast enough to feel instant,

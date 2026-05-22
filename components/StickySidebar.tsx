@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState, useRef, Suspense } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   Phone,
@@ -17,6 +17,7 @@ import {
   ClipboardList,
   ChevronUp,
   Sparkles,
+  Info,
 } from "lucide-react";
 import { useTestInfoStore, useSuggestedNext } from "./TestInfoStore";
 
@@ -29,9 +30,10 @@ type SidebarButton = {
   isExternal?: boolean;
 };
 
-export default function StickySidebar() {
+function StickySidebarContent() {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [visible, setVisible] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [testsOpen, setTestsOpen] = useState(false);
@@ -58,11 +60,13 @@ export default function StickySidebar() {
     };
   }, []);
 
+  const currentTab = searchParams.get("tab");
+
   // Auto-open tests panel on tests pages so the complementary button is immediately visible
   useEffect(() => {
-    if (pathname === "/tests/costs" || pathname === "/tests/preparation") setTestsOpen(true);
+    if (pathname === "/tests/costs" || pathname === "/tests/preparation" || pathname === "/tests") setTestsOpen(true);
     else setTestsOpen(false);
-  }, [pathname]);
+  }, [pathname, currentTab]);
 
   const defaultButtons: SidebarButton[] = [
     { icon: <Phone size={18} />, label: "Call Us", shortLabel: "Call", href: "tel:+8801898806050", color: "var(--color-primary)", isExternal: true },
@@ -89,7 +93,7 @@ export default function StickySidebar() {
   const TEST_BUTTONS = [
     {
       key: "costs" as const,
-      href: "/tests/costs",
+      href: "/tests?tab=costs",
       icon: <DollarSign size={15} />,
       label: "Test Costs",
       shortLabel: "Costs",
@@ -97,18 +101,18 @@ export default function StickySidebar() {
     },
     {
       key: "preparation" as const,
-      href: "/tests/preparation",
+      href: "/tests?tab=preparation",
       icon: <ClipboardList size={15} />,
       label: "Test Preparation",
       shortLabel: "Prep",
-      color: "#0d9488",
+      color: "#006BB6",
     },
   ];
 
   // On a tests page, only show the complementary button (the one they're NOT on)
   const filteredTestButtons = TEST_BUTTONS.filter(tb => {
-    if (pathname === "/tests/costs") return tb.key === "preparation";
-    if (pathname === "/tests/preparation") return tb.key === "costs";
+    if (pathname === "/tests/costs" || (pathname === "/tests" && currentTab === "costs")) return tb.key === "preparation";
+    if (pathname === "/tests/preparation" || (pathname === "/tests" && currentTab === "preparation")) return tb.key === "costs";
     return true;
   });
 
@@ -218,19 +222,19 @@ export default function StickySidebar() {
             display: "flex", flexDirection: "column", alignItems: "center", gap: "0.2rem",
             padding: "0.5rem 0.4rem", borderRadius: "0.75rem", cursor: "pointer",
             width: "100%", border: "none",
-            background: testsOpen ? "rgba(13,148,136,0.08)" : "transparent",
+            background: testsOpen ? "rgba(0,107,182,0.08)" : "transparent",
             transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
             minWidth: "3rem",
           }}
-          onMouseEnter={e => { (e.currentTarget).style.background = "rgba(13,148,136,0.10)"; }}
-          onMouseLeave={e => { (e.currentTarget).style.background = testsOpen ? "rgba(13,148,136,0.08)" : "transparent"; }}
+          onMouseEnter={e => { (e.currentTarget).style.background = "rgba(0,107,182,0.10)"; }}
+          onMouseLeave={e => { (e.currentTarget).style.background = testsOpen ? "rgba(0,107,182,0.08)" : "transparent"; }}
         >
           <div style={{
             width: "2.4rem", height: "2.4rem", borderRadius: "0.75rem",
-            background: testsOpen ? "rgba(13,148,136,0.25)" : "rgba(13,148,136,0.18)",
-            border: `1.5px solid rgba(13,148,136,${testsOpen ? "0.5" : "0.35"})`,
+            background: testsOpen ? "rgba(0,107,182,0.25)" : "rgba(0,107,182,0.18)",
+            border: `1.5px solid rgba(0,107,182,${testsOpen ? "0.5" : "0.35"})`,
             display: "flex", alignItems: "center", justifyContent: "center",
-            color: "#0d9488",
+            color: "#006BB6",
             transition: "all 250ms cubic-bezier(0.34, 1.56, 0.64, 1)",
             transform: testsOpen ? "scale(1.08)" : "scale(1)",
             position: "relative",
@@ -245,7 +249,7 @@ export default function StickySidebar() {
               }} />
             )}
           </div>
-          <span style={{ fontSize: "0.62rem", fontWeight: 700, color: testsOpen ? "#0d9488" : "#334155", textAlign: "center", lineHeight: 1.2, letterSpacing: "0.02em", maxWidth: "3rem", whiteSpace: "nowrap", transition: "color 200ms" }}>
+          <span style={{ fontSize: "0.62rem", fontWeight: 700, color: testsOpen ? "#006BB6" : "#334155", textAlign: "center", lineHeight: 1.2, letterSpacing: "0.02em", maxWidth: "3rem", whiteSpace: "nowrap", transition: "color 200ms" }}>
             Tests
           </span>
         </button>
@@ -256,11 +260,11 @@ export default function StickySidebar() {
             display: "flex", flexDirection: "column", gap: "0.3rem",
             marginTop: "0.3rem",
             paddingTop: "0.3rem",
-            borderTop: "1px dashed rgba(13,148,136,0.2)",
+            borderTop: "1px dashed rgba(0,107,182,0.2)",
           }}>
             {/* Collapse chevron hint */}
             <div style={{ display: "flex", justifyContent: "center", marginBottom: "0.1rem" }}>
-              <ChevronUp size={12} color="rgba(13,148,136,0.5)" />
+              <ChevronUp size={12} color="rgba(0,107,182,0.5)" />
             </div>
 
             {filteredTestButtons.map((tb, idx) => {
@@ -294,13 +298,14 @@ export default function StickySidebar() {
                 >
                   {isRecommended && (
                     <div style={{
-                      position: "absolute", top: "-4px", right: "0px",
+                      position: "absolute", top: "2px", right: "2px",
                       background: tb.color, borderRadius: "2rem",
-                      padding: "0.05rem 0.3rem",
-                      display: "flex", alignItems: "center", gap: "0.15rem",
+                      padding: "0.05rem 0.25rem",
+                      display: "flex", alignItems: "center", gap: "0.1rem",
+                      border: "0.5px solid rgba(255,255,255,0.3)",
                     }}>
-                      <Sparkles size={7} color="white" />
-                      <span style={{ fontSize: "0.5rem", color: "white", fontWeight: 800, letterSpacing: "0.04em", lineHeight: 1 }}>NEXT</span>
+                      <Info size={7} color="white" />
+                      <span style={{ fontSize: "0.45rem", color: "white", fontWeight: 800, letterSpacing: "0.02em", lineHeight: 1 }}>NEXT</span>
                     </div>
                   )}
                   <div style={{
@@ -327,5 +332,13 @@ export default function StickySidebar() {
         <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: "linear-gradient(135deg, var(--color-primary), #10b981)" }} />
       </div>
     </div>
+  );
+}
+
+export default function StickySidebar() {
+  return (
+    <Suspense fallback={null}>
+      <StickySidebarContent />
+    </Suspense>
   );
 }

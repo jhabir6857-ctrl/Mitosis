@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { FlaskConical, DollarSign, ClipboardList, X, ChevronRight, Sparkles } from "lucide-react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { FlaskConical, DollarSign, ClipboardList, X, ChevronRight, Sparkles, Info } from "lucide-react";
 import { useTestInfoStore, useSuggestedNext } from "./TestInfoStore";
 
 const OPTIONS = [
   {
     key: "costs" as const,
-    href: "/tests/costs",
+    href: "/tests?tab=costs",
     icon: <DollarSign size={26} />,
     label: "Test Costs",
     desc: "Browse our full price list for all departments.",
@@ -19,20 +19,21 @@ const OPTIONS = [
   },
   {
     key: "preparation" as const,
-    href: "/tests/preparation",
+    href: "/tests?tab=preparation",
     icon: <ClipboardList size={26} />,
     label: "Test Preparation",
     desc: "Step-by-step guides on how to prepare for each test.",
-    color: "#0d9488",
-    bg: "rgba(13,148,136,0.06)",
-    border: "rgba(13,148,136,0.18)",
-    activeBorder: "#0d9488",
+    color: "#006BB6",
+    bg: "rgba(0,107,182,0.06)",
+    border: "rgba(0,107,182,0.18)",
+    activeBorder: "#006BB6",
   },
 ];
 
-export default function TestInfoFloatingTile() {
+function TestInfoFloatingTileContent() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -62,9 +63,10 @@ export default function TestInfoFloatingTile() {
   }, []);
 
   // Page detection — on a tests page, only show the OTHER option
-  const isOnCostsPage = pathname === "/tests/costs";
-  const isOnPrepPage  = pathname === "/tests/preparation";
-  const isOnTestsPage = isOnCostsPage || isOnPrepPage;
+  const currentTab = searchParams.get("tab");
+  const isOnCostsPage = pathname === "/tests/costs" || (pathname === "/tests" && currentTab === "costs");
+  const isOnPrepPage  = pathname === "/tests/preparation" || (pathname === "/tests" && currentTab === "preparation");
+  const isOnTestsPage = isOnCostsPage || isOnPrepPage || pathname === "/tests";
 
   // Filter to only show the complementary option when already on a tests page
   const visibleOptions = OPTIONS.filter(opt => {
@@ -80,8 +82,8 @@ export default function TestInfoFloatingTile() {
     ? "You're viewing Test Preparation — check pricing too:"
     : lastVisited
     ? suggestedNext === "preparation"
-      ? "✨ Based on your last visit — try Test Preparation next"
-      : "✨ Based on your last visit — try Test Costs next"
+      ? "Based on your last visit — try Test Preparation next"
+      : "Based on your last visit — try Test Costs next"
     : null;
 
   const navigate = (href: string) => {
@@ -170,13 +172,27 @@ export default function TestInfoFloatingTile() {
 
             {/* Context hint */}
             {hintText && (
-              <p style={{
-                fontSize: "0.72rem", color: isOnTestsPage ? "#475569" : "#94a3b8",
-                fontFamily: "var(--font-ui)", marginBottom: "0.75rem", fontWeight: 600,
-                lineHeight: 1.5,
+              <div style={{
+                background: "rgba(0,107,182,0.05)",
+                border: "1px solid rgba(0,107,182,0.15)",
+                borderRadius: "0.65rem",
+                padding: "0.5rem 0.75rem",
+                marginBottom: "0.75rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.45rem",
               }}>
-                {hintText}
-              </p>
+                <Info size={14} color="#006BB6" style={{ flexShrink: 0 }} />
+                <span style={{
+                  fontSize: "0.72rem",
+                  color: "var(--color-dark)",
+                  fontFamily: "var(--font-ui)",
+                  fontWeight: 600,
+                  lineHeight: 1.3,
+                }}>
+                  {hintText}
+                </span>
+              </div>
             )}
 
             {/* Option Cards — only the relevant one(s) */}
@@ -186,10 +202,11 @@ export default function TestInfoFloatingTile() {
                 return (
                   <button
                     key={opt.key}
+                    className="tile-option-card"
                     onClick={() => navigate(opt.href)}
                     style={{
                       display: "flex", alignItems: "center", gap: "0.85rem",
-                      padding: "0.9rem 1rem",
+                      padding: isRecommended ? "1.35rem 1rem 0.8rem" : "0.9rem 1rem",
                       background: (isRecommended || isOnTestsPage) ? opt.bg : "rgba(248,250,252,0.8)",
                       border: `1.5px solid ${(isRecommended || isOnTestsPage) ? opt.activeBorder : "#e2e8f0"}`,
                       borderRadius: "0.85rem",
@@ -198,20 +215,35 @@ export default function TestInfoFloatingTile() {
                       width: "100%",
                       transition: "all 200ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                       position: "relative",
-                      overflow: "hidden",
                       boxShadow: (isRecommended || isOnTestsPage) ? `0 4px 16px ${opt.color}22` : "none",
                     }}
                     onMouseEnter={e => {
                       (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
                       (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 8px 24px ${opt.color}25`;
                       (e.currentTarget as HTMLButtonElement).style.borderColor = opt.activeBorder;
+                      (e.currentTarget as HTMLButtonElement).style.background = "rgba(0,107,182,0.10)";
                     }}
                     onMouseLeave={e => {
                       (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
                       (e.currentTarget as HTMLButtonElement).style.boxShadow = (isRecommended || isOnTestsPage) ? `0 4px 16px ${opt.color}22` : "none";
                       (e.currentTarget as HTMLButtonElement).style.borderColor = (isRecommended || isOnTestsPage) ? opt.activeBorder : "#e2e8f0";
+                      (e.currentTarget as HTMLButtonElement).style.background = (isRecommended || isOnTestsPage) ? opt.bg : "rgba(248,250,252,0.8)";
                     }}
                   >
+                    {isRecommended && (
+                      <span style={{
+                        position: "absolute",
+                        top: "0.45rem",
+                        right: "2rem",
+                        display: "inline-flex", alignItems: "center", gap: "0.2rem",
+                        fontSize: "0.58rem", fontWeight: 800, color: opt.color,
+                        background: `${opt.color}15`, padding: "0.1rem 0.45rem",
+                        borderRadius: "2rem", letterSpacing: "0.04em",
+                        border: `1px solid ${opt.color}25`,
+                      }}>
+                        <Info size={9} /> TRY NEXT
+                      </span>
+                    )}
                     <div style={{
                       width: "2.6rem", height: "2.6rem", borderRadius: "0.65rem", flexShrink: 0,
                       background: `${opt.color}16`,
@@ -226,16 +258,6 @@ export default function TestInfoFloatingTile() {
                         <span style={{ fontFamily: "var(--font-ui)", fontWeight: 700, fontSize: "0.88rem", color: "var(--color-dark)" }}>
                           {opt.label}
                         </span>
-                        {isRecommended && (
-                          <span style={{
-                            display: "inline-flex", alignItems: "center", gap: "0.2rem",
-                            fontSize: "0.6rem", fontWeight: 700, color: opt.color,
-                            background: `${opt.color}15`, padding: "0.1rem 0.4rem",
-                            borderRadius: "2rem", letterSpacing: "0.04em",
-                          }}>
-                            <Sparkles size={8} /> TRY NEXT
-                          </span>
-                        )}
                       </div>
                       <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.75rem", color: "#64748b", margin: 0, lineHeight: 1.4 }}>
                         {opt.desc}
@@ -314,7 +336,27 @@ export default function TestInfoFloatingTile() {
           from { opacity: 0; transform: translateY(16px) scale(0.97); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
+        .tile-option-card {
+          transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        .tile-option-card:hover {
+          background-color: rgba(0, 107, 182, 0.04) !important;
+          border-color: rgba(0, 107, 182, 0.3) !important;
+        }
+        .tile-option-card:active {
+          transform: scale(0.98) translateY(0px) !important;
+          background-color: rgba(0, 107, 182, 0.08) !important;
+          border-color: rgba(0, 107, 182, 0.4) !important;
+        }
       `}</style>
     </>
+  );
+}
+
+export default function TestInfoFloatingTile() {
+  return (
+    <Suspense fallback={null}>
+      <TestInfoFloatingTileContent />
+    </Suspense>
   );
 }
